@@ -15,7 +15,7 @@
      ============================================================ -->
 
 <title>Gestoría Fabián | Asesoría fiscal, contable, laboral y comercio exterior</title>
-<meta name="description" content="Gestoría y asesoría integral: contabilidad, fiscal, laboral, trámites administrativos, extranjería, exportación de mercancías y compraventa de vehículos. Atención personalizada a empresas y autónomos.">
+<meta name="description" content="Gestoría y asesoría integral: contabilidad, fiscal, laboral, trámites administrativos, extranjería, exportación de mercancías y compraventa de vehículos. Asesoramiento a empresas, autónomos y particulares.">
 <meta name="theme-color" content="#10243d">
 <link rel="canonical" href="https://gallartalvaro.github.io/web-fabian-gestoria/">
 
@@ -23,7 +23,7 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_ES">
 <meta property="og:title" content="Gestoría Fabián | Asesoría integral para empresas y autónomos">
-<meta property="og:description" content="Contabilidad, fiscal, laboral, trámites administrativos, extranjería, comercio exterior y vehículos. Un único interlocutor para toda tu gestión.">
+<meta property="og:description" content="Contabilidad, fiscal, laboral, trámites administrativos, extranjería, comercio exterior y vehículos. Un interlocutor único para toda su gestión.">
 <meta property="og:url" content="https://gallartalvaro.github.io/web-fabian-gestoria/">
 <meta property="og:image" content="https://gallartalvaro.github.io/web-fabian-gestoria/assets/logo.svg">
 
@@ -34,6 +34,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="css/styles.css">
+
+<!-- Marca la página como "con JS" para poder plegar contenido sin romper
+     la versión sin JavaScript, donde todo se muestra desplegado. -->
+<script>document.documentElement.classList.add("js");</script>
 
 <script type="application/ld+json">
 {
@@ -76,11 +80,9 @@
 
     <nav class="nav" id="nav" aria-label="Navegación principal">
       <a class="nav__link" href="#servicios">Servicios</a>
-      <a class="nav__link" href="#financiero">Fiscal y contable</a>
-      <a class="nav__link" href="#administrativa">Trámites</a>
-      <a class="nav__link" href="#exportacion">Exportación</a>
-      <a class="nav__link" href="#vehiculos">Vehículos</a>
-      <a class="nav__link nav__cta btn btn--primary" href="#contacto">Pedir cita</a>
+      <a class="nav__link" href="#proceso">Proceso</a>
+      <a class="nav__link" href="#ventajas">Compromiso</a>
+      <a class="nav__link nav__cta btn btn--primary" href="#contacto">Contactar</a>
     </nav>
   </div>
 </header>
@@ -92,335 +94,456 @@
     <div class="hero__bg" aria-hidden="true"></div>
     <div class="container hero__inner">
       <p class="hero__eyebrow">Gestoría · Asesoría · Comercio exterior</p>
-      <h1 class="hero__title">Toda tu gestión,<br><em>un solo interlocutor</em></h1>
+      <h1 class="hero__title">Asesoramiento profesional<br><em>en cada trámite</em></h1>
       <p class="hero__lead">
-        Acompañamos a empresas, autónomos y particulares en lo que de verdad quita tiempo:
-        contabilidad e impuestos, papeleo con la Administración, exportación de mercancías
-        y compraventa de vehículos. Sin sorpresas y con plazos claros.
+        Acompañamos a empresas, autónomos y particulares en su gestión fiscal, contable
+        y administrativa, así como en operaciones de comercio exterior y compraventa de
+        vehículos. Un interlocutor único, plazos definidos y presupuesto cerrado.
       </p>
-      <div class="hero__actions">
-        <a class="btn btn--primary" href="#contacto">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 5.5A2.5 2.5 0 0 1 5.5 3h2A1.5 1.5 0 0 1 9 4.5c0 1 .2 2 .5 2.9a1.5 1.5 0 0 1-.4 1.6L8 10a13 13 0 0 0 6 6l1-1.1a1.5 1.5 0 0 1 1.6-.4c.9.3 1.9.5 2.9.5a1.5 1.5 0 0 1 1.5 1.5v2a2.5 2.5 0 0 1-2.5 2.5A16.5 16.5 0 0 1 3 5.5Z"/></svg>
-          Solicitar información
-        </a>
-        <a class="btn btn--ghost" href="#servicios">Ver todos los servicios</a>
-      </div>
 
-      <ul class="hero__stats">
-        <li><strong>4</strong><span>áreas de trabajo</span></li>
-        <li><strong>+80</strong><span>trámites cubiertos</span></li>
-        <li><strong>1</strong><span>persona de referencia</span></li>
-      </ul>
+      <!-- Selector rápido: lleva directo al área del visitante -->
+      <div class="picker">
+        <p class="picker__label">¿En qué área podemos ayudarle?</p>
+        <div class="picker__grid">
+          <a class="chip" href="#servicios" data-goto-area="financiero">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 8h10M7 12h5M7 16h7"/></svg>
+            <span>Fiscal y contabilidad</span>
+          </a>
+          <a class="chip" href="#servicios" data-goto-area="administrativa">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 3v5h5"/><path d="M19 8v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5Z"/><path d="M9 13h6M9 17h4"/></svg>
+            <span>Trámites administrativos</span>
+          </a>
+          <a class="chip" href="#servicios" data-goto-area="exportacion">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9S14.5 18.3 12 21c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3Z"/></svg>
+            <span>Comercio exterior</span>
+          </a>
+          <a class="chip" href="#servicios" data-goto-area="vehiculos">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 16v2M19 16v2"/><path d="M3 16v-3l2-5a2 2 0 0 1 1.9-1.3h10.2A2 2 0 0 1 19 8l2 5v3H3Z"/><circle cx="7.5" cy="16" r="1.2"/><circle cx="16.5" cy="16" r="1.2"/></svg>
+            <span>Vehículos</span>
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- ===================== ÁREAS ===================== -->
+  <!-- ===================== EXPLORADOR DE ÁREAS ===================== -->
   <section class="section" id="servicios">
     <div class="container">
       <header class="section__head reveal">
-        <p class="section__eyebrow">Qué hacemos</p>
-        <h2 class="section__title">Cuatro áreas, un mismo despacho</h2>
+        <p class="section__eyebrow">Servicios</p>
+        <h2 class="section__title">Seleccione su área de interés</h2>
         <p class="section__lead">
-          Cada área tiene su propio detalle más abajo. Si tu caso combina varias —lo habitual—
-          lo llevamos de forma coordinada, sin que tengas que repetir la historia en tres sitios.
+          Cada área reúne los servicios que le corresponden. Indique la que se ajusta
+          a su caso y consulte únicamente el detalle que precise.
         </p>
       </header>
 
-      <div class="areas">
-        <a class="area-card reveal" href="#financiero">
-          <span class="area-card__num">01</span>
-          <svg class="area-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 8h10M7 12h5M7 16h7"/>
-          </svg>
-          <h3>Servicios financieros y contables</h3>
-          <p>Contabilidad, asesoría financiera, fiscal y laboral. Los números al día y los impuestos presentados a tiempo.</p>
-          <span class="area-card__link">Ver detalle</span>
-        </a>
+      <div class="explorer reveal" id="explorer">
 
-        <a class="area-card reveal" href="#administrativa">
-          <span class="area-card__num">02</span>
-          <svg class="area-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <path d="M14 3v5h5"/><path d="M19 8v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5Z"/><path d="M9 13h6M9 17h4"/>
-          </svg>
-          <h3>Gestión administrativa</h3>
-          <p>Trámites con la Administración, constitución de empresas, tráfico, extranjería y documentación.</p>
-          <span class="area-card__link">Ver detalle</span>
-        </a>
+        <!-- Columna de áreas -->
+        <div class="explorer__aside">
+          <div class="explorer__tabs" role="tablist" aria-label="Áreas de trabajo">
+            <button class="etab is-active" role="tab" type="button" data-area="financiero"
+                    id="tab-financiero" aria-controls="panel-financiero" aria-selected="true">
+              <span class="etab__num">01</span>
+              <span class="etab__body">
+                <span class="etab__title">Fiscal y contable</span>
+                <span class="etab__desc">Contabilidad, fiscalidad y Seguridad Social</span>
+              </span>
+            </button>
 
-        <a class="area-card reveal" href="#exportacion">
-          <span class="area-card__num">03</span>
-          <svg class="area-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9S14.5 18.3 12 21c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3Z"/>
-          </svg>
-          <h3>Exportación de mercancías</h3>
-          <p>Consultoría en comercio internacional, documentación, aduanas y logística de tus envíos.</p>
-          <span class="area-card__link">Ver detalle</span>
-        </a>
+            <button class="etab" role="tab" type="button" data-area="administrativa"
+                    id="tab-administrativa" aria-controls="panel-administrativa" aria-selected="false" tabindex="-1">
+              <span class="etab__num">02</span>
+              <span class="etab__body">
+                <span class="etab__title">Gestión administrativa</span>
+                <span class="etab__desc">Administración, empresas, tráfico y extranjería</span>
+              </span>
+            </button>
 
-        <a class="area-card reveal" href="#vehiculos">
-          <span class="area-card__num">04</span>
-          <svg class="area-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <path d="M5 16v2M19 16v2"/><path d="M3 16v-3l2-5a2 2 0 0 1 1.9-1.3h10.2A2 2 0 0 1 19 8l2 5v3H3Z"/><circle cx="7.5" cy="16" r="1.2"/><circle cx="16.5" cy="16" r="1.2"/>
-          </svg>
-          <h3>Comercio de vehículos</h3>
-          <p>Compraventa, intermediación, tasación y todo el papeleo de titularidad, matriculación e importación.</p>
-          <span class="area-card__link">Ver detalle</span>
-        </a>
-      </div>
-    </div>
-  </section>
+            <button class="etab" role="tab" type="button" data-area="exportacion"
+                    id="tab-exportacion" aria-controls="panel-exportacion" aria-selected="false" tabindex="-1">
+              <span class="etab__num">03</span>
+              <span class="etab__body">
+                <span class="etab__title">Exportación</span>
+                <span class="etab__desc">Comercio internacional, aduanas y logística</span>
+              </span>
+            </button>
 
-  <!-- ===================== 01 · FINANCIERO Y CONTABLE ===================== -->
-  <section class="section section--alt detail" id="financiero">
-    <div class="container">
-      <header class="detail__head reveal">
-        <span class="detail__num">01</span>
-        <h2 class="section__title">Servicios financieros y contables</h2>
-        <p class="section__lead">
-          Llevamos la contabilidad de empresas y autónomos, presentamos los impuestos
-          y te damos la foto real del negocio para que puedas decidir con datos.
-        </p>
-      </header>
+            <button class="etab" role="tab" type="button" data-area="vehiculos"
+                    id="tab-vehiculos" aria-controls="panel-vehiculos" aria-selected="false" tabindex="-1">
+              <span class="etab__num">04</span>
+              <span class="etab__body">
+                <span class="etab__title">Vehículos</span>
+                <span class="etab__desc">Compraventa, tasación y transferencia</span>
+              </span>
+            </button>
+          </div>
 
-      <div class="blocks">
-        <article class="block reveal">
-          <h3 class="block__title">Contabilidad</h3>
-          <ul class="block__list">
-            <li>Contabilidad general de empresas y autónomos</li>
-            <li>Registro de ingresos y gastos</li>
-            <li>Elaboración de balances y cuentas anuales</li>
-            <li>Conciliaciones bancarias</li>
-            <li>Cierre contable mensual y anual</li>
-            <li>Legalización de libros contables</li>
-          </ul>
-        </article>
+          <p class="explorer__aside-note">
+            Es habitual que un mismo asunto afecte a varias áreas. En ese caso, lo
+            gestionamos de forma coordinada desde el mismo despacho.
+          </p>
+        </div>
 
-        <article class="block reveal">
-          <h3 class="block__title">Asesoría financiera</h3>
-          <ul class="block__list">
-            <li>Planificación financiera</li>
-            <li>Análisis de rentabilidad</li>
-            <li>Control presupuestario</li>
-            <li>Elaboración de planes de negocio</li>
-            <li>Estudios de viabilidad</li>
-            <li>Gestión de tesorería</li>
-          </ul>
-        </article>
+        <!-- Panel del área seleccionada -->
+        <div class="explorer__stage">
 
-        <article class="block reveal">
-          <h3 class="block__title">Fiscal</h3>
-          <ul class="block__list">
-            <li>Declaraciones de IVA</li>
-            <li>Declaraciones de IRPF</li>
-            <li>Impuesto sobre Sociedades</li>
-            <li>Retenciones</li>
-            <li>Declaraciones informativas</li>
-            <li>Recursos y reclamaciones tributarias</li>
-          </ul>
-        </article>
+          <!-- 01 · FISCAL Y CONTABLE -->
+          <div class="epanel is-active" role="tabpanel" id="panel-financiero"
+               aria-labelledby="tab-financiero" data-area="financiero"
+               data-label="Servicios financieros y contables">
+            <header class="epanel__head">
+              <h3>Servicios financieros y contables</h3>
+              <p>
+                Mantenemos su contabilidad al día y presentamos sus obligaciones fiscales
+                dentro de plazo, con información clara sobre la situación económica del negocio.
+              </p>
+            </header>
 
-        <article class="block reveal">
-          <h3 class="block__title">Laboral</h3>
-          <ul class="block__list">
-            <li>Altas y bajas en Seguridad Social</li>
-          </ul>
-        </article>
-      </div>
-    </div>
-  </section>
+            <div class="acc">
+              <div class="acc__item is-open">
+                <h4><button class="acc__btn" type="button" aria-expanded="true" aria-controls="acc-fin-1">
+                  <span class="acc__title">Contabilidad</span>
+                  <span class="acc__count"></span>
+                  <span class="acc__ico" aria-hidden="true"></span>
+                </button></h4>
+                <div class="acc__panel" id="acc-fin-1">
+                  <ul class="acc__list">
+                    <li>Contabilidad general de empresas y autónomos</li>
+                    <li>Registro de ingresos y gastos</li>
+                    <li>Elaboración de balances y cuentas anuales</li>
+                    <li>Conciliaciones bancarias</li>
+                    <li>Cierre contable mensual y anual</li>
+                    <li>Legalización de libros contables</li>
+                  </ul>
+                </div>
+              </div>
 
-  <!-- ===================== 02 · GESTIÓN ADMINISTRATIVA ===================== -->
-  <section class="section detail" id="administrativa">
-    <div class="container">
-      <header class="detail__head reveal">
-        <span class="detail__num">02</span>
-        <h2 class="section__title">Servicios de gestión administrativa</h2>
-        <p class="section__lead">
-          El papeleo que nadie quiere hacer. Desde dar de alta una actividad hasta renovar
-          un permiso de residencia, nos ocupamos del trámite completo y del seguimiento.
-        </p>
-      </header>
+              <div class="acc__item">
+                <h4><button class="acc__btn" type="button" aria-expanded="false" aria-controls="acc-fin-2">
+                  <span class="acc__title">Fiscal</span>
+                  <span class="acc__count"></span>
+                  <span class="acc__ico" aria-hidden="true"></span>
+                </button></h4>
+                <div class="acc__panel" id="acc-fin-2">
+                  <ul class="acc__list">
+                    <li>Declaraciones de IVA</li>
+                    <li>Declaraciones de IRPF</li>
+                    <li>Impuesto sobre Sociedades</li>
+                    <li>Retenciones</li>
+                    <li>Declaraciones informativas</li>
+                    <li>Recursos y reclamaciones tributarias</li>
+                  </ul>
+                </div>
+              </div>
 
-      <div class="blocks">
-        <article class="block reveal">
-          <h3 class="block__title">Gestiones con la Administración</h3>
-          <ul class="block__list">
-            <li>Tramitación de licencias</li>
-            <li>Presentación de documentación</li>
-            <li>Certificados administrativos</li>
-            <li>Gestión de notificaciones electrónicas</li>
-            <li>Tramitación de subvenciones</li>
-            <li>Gestión de ayudas públicas</li>
-          </ul>
-        </article>
+              <div class="acc__item">
+                <h4><button class="acc__btn" type="button" aria-expanded="false" aria-controls="acc-fin-3">
+                  <span class="acc__title">Asesoría financiera</span>
+                  <span class="acc__count"></span>
+                  <span class="acc__ico" aria-hidden="true"></span>
+                </button></h4>
+                <div class="acc__panel" id="acc-fin-3">
+                  <ul class="acc__list">
+                    <li>Planificación financiera</li>
+                    <li>Análisis de rentabilidad</li>
+                    <li>Control presupuestario</li>
+                    <li>Elaboración de planes de negocio</li>
+                    <li>Estudios de viabilidad</li>
+                    <li>Gestión de tesorería</li>
+                  </ul>
+                </div>
+              </div>
 
-        <article class="block reveal">
-          <h3 class="block__title">Gestión empresarial</h3>
-          <ul class="block__list">
-            <li>Constitución de empresas</li>
-            <li>Alta de autónomos</li>
-            <li>Modificaciones societarias</li>
-            <li>Disolución y liquidación de empresas</li>
-            <li>Gestión documental</li>
-            <li>Archivo digital</li>
-          </ul>
-        </article>
+              <div class="acc__item">
+                <h4><button class="acc__btn" type="button" aria-expanded="false" aria-controls="acc-fin-4">
+                  <span class="acc__title">Laboral</span>
+                  <span class="acc__count"></span>
+                  <span class="acc__ico" aria-hidden="true"></span>
+                </button></h4>
+                <div class="acc__panel" id="acc-fin-4">
+                  <ul class="acc__list">
+                    <li>Altas y bajas en Seguridad Social</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
 
-        <article class="block reveal">
-          <h3 class="block__title">Trámites de tráfico</h3>
-          <ul class="block__list">
-            <li>Transferencia de vehículos</li>
-            <li>Matriculaciones</li>
-            <li>Bajas de vehículos</li>
-            <li>Duplicados de permisos</li>
-            <li>Informes de vehículos</li>
-            <li>Cambios de titularidad</li>
-          </ul>
-        </article>
+            <a class="epanel__cta" href="#contacto" data-ask="Servicios financieros y contables">
+              Solicitar información sobre esta área
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
 
-        <article class="block reveal">
-          <h3 class="block__title">Extranjería y documentación</h3>
-          <ul class="block__list">
-            <li>NIE</li>
-            <li>Permisos de residencia</li>
-            <li>Permisos de trabajo</li>
-            <li>Nacionalidad</li>
-            <li>Reagrupación familiar</li>
-            <li>Renovaciones</li>
-            <li>Gestión de visados</li>
-          </ul>
-        </article>
-      </div>
-    </div>
-  </section>
+          <!-- 02 · GESTIÓN ADMINISTRATIVA -->
+          <div class="epanel" role="tabpanel" id="panel-administrativa"
+               aria-labelledby="tab-administrativa" data-area="administrativa"
+               data-label="Gestión administrativa">
+            <header class="epanel__head">
+              <h3>Servicios de gestión administrativa</h3>
+              <p>
+                Nos encargamos de la tramitación completa ante la Administración y del
+                seguimiento del expediente hasta su resolución.
+              </p>
+            </header>
 
-  <!-- ===================== 03 · EXPORTACIÓN ===================== -->
-  <section class="section section--alt detail" id="exportacion">
-    <div class="container">
-      <header class="detail__head reveal">
-        <span class="detail__num">03</span>
-        <h2 class="section__title">Exportación de toda clase de mercancías</h2>
-        <p class="section__lead">
-          Si tu producto tiene recorrido fuera de España, te acompañamos desde el estudio
-          de mercado hasta que la mercancía llega a destino, con toda la documentación en regla.
-        </p>
-      </header>
+            <div class="acc">
+              <div class="acc__item is-open">
+                <h4><button class="acc__btn" type="button" aria-expanded="true" aria-controls="acc-adm-1">
+                  <span class="acc__title">Gestiones con la Administración</span>
+                  <span class="acc__count"></span>
+                  <span class="acc__ico" aria-hidden="true"></span>
+                </button></h4>
+                <div class="acc__panel" id="acc-adm-1">
+                  <ul class="acc__list">
+                    <li>Tramitación de licencias</li>
+                    <li>Presentación de documentación</li>
+                    <li>Certificados administrativos</li>
+                    <li>Gestión de notificaciones electrónicas</li>
+                    <li>Tramitación de subvenciones</li>
+                    <li>Gestión de ayudas públicas</li>
+                  </ul>
+                </div>
+              </div>
 
-      <div class="blocks">
-        <article class="block reveal">
-          <h3 class="block__title">Consultoría en comercio internacional</h3>
-          <ul class="block__list">
-            <li>Asesoramiento en exportación</li>
-            <li>Estudios de mercados internacionales</li>
-            <li>Búsqueda de clientes y distribuidores</li>
-            <li>Plan de internacionalización</li>
-          </ul>
-        </article>
+              <div class="acc__item">
+                <h4><button class="acc__btn" type="button" aria-expanded="false" aria-controls="acc-adm-2">
+                  <span class="acc__title">Gestión empresarial</span>
+                  <span class="acc__count"></span>
+                  <span class="acc__ico" aria-hidden="true"></span>
+                </button></h4>
+                <div class="acc__panel" id="acc-adm-2">
+                  <ul class="acc__list">
+                    <li>Constitución de empresas</li>
+                    <li>Alta de autónomos</li>
+                    <li>Modificaciones societarias</li>
+                    <li>Disolución y liquidación de empresas</li>
+                    <li>Gestión documental</li>
+                    <li>Archivo digital</li>
+                  </ul>
+                </div>
+              </div>
 
-        <article class="block reveal">
-          <h3 class="block__title">Gestión documental</h3>
-          <ul class="block__list">
-            <li>Facturas comerciales</li>
-            <li>Certificados de origen</li>
-            <li>Documentación aduanera</li>
-            <li>Licencias de exportación</li>
-            <li>Documentación de transporte</li>
-          </ul>
-        </article>
+              <div class="acc__item">
+                <h4><button class="acc__btn" type="button" aria-expanded="false" aria-controls="acc-adm-3">
+                  <span class="acc__title">Trámites de tráfico</span>
+                  <span class="acc__count"></span>
+                  <span class="acc__ico" aria-hidden="true"></span>
+                </button></h4>
+                <div class="acc__panel" id="acc-adm-3">
+                  <ul class="acc__list">
+                    <li>Transferencia de vehículos</li>
+                    <li>Matriculaciones</li>
+                    <li>Bajas de vehículos</li>
+                    <li>Duplicados de permisos</li>
+                    <li>Informes de vehículos</li>
+                    <li>Cambios de titularidad</li>
+                  </ul>
+                </div>
+              </div>
 
-        <article class="block reveal">
-          <h3 class="block__title">Gestión aduanera</h3>
-          <ul class="block__list">
-            <li>Trámites de importación y exportación</li>
-            <li>Clasificación arancelaria</li>
-            <li>Valoración aduanera</li>
-            <li>Gestión de impuestos internacionales</li>
-          </ul>
-        </article>
+              <div class="acc__item">
+                <h4><button class="acc__btn" type="button" aria-expanded="false" aria-controls="acc-adm-4">
+                  <span class="acc__title">Extranjería y documentación</span>
+                  <span class="acc__count"></span>
+                  <span class="acc__ico" aria-hidden="true"></span>
+                </button></h4>
+                <div class="acc__panel" id="acc-adm-4">
+                  <ul class="acc__list">
+                    <li>NIE</li>
+                    <li>Permisos de residencia</li>
+                    <li>Permisos de trabajo</li>
+                    <li>Nacionalidad</li>
+                    <li>Reagrupación familiar</li>
+                    <li>Renovaciones</li>
+                    <li>Gestión de visados</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
 
-        <article class="block reveal">
-          <h3 class="block__title">Logística internacional</h3>
-          <ul class="block__list">
-            <li>Coordinación de transporte marítimo</li>
-            <li>Transporte aéreo</li>
-            <li>Transporte terrestre internacional</li>
-            <li>Seguimiento de envíos</li>
-            <li>Gestión de seguros de mercancías</li>
-          </ul>
-        </article>
-      </div>
-    </div>
-  </section>
+            <a class="epanel__cta" href="#contacto" data-ask="Gestión administrativa">
+              Solicitar información sobre esta área
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
 
-  <!-- ===================== 04 · VEHÍCULOS ===================== -->
-  <section class="section detail" id="vehiculos">
-    <div class="container">
-      <header class="detail__head reveal">
-        <span class="detail__num">04</span>
-        <h2 class="section__title">Comercio menor de vehículos terrestres</h2>
-        <p class="section__lead">
-          Compra, venta e intermediación de vehículos con el papeleo incluido:
-          ni transferencias a medias ni sorpresas en el cambio de titularidad.
-        </p>
-      </header>
+          <!-- 03 · EXPORTACIÓN -->
+          <div class="epanel" role="tabpanel" id="panel-exportacion"
+               aria-labelledby="tab-exportacion" data-area="exportacion"
+               data-label="Exportación de mercancías">
+            <header class="epanel__head">
+              <h3>Exportación de toda clase de mercancías</h3>
+              <p>
+                Asesoramos en la salida de su producto a mercados exteriores, desde el
+                estudio previo hasta la entrega de la mercancía en destino.
+              </p>
+            </header>
 
-      <div class="blocks">
-        <article class="block reveal">
-          <h3 class="block__title">Compra y venta</h3>
-          <ul class="block__list">
-            <li>Venta de vehículos nuevos</li>
-            <li>Venta de vehículos usados</li>
-            <li>Compra de vehículos</li>
-            <li>Vehículos de ocasión</li>
-            <li>Vehículos comerciales</li>
-          </ul>
-        </article>
+            <div class="acc">
+              <div class="acc__item is-open">
+                <h4><button class="acc__btn" type="button" aria-expanded="true" aria-controls="acc-exp-1">
+                  <span class="acc__title">Consultoría en comercio internacional</span>
+                  <span class="acc__count"></span>
+                  <span class="acc__ico" aria-hidden="true"></span>
+                </button></h4>
+                <div class="acc__panel" id="acc-exp-1">
+                  <ul class="acc__list">
+                    <li>Asesoramiento en exportación</li>
+                    <li>Estudios de mercados internacionales</li>
+                    <li>Búsqueda de clientes y distribuidores</li>
+                    <li>Plan de internacionalización</li>
+                  </ul>
+                </div>
+              </div>
 
-        <article class="block reveal">
-          <h3 class="block__title">Intermediación</h3>
-          <ul class="block__list">
-            <li>Búsqueda de vehículos por encargo</li>
-            <li>Gestión de compraventa entre particulares</li>
-            <li>Tasación de vehículos</li>
-            <li>Verificación documental</li>
-          </ul>
-        </article>
+              <div class="acc__item">
+                <h4><button class="acc__btn" type="button" aria-expanded="false" aria-controls="acc-exp-2">
+                  <span class="acc__title">Gestión aduanera</span>
+                  <span class="acc__count"></span>
+                  <span class="acc__ico" aria-hidden="true"></span>
+                </button></h4>
+                <div class="acc__panel" id="acc-exp-2">
+                  <ul class="acc__list">
+                    <li>Trámites de importación y exportación</li>
+                    <li>Clasificación arancelaria</li>
+                    <li>Valoración aduanera</li>
+                    <li>Gestión de impuestos internacionales</li>
+                  </ul>
+                </div>
+              </div>
 
-        <article class="block reveal">
-          <h3 class="block__title">Gestión administrativa</h3>
-          <ul class="block__list">
-            <li>Cambio de titularidad</li>
-            <li>Matriculación</li>
-            <li>Importación de vehículos</li>
-            <li>Baja definitiva</li>
-            <li>Informes de Tráfico</li>
-            <li>Gestión de impuestos de transmisión</li>
-          </ul>
-        </article>
+              <div class="acc__item">
+                <h4><button class="acc__btn" type="button" aria-expanded="false" aria-controls="acc-exp-3">
+                  <span class="acc__title">Gestión documental</span>
+                  <span class="acc__count"></span>
+                  <span class="acc__ico" aria-hidden="true"></span>
+                </button></h4>
+                <div class="acc__panel" id="acc-exp-3">
+                  <ul class="acc__list">
+                    <li>Facturas comerciales</li>
+                    <li>Certificados de origen</li>
+                    <li>Documentación aduanera</li>
+                    <li>Licencias de exportación</li>
+                    <li>Documentación de transporte</li>
+                  </ul>
+                </div>
+              </div>
 
-        <article class="block reveal">
-          <h3 class="block__title">Servicios complementarios</h3>
-          <ul class="block__list">
-            <li>Financiación de vehículos</li>
-            <li>Seguros</li>
-            <li>Garantías</li>
-            <li>Contratos de compraventa</li>
-            <li>Asesoramiento legal en operaciones</li>
-          </ul>
-        </article>
-      </div>
-    </div>
-  </section>
+              <div class="acc__item">
+                <h4><button class="acc__btn" type="button" aria-expanded="false" aria-controls="acc-exp-4">
+                  <span class="acc__title">Logística internacional</span>
+                  <span class="acc__count"></span>
+                  <span class="acc__ico" aria-hidden="true"></span>
+                </button></h4>
+                <div class="acc__panel" id="acc-exp-4">
+                  <ul class="acc__list">
+                    <li>Coordinación de transporte marítimo</li>
+                    <li>Transporte aéreo</li>
+                    <li>Transporte terrestre internacional</li>
+                    <li>Seguimiento de envíos</li>
+                    <li>Gestión de seguros de mercancías</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
 
-  <!-- ===================== LLAMADA A LA ACCIÓN ===================== -->
-  <section class="cta-band">
-    <div class="container cta-band__inner">
-      <div>
-        <h2>¿No ves tu caso en la lista?</h2>
-        <p>Escríbenos igualmente. Si no es cosa nuestra, te decimos con quién hablar.</p>
-      </div>
-      <div class="cta-band__actions">
-        <a class="btn btn--light" href="#contacto">Contactar ahora</a>
+            <a class="epanel__cta" href="#contacto" data-ask="Exportación de mercancías">
+              Solicitar información sobre esta área
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+
+          <!-- 04 · VEHÍCULOS -->
+          <div class="epanel" role="tabpanel" id="panel-vehiculos"
+               aria-labelledby="tab-vehiculos" data-area="vehiculos"
+               data-label="Comercio de vehículos">
+            <header class="epanel__head">
+              <h3>Comercio menor de vehículos terrestres</h3>
+              <p>
+                Compraventa e intermediación de vehículos con la gestión documental incluida:
+                transferencias, matriculaciones y cambios de titularidad.
+              </p>
+            </header>
+
+            <div class="acc">
+              <div class="acc__item is-open">
+                <h4><button class="acc__btn" type="button" aria-expanded="true" aria-controls="acc-veh-1">
+                  <span class="acc__title">Compra y venta</span>
+                  <span class="acc__count"></span>
+                  <span class="acc__ico" aria-hidden="true"></span>
+                </button></h4>
+                <div class="acc__panel" id="acc-veh-1">
+                  <ul class="acc__list">
+                    <li>Venta de vehículos nuevos</li>
+                    <li>Venta de vehículos usados</li>
+                    <li>Compra de vehículos</li>
+                    <li>Vehículos de ocasión</li>
+                    <li>Vehículos comerciales</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="acc__item">
+                <h4><button class="acc__btn" type="button" aria-expanded="false" aria-controls="acc-veh-2">
+                  <span class="acc__title">Intermediación</span>
+                  <span class="acc__count"></span>
+                  <span class="acc__ico" aria-hidden="true"></span>
+                </button></h4>
+                <div class="acc__panel" id="acc-veh-2">
+                  <ul class="acc__list">
+                    <li>Búsqueda de vehículos por encargo</li>
+                    <li>Gestión de compraventa entre particulares</li>
+                    <li>Tasación de vehículos</li>
+                    <li>Verificación documental</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="acc__item">
+                <h4><button class="acc__btn" type="button" aria-expanded="false" aria-controls="acc-veh-3">
+                  <span class="acc__title">Gestión administrativa</span>
+                  <span class="acc__count"></span>
+                  <span class="acc__ico" aria-hidden="true"></span>
+                </button></h4>
+                <div class="acc__panel" id="acc-veh-3">
+                  <ul class="acc__list">
+                    <li>Cambio de titularidad</li>
+                    <li>Matriculación</li>
+                    <li>Importación de vehículos</li>
+                    <li>Baja definitiva</li>
+                    <li>Informes de Tráfico</li>
+                    <li>Gestión de impuestos de transmisión</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="acc__item">
+                <h4><button class="acc__btn" type="button" aria-expanded="false" aria-controls="acc-veh-4">
+                  <span class="acc__title">Servicios complementarios</span>
+                  <span class="acc__count"></span>
+                  <span class="acc__ico" aria-hidden="true"></span>
+                </button></h4>
+                <div class="acc__panel" id="acc-veh-4">
+                  <ul class="acc__list">
+                    <li>Financiación de vehículos</li>
+                    <li>Seguros</li>
+                    <li>Garantías</li>
+                    <li>Contratos de compraventa</li>
+                    <li>Asesoramiento legal en operaciones</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <a class="epanel__cta" href="#contacto" data-ask="Comercio de vehículos">
+              Solicitar información sobre esta área
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+
+        </div>
       </div>
     </div>
   </section>
@@ -429,30 +552,25 @@
   <section class="section section--dark" id="proceso">
     <div class="container">
       <header class="section__head reveal">
-        <p class="section__eyebrow">Cómo trabajamos</p>
-        <h2 class="section__title">Cuatro pasos y sin letra pequeña</h2>
+        <p class="section__eyebrow">Nuestro proceso</p>
+        <h2 class="section__title">Un procedimiento claro en tres fases</h2>
       </header>
 
       <ol class="steps">
         <li class="step reveal">
           <span class="step__num">1</span>
-          <h3>Primera conversación</h3>
-          <p>Nos cuentas tu situación. Sin compromiso y sin coste, para saber si podemos ayudarte.</p>
+          <h3>Consulta inicial</h3>
+          <p>Analizamos su situación en una primera reunión, sin compromiso ni coste alguno.</p>
         </li>
         <li class="step reveal">
           <span class="step__num">2</span>
-          <h3>Propuesta cerrada</h3>
-          <p>Te decimos qué hay que hacer, en cuánto tiempo y cuánto cuesta. Por escrito.</p>
+          <h3>Propuesta y presupuesto</h3>
+          <p>Le detallamos por escrito las actuaciones necesarias, los plazos previstos y el importe.</p>
         </li>
         <li class="step reveal">
           <span class="step__num">3</span>
-          <h3>Nos ocupamos</h3>
-          <p>Recopilamos documentación, presentamos y tramitamos. Tú sigues con lo tuyo.</p>
-        </li>
-        <li class="step reveal">
-          <span class="step__num">4</span>
-          <h3>Seguimiento</h3>
-          <p>Te avisamos de vencimientos, notificaciones y renovaciones antes de que sean un problema.</p>
+          <h3>Tramitación y seguimiento</h3>
+          <p>Gestionamos el expediente y le mantenemos informado de vencimientos y renovaciones.</p>
         </li>
       </ol>
     </div>
@@ -462,34 +580,26 @@
   <section class="section" id="ventajas">
     <div class="container">
       <header class="section__head reveal">
-        <p class="section__eyebrow">Por qué con nosotros</p>
-        <h2 class="section__title">Lo que nos diferencia</h2>
+        <p class="section__eyebrow">Nuestro compromiso</p>
+        <h2 class="section__title">La forma en que trabajamos</h2>
       </header>
 
       <div class="perks">
         <article class="perk reveal">
-          <h3>Todo bajo un mismo techo</h3>
-          <p>Impuestos, papeleo, aduanas y vehículos. No tienes que coordinar a cuatro proveedores distintos.</p>
+          <h3>Servicio integral</h3>
+          <p>Reunimos en un mismo despacho las áreas fiscal, administrativa, de comercio exterior y de vehículos.</p>
         </article>
         <article class="perk reveal">
-          <h3>Trato directo</h3>
-          <p>Hablas siempre con la misma persona, que conoce tu expediente. Nada de centralitas ni tickets.</p>
+          <h3>Interlocutor único</h3>
+          <p>Le atiende siempre la misma persona, conocedora del detalle de su expediente.</p>
         </article>
         <article class="perk reveal">
-          <h3>Presupuesto claro</h3>
-          <p>Sabes lo que vas a pagar antes de empezar. Sin conceptos añadidos al final del trámite.</p>
+          <h3>Presupuesto cerrado</h3>
+          <p>Conoce el importe antes de iniciar cualquier actuación, sin conceptos añadidos posteriormente.</p>
         </article>
         <article class="perk reveal">
-          <h3>Plazos vigilados</h3>
-          <p>Controlamos vencimientos fiscales, renovaciones y notificaciones electrónicas por ti.</p>
-        </article>
-        <article class="perk reveal">
-          <h3>Visión internacional</h3>
-          <p>Experiencia en comercio exterior: si tu negocio quiere salir fuera, sabemos el camino.</p>
-        </article>
-        <article class="perk reveal">
-          <h3>Digital y presencial</h3>
-          <p>Puedes enviarlo todo online o pasarte por el despacho. Como te venga mejor.</p>
+          <h3>Control de plazos</h3>
+          <p>Supervisamos vencimientos fiscales, renovaciones y notificaciones electrónicas.</p>
         </article>
       </div>
     </div>
@@ -500,10 +610,10 @@
     <div class="container">
       <header class="section__head reveal">
         <p class="section__eyebrow">Contacto</p>
-        <h2 class="section__title">Cuéntanos qué necesitas</h2>
+        <h2 class="section__title">Estamos a su disposición</h2>
         <p class="section__lead">
-          Escríbenos con dos líneas sobre tu caso y te respondemos con los siguientes pasos.
-          La primera consulta no tiene coste.
+          Indíquenos brevemente su situación y le responderemos detallando las actuaciones
+          necesarias y su coste. La primera consulta no conlleva gasto alguno.
         </p>
       </header>
 
@@ -546,8 +656,8 @@
           </ul>
 
           <p class="contact__note">
-            Atención con cita previa. Si prefieres, deja tus datos en el formulario
-            y te llamamos nosotros.
+            Atendemos con cita previa. Si lo prefiere, indíquenos sus datos en el
+            formulario y nos pondremos en contacto con usted.
           </p>
         </div>
 
@@ -570,7 +680,7 @@
           </div>
 
           <div class="field">
-            <label for="area">¿Sobre qué área?</label>
+            <label for="area">Área de consulta</label>
             <select id="area" name="area">
               <option value="Servicios financieros y contables">Servicios financieros y contables</option>
               <option value="Gestión administrativa">Gestión administrativa</option>
@@ -581,19 +691,19 @@
           </div>
 
           <div class="field">
-            <label for="mensaje">Cuéntanos tu caso</label>
+            <label for="mensaje">Exposición del caso</label>
             <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
           </div>
 
           <label class="check">
             <input type="checkbox" id="privacidad" name="privacidad" required>
-            <span>He leído y acepto el tratamiento de mis datos para responder a esta consulta.</span>
+            <span>He leído y acepto el tratamiento de mis datos con la finalidad de atender esta consulta.</span>
           </label>
 
           <button class="btn btn--primary btn--block" type="submit">Enviar consulta</button>
 
           <p class="form__hint" id="form-hint">
-            Al enviar se abrirá tu programa de correo con el mensaje ya redactado.
+            Al enviar se abrirá su programa de correo con el mensaje ya redactado.
           </p>
         </form>
       </div>
@@ -614,10 +724,10 @@
     </div>
 
     <nav class="footer__nav" aria-label="Enlaces del pie">
-      <a href="#financiero">Fiscal y contable</a>
-      <a href="#administrativa">Gestión administrativa</a>
-      <a href="#exportacion">Exportación</a>
-      <a href="#vehiculos">Vehículos</a>
+      <a href="#servicios" data-goto-area="financiero">Fiscal y contable</a>
+      <a href="#servicios" data-goto-area="administrativa">Gestión administrativa</a>
+      <a href="#servicios" data-goto-area="exportacion">Exportación</a>
+      <a href="#servicios" data-goto-area="vehiculos">Vehículos</a>
       <a href="#contacto">Contacto</a>
     </nav>
 

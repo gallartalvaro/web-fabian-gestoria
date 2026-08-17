@@ -14,6 +14,19 @@ Contenido tomado del documento `actividades.docx` facilitado por el cliente:
 3. **Exportación de toda clase de mercancías** — consultoría, documentación, aduanas y logística
 4. **Comercio menor de vehículos terrestres** — compraventa, intermediación, trámites y complementos
 
+## 🎯 Criterios de diseño
+
+- **Divulgación progresiva.** Los 82 servicios no se muestran de golpe: el visitante
+  selecciona su área en el explorador (`.explorer`) y solo ve ese panel, con las subáreas
+  plegadas en un acordeón. Así una persona interesada en una única materia no se encuentra
+  con el catálogo completo.
+- **Registro formal.** Todos los textos emplean tratamiento de **usted**, propio del sector.
+  Si se prefiere el tuteo, hay que revisar `index.html` y los mensajes de `js/main.js`.
+- **Contacto siempre a mano.** Selector de área en la portada, botón fijo en la cabecera y
+  una llamada a la acción al final de cada panel que preselecciona el área en el formulario.
+- **Accesible.** Pestañas con patrón ARIA `tablist` (flechas, `Home`/`End`, `aria-selected`),
+  acordeones con `aria-expanded` y foco visible. Sin JavaScript se muestra todo desplegado.
+
 ## ⚠️ Datos pendientes del cliente
 
 Aparecen como **"Pendiente de confirmar"** en la web. Búscalos con `PENDIENTE`:
@@ -34,17 +47,22 @@ Aparecen como **"Pendiente de confirmar"** en la web. Búscalos con `PENDIENTE`:
 Sitio estático sin dependencias ni proceso de compilación:
 
 - **HTML5** semántico con datos estructurados (Schema.org `ProfessionalService`) para SEO
-- **CSS3** moderno: variables, grid, `clamp()` y respeto a `prefers-reduced-motion`
-- **JavaScript** vanilla: menú móvil, revelado al hacer scroll, scroll-spy y formulario `mailto:`
+- **CSS3** moderno: variables, grid, `clamp()`, despliegue con `grid-template-rows: 0fr → 1fr`
+  y respeto a `prefers-reduced-motion`
+- **JavaScript** vanilla: explorador de áreas, acordeones, menú móvil, revelado al hacer
+  scroll, scroll-spy y formulario `mailto:`
 
 ## 📂 Estructura
 
 ```
 ├── index.html          # Página principal (one-page)
 ├── css/styles.css      # Estilos
-├── js/main.js          # Interacciones y formulario
+├── js/main.js          # Explorador de áreas, acordeones y formulario
 └── assets/             # Logo y favicon (SVG)
 ```
+
+Enlaces profundos: `#financiero`, `#administrativa`, `#exportacion` y `#vehiculos` abren
+la página con esa área ya seleccionada (útil para campañas o para el perfil de Google).
 
 ## 🚀 Desarrollo local
 
