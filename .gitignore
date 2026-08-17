@@ -10,3 +10,13 @@ desktop.ini
 
 # Dependencias (si se añaden en el futuro)
 node_modules/
+
+# NUNCA subir: este repositorio es publico.
+# CLAUDE.md contiene datos de la instancia Odoo del despacho
+# (URL, base de datos, usuario admin, NIF e IBAN).
+CLAUDE.md
+
+# Credenciales y configuracion local
+.env
+*.local
+credenciales*
