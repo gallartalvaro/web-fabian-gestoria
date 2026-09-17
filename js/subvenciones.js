@@ -379,8 +379,8 @@
         el(
           "p",
           "res__texto",
-          "Ninguno de estos puntos le deja fuera: son trámites que se resuelven antes de presentar la solicitud. " +
-            "Si nos lo indica, los comprobamos por usted."
+          "Ninguno de estos puntos le deja fuera, pero todos deben estar resueltos el día de la " +
+            "solicitud: son precisamente los que más expedientes dejan sin ayuda. Si nos lo indica, los comprobamos por usted."
         )
       );
     } else {

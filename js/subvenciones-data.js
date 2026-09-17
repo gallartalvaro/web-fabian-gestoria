@@ -221,7 +221,7 @@ window.SUBVENCIONES = {
       var situacion = r.situacion || [];
       if (situacion.indexOf("iae") === -1) {
         revisar.push(
-          "Falta el alta en el impuesto de actividades económicas (modelo 036/037). Es un trámite rápido que gestionamos nosotros."
+          "Falta el alta en el impuesto de actividades económicas (modelo 036/037). Debe constar antes de solicitar y encaja con la actividad real: es una de las causas habituales de denegación."
         );
       }
       if (situacion.indexOf("aeat") === -1) {

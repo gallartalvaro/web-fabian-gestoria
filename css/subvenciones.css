@@ -173,6 +173,33 @@
   border-radius: 2px;
 }
 
+/* Lista de causas de denegación: mismo ritmo que .lista-check,
+   pero con marca de advertencia en lugar de visto bueno. */
+.lista-riesgo { list-style: none; display: grid; gap: 0.9rem; margin: 1.2rem 0; }
+.lista-riesgo li {
+  position: relative;
+  padding-left: 1.9rem;
+  color: var(--color-ink-soft);
+}
+.lista-riesgo li::before {
+  content: "!";
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 50%;
+  background: #fdf3f2;
+  border: 1px solid #f2d4d0;
+  color: #b04a3a;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+}
+.lista-riesgo li strong { color: var(--color-ink); }
+
 /* Caja lateral con los datos clave */
 .datos {
   background: var(--color-surface);
