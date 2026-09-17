@@ -35,9 +35,7 @@ Aparecen como **"Pendiente de confirmar"** en la web. Búscalos con `PENDIENTE`:
 |------|-----------------|
 | Nombre comercial exacto y CIF/NIF | `index.html` (título, marca, Schema.org, pie) |
 | Dirección del despacho | `index.html` → sección `#contacto` |
-| Teléfono / WhatsApp | `index.html` → sección `#contacto` |
-| Email de contacto | `index.html` → `#contacto` **y** `js/config.js` → `email` |
-| WhatsApp y endpoint del formulario | `js/config.js` → `whatsapp`, `formEndpoint` |
+| Endpoint del formulario | `js/config.js` → `formEndpoint` |
 | Horario de atención | `index.html` → `#contacto` |
 
 > Mientras `email` esté vacío, el formulario de contacto valida los campos pero avisa de que
@@ -152,7 +150,7 @@ automáticamente**, sin pasos adicionales.
 
 ## ✅ Pendiente / mejoras futuras
 
-- [ ] Rellenar los datos de contacto marcados como pendientes
+- [ ] Rellenar la dirección y el horario, que siguen pendientes
 - [ ] Fotos reales del despacho / del equipo
 - [ ] Logotipo definitivo (el actual es una propuesta hecha a medida)
 - [ ] Revisar `privacidad.html` con los datos reales y redactar el aviso legal

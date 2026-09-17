@@ -7,15 +7,15 @@
 // ============================================================
 
 window.SITE_CONFIG = {
-  // Email del despacho. Ej.: "info@gestoriafabian.es"
-  email: "",
+  // Email del despacho.
+  email: "fabian.kung@coev.com",
 
-  // Teléfono para mostrar. Ej.: "+34 960 00 00 00"
-  telefono: "",
+  // Teléfono para mostrar.
+  telefono: "+34 615 78 08 36",
 
   // WhatsApp en formato internacional SIN signos ni espacios.
   // Ej.: "34600000000". Si se deja vacío, no se muestra el botón.
-  whatsapp: "",
+  whatsapp: "34615780836",
 
   // Dónde se registran los contactos del test de subvenciones.
   // Lo habitual aquí es el receptor que crea la oportunidad en el

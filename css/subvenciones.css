@@ -547,6 +547,20 @@
 .faq details[open] summary::after { content: "–"; }
 .faq details p { margin-top: 0.8rem; color: var(--color-ink-soft); font-size: 0.95rem; }
 
+/* ===== Enlace de WhatsApp en la ficha de contacto ===== */
+.contact__wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.35rem;
+  font-size: 0.92rem !important;
+  font-weight: 500;
+  color: #1a7a48;
+}
+.contact__wa svg { width: 1.15rem; height: 1.15rem; flex: none; }
+.contact__wa:hover { color: #14603a; }
+.contact__list div > a[href^="tel:"] { display: block; }
+
 /* ===== Banner de la portada ===== */
 .banner-ayuda {
   display: grid;
