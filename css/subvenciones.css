@@ -561,6 +561,8 @@
 .contact__wa:hover { color: #14603a; }
 .contact__list div > a[href^="tel:"] { display: block; }
 
+.contact__horas { display: block; color: var(--color-ink-soft); font-size: 0.95rem !important; }
+
 /* ===== Banner de la portada ===== */
 .banner-ayuda {
   display: grid;

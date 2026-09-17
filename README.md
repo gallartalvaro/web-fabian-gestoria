@@ -36,7 +36,6 @@ Aparecen como **"Pendiente de confirmar"** en la web. Búscalos con `PENDIENTE`:
 | Nombre comercial exacto y CIF/NIF | `index.html` (título, marca, Schema.org, pie) |
 | Dirección del despacho | `index.html` → sección `#contacto` |
 | Endpoint del formulario | `js/config.js` → `formEndpoint` |
-| Horario de atención | `index.html` → `#contacto` |
 
 > Mientras `email` esté vacío, el formulario de contacto valida los campos pero avisa de que
 > el envío por correo aún no está configurado, en vez de abrir un `mailto:` sin destino.
@@ -150,7 +149,7 @@ automáticamente**, sin pasos adicionales.
 
 ## ✅ Pendiente / mejoras futuras
 
-- [ ] Rellenar la dirección y el horario, que siguen pendientes
+- [ ] Rellenar la dirección del despacho y confirmar los días de atención
 - [ ] Fotos reales del despacho / del equipo
 - [ ] Logotipo definitivo (el actual es una propuesta hecha a medida)
 - [ ] Revisar `privacidad.html` con los datos reales y redactar el aviso legal
