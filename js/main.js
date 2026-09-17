@@ -6,11 +6,12 @@
   "use strict";
 
   // ----------------------------------------------------------
-  // PENDIENTE: email real del despacho.
-  // Mientras esté vacío, el formulario avisa de que use el
-  // teléfono en lugar de intentar abrir un correo sin destino.
+  // El email del despacho se configura en js/config.js, que es
+  // donde están todos los datos de contacto. Mientras esté vacío,
+  // el formulario avisa de que use el teléfono en lugar de
+  // intentar abrir un correo sin destino.
   // ----------------------------------------------------------
-  const CONTACT_EMAIL = "";
+  const CONTACT_EMAIL = (window.SITE_CONFIG && window.SITE_CONFIG.email) || "";
 
   // --- Cabecera y botón de volver arriba ---
   const header = document.getElementById("header");

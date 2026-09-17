@@ -36,11 +36,51 @@ Aparecen como **"Pendiente de confirmar"** en la web. Búscalos con `PENDIENTE`:
 | Nombre comercial exacto y CIF/NIF | `index.html` (título, marca, Schema.org, pie) |
 | Dirección del despacho | `index.html` → sección `#contacto` |
 | Teléfono / WhatsApp | `index.html` → sección `#contacto` |
-| Email de contacto | `index.html` → `#contacto` **y** `js/main.js` → `CONTACT_EMAIL` |
+| Email de contacto | `index.html` → `#contacto` **y** `js/config.js` → `email` |
+| WhatsApp y endpoint del formulario | `js/config.js` → `whatsapp`, `formEndpoint` |
 | Horario de atención | `index.html` → `#contacto` |
 
-> Mientras `CONTACT_EMAIL` esté vacío, el formulario valida los campos pero avisa de que
+> Mientras `email` esté vacío, el formulario de contacto valida los campos pero avisa de que
 > el envío por correo aún no está configurado, en vez de abrir un `mailto:` sin destino.
+
+## 💶 Sección de subvenciones
+
+Capta clientes a partir de las convocatorias de ayudas: el visitante llega buscando
+*"emprende y concilia requisitos"*, resuelve su duda en un test de un minuto y, si encaja,
+deja sus datos para que el despacho presente la solicitud.
+
+```
+subvenciones.html  →  ayuda-<convocatoria>.html  →  test  →  resultado  →  datos de contacto
+```
+
+**El test no descarta a nadie a la ligera.** Solo devuelve "no encaja" ante un requisito que
+la convocatoria excluye sin matices (fecha de alta, municipio, padrón, plantilla, tipo de
+entidad). Todo lo demás —IAE pendiente, deudas, falta de certificado digital— se presenta
+como *punto a resolver*, que es justamente el trabajo que se contrata. Quien no encaja
+tampoco se pierde: se le ofrece aviso de futuras convocatorias.
+
+### Añadir una convocatoria nueva
+
+1. Añada un objeto en `js/subvenciones-data.js` con su `plazo`, sus `preguntas` y su
+   función `evaluar()`.
+2. Duplique `ayuda-emprende-y-concilia.html`, actualice la ficha y ponga el `id` de la
+   convocatoria en `<div class="wiz" id="wizard" data-grant="...">`.
+3. Añada la tarjeta en `subvenciones.html` y, si procede, el banner de `index.html`.
+
+Las etiquetas de estado se calculan solas a partir de las fechas: cualquier elemento con
+`data-plazo data-inicio="AAAA-MM-DD" data-fin="AAAA-MM-DD"` muestra "Quedan N días de plazo",
+"Abre el …" o "Plazo cerrado", sin tener que tocar la web el día del cierre.
+
+### Dónde llegan los contactos
+
+`js/config.js` → `formEndpoint`. Con un endpoint configurado (Formspree, Netlify Forms,
+Make, n8n…) el envío es automático y el visitante ve una pantalla de agradecimiento. Sin
+endpoint, o si el envío falla, el test muestra el diagnóstico completo ya redactado con
+botones de WhatsApp y correo, y opción de copiarlo: el contacto no se pierde por un
+problema de configuración.
+
+> El aviso legal del formulario enlaza a `privacidad.html`, que es **un borrador** y debe
+> revisarse con los datos reales del despacho antes de publicar.
 
 ## 🛠️ Tecnología
 
@@ -55,10 +95,17 @@ Sitio estático sin dependencias ni proceso de compilación:
 ## 📂 Estructura
 
 ```
-├── index.html          # Página principal (one-page)
-├── css/styles.css      # Estilos
-├── js/main.js          # Explorador de áreas, acordeones y formulario
-└── assets/             # Logo y favicon (SVG)
+├── index.html                       # Página principal (one-page)
+├── subvenciones.html                # Listado de convocatorias abiertas
+├── ayuda-emprende-y-concilia.html   # Ficha + test de una convocatoria
+├── privacidad.html                  # Política de privacidad (borrador)
+├── css/styles.css                   # Estilos generales
+├── css/subvenciones.css             # Estilos de la sección de subvenciones
+├── js/config.js                     # Datos de contacto y endpoint del formulario
+├── js/main.js                       # Explorador de áreas, acordeones y formulario
+├── js/subvenciones-data.js          # Convocatorias, preguntas y reglas del test
+├── js/subvenciones.js               # Estado del plazo, test y captación de contactos
+└── assets/                          # Logo y favicon (SVG)
 ```
 
 Enlaces profundos: `#financiero`, `#administrativa`, `#exportacion` y `#vehiculos` abren
@@ -82,6 +129,7 @@ automáticamente**, sin pasos adicionales.
 - [ ] Rellenar los datos de contacto marcados como pendientes
 - [ ] Fotos reales del despacho / del equipo
 - [ ] Logotipo definitivo (el actual es una propuesta hecha a medida)
-- [ ] Página de política de privacidad y aviso legal (obligatorio con formulario de contacto)
-- [ ] Formulario con envío real (Formspree, Netlify Forms o similar) en lugar de `mailto:`
+- [ ] Revisar `privacidad.html` con los datos reales y redactar el aviso legal
+- [ ] Configurar `formEndpoint` en `js/config.js` (Formspree, Netlify Forms o similar)
+- [ ] Ir publicando nuevas convocatorias en la sección de subvenciones
 - [ ] Dominio propio + Google Business Profile

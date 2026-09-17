@@ -34,6 +34,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/subvenciones.css">
 
 <!-- Marca la página como "con JS" para poder plegar contenido sin romper
      la versión sin JavaScript, donde todo se muestra desplegado. -->
@@ -80,6 +81,7 @@
 
     <nav class="nav" id="nav" aria-label="Navegación principal">
       <a class="nav__link" href="#servicios">Servicios</a>
+      <a class="nav__link" href="subvenciones.html">Subvenciones</a>
       <a class="nav__link" href="#proceso">Proceso</a>
       <a class="nav__link" href="#ventajas">Compromiso</a>
       <a class="nav__link nav__cta btn btn--primary" href="#contacto">Contactar</a>
@@ -121,6 +123,30 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 16v2M19 16v2"/><path d="M3 16v-3l2-5a2 2 0 0 1 1.9-1.3h10.2A2 2 0 0 1 19 8l2 5v3H3Z"/><circle cx="7.5" cy="16" r="1.2"/><circle cx="16.5" cy="16" r="1.2"/></svg>
             <span>Vehículos</span>
           </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================== AVISO DE SUBVENCION ABIERTA =====================
+       Se retira solo cuando pasa la fecha de cierre (js/subvenciones.js).
+       Para cambiarlo de convocatoria basta con editar este bloque. -->
+  <section class="section" style="padding-top:clamp(2.5rem,5vw,3.5rem);padding-bottom:0">
+    <div class="container">
+      <div class="banner-ayuda reveal">
+        <div>
+          <span class="estado" data-plazo data-inicio="2026-09-03" data-fin="2026-09-22">Plazo abierto</span>
+          <h2>¿Se ha dado de alta como autónomo en València?</h2>
+          <p>
+            La ayuda municipal «Emprende y Concilia» concede de 3.000 a 4.000 € a quienes
+            iniciaron su actividad desde el 8 de octubre de 2025. Compruebe en un minuto si
+            le corresponde.
+          </p>
+        </div>
+        <div class="pagehero__actions" style="margin:0">
+          <a class="btn btn--primary" href="ayuda-emprende-y-concilia.html#test">Hacer el test</a>
+          <a class="btn btn--ghost" href="subvenciones.html">Ver todas las ayudas</a>
         </div>
       </div>
     </div>
@@ -697,7 +723,7 @@
 
           <label class="check">
             <input type="checkbox" id="privacidad" name="privacidad" required>
-            <span>He leído y acepto el tratamiento de mis datos con la finalidad de atender esta consulta.</span>
+            <span>He leído y acepto el <a href="privacidad.html" target="_blank" rel="noopener">tratamiento de mis datos</a> con la finalidad de atender esta consulta.</span>
           </label>
 
           <button class="btn btn--primary btn--block" type="submit">Enviar consulta</button>
@@ -728,7 +754,9 @@
       <a href="#servicios" data-goto-area="administrativa">Gestión administrativa</a>
       <a href="#servicios" data-goto-area="exportacion">Exportación</a>
       <a href="#servicios" data-goto-area="vehiculos">Vehículos</a>
+      <a href="subvenciones.html">Subvenciones</a>
       <a href="#contacto">Contacto</a>
+      <a href="privacidad.html">Privacidad</a>
     </nav>
 
     <p class="footer__legal">
@@ -741,6 +769,8 @@
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>
 </a>
 
+<script src="js/config.js"></script>
 <script src="js/main.js"></script>
+<script src="js/subvenciones.js"></script>
 </body>
 </html>
