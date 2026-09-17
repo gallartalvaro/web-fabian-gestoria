@@ -1,0 +1,19 @@
+# Copie este archivo a wrangler.toml y ajuste lo que haga falta.
+# wrangler.toml está excluido del repositorio por si alguna vez
+# se le añade algún dato que no deba publicarse.
+
+name = "gestoria-leads"
+main = "odoo-lead-worker.js"
+compatibility_date = "2026-09-01"
+
+[vars]
+ODOO_URL = "https://fabian-okue-kung-mangue.odoo.com"
+ODOO_DB = "fabian-okue-kung-mangue"
+ODOO_USER = "fabian.kung@coev.com"
+
+# Desde dónde se acepta el formulario. Separados por comas, sin
+# barra final. Añada aquí el dominio propio cuando lo tenga.
+ORIGENES = "https://gallartalvaro.github.io"
+
+# ODOO_API_KEY NO se pone aquí. Se guarda cifrada con:
+#   wrangler secret put ODOO_API_KEY

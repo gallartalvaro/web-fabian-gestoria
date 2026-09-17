@@ -20,3 +20,7 @@ CLAUDE.md
 .env
 *.local
 credenciales*
+
+# Receptor de contactos (Cloudflare Worker)
+backend/wrangler.toml
+.wrangler/

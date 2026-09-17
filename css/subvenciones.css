@@ -458,6 +458,27 @@
 .lead .field select:focus { outline: none; border-color: var(--color-primary); }
 .lead .field input.is-invalid { border-color: #c0392b; background: #fdf3f2; }
 .lead .check { font-size: 0.88rem; }
+/* Campo trampa para robots: fuera de la vista y del foco, pero
+   presente en el formulario. No se usa display:none porque algunos
+   robots lo detectan y lo saltan. */
+.lead__trampa {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.lead__ref {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1a7a48;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.8rem;
+  justify-self: start;
+}
+
 .lead--ok, .lead--alt { background: #e6f4ec; border-color: #b7e0c9; }
 .lead--alt { background: var(--color-bg-alt); border-color: var(--color-line); }
 .lead__acciones { display: flex; flex-wrap: wrap; gap: 0.7rem; }

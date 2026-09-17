@@ -47,6 +47,36 @@
     return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
   }
 
+  // De dónde viene el visitante. Se guarda en la primera página que
+  // pisa, porque el referrer se pierde al navegar dentro del sitio.
+  function origenVisita() {
+    var clave = "origen";
+    try {
+      var guardado = sessionStorage.getItem(clave);
+      if (guardado) return JSON.parse(guardado);
+    } catch (err) {
+      /* sin sessionStorage */
+    }
+
+    var params = new URLSearchParams(window.location.search);
+    var origen = {
+      campana: params.get("utm_campaign") || "",
+      canal: params.get("utm_source") || "",
+      medio: params.get("utm_medium") || "",
+      procedencia: document.referrer && document.referrer.indexOf(window.location.host) === -1
+        ? document.referrer
+        : "",
+      entrada: window.location.pathname,
+    };
+
+    try {
+      sessionStorage.setItem(clave, JSON.stringify(origen));
+    } catch (err) {
+      /* sin sessionStorage */
+    }
+    return origen;
+  }
+
   // Estado del plazo: la web nunca queda desfasada aunque nadie
   // la toque el día que cierra la convocatoria.
   function estadoPlazo(inicio, fin) {
@@ -520,6 +550,18 @@
     check.appendChild(span);
     form.appendChild(check);
 
+    // Trampa para robots: un campo que ninguna persona ve ni rellena.
+    // Si llega con contenido, el envío se descarta en el servidor.
+    var trampa = el("div", "lead__trampa");
+    trampa.setAttribute("aria-hidden", "true");
+    var trampaInput = document.createElement("input");
+    trampaInput.type = "text";
+    trampaInput.name = "apellido2";
+    trampaInput.tabIndex = -1;
+    trampaInput.autocomplete = "off";
+    trampa.appendChild(trampaInput);
+    form.appendChild(trampa);
+
     var enviar = el("button", "btn btn--primary btn--block", "Enviar y que me llamen");
     enviar.type = "submit";
     form.appendChild(enviar);
@@ -561,21 +603,14 @@
       aviso.className = "form__hint";
       aviso.textContent = "Enviando…";
 
-      var datos = {
-        convocatoria: ayuda.titulo,
-        organismo: ayuda.organismo,
-        resultado: r.estado,
-        importeEstimado: r.estado === "no-apto" ? null : r.importeTexto || euros(r.importe),
+      var datos = perfilCliente(r, plazo, {
         nombre: nombre.value.trim(),
         telefono: telefono.value.trim(),
         email: email.value.trim(),
         momento: sel.value,
-        respuestas: resumenRespuestas(),
-        puntosARevisar: r.revisar,
-        motivosDeExclusion: r.bloqueos,
-        origen: window.location.href,
-        fecha: new Date().toLocaleString("es-ES"),
-      };
+        consentimiento: cb.checked,
+        trampa: trampaInput.value,
+      });
 
       entregar(datos, form, aviso, enviar);
     });
@@ -601,6 +636,68 @@
     campo.appendChild(lab);
     campo.appendChild(input);
     return campo;
+  }
+
+  // ----------------------------------------------------------
+  // Perfil del cliente
+  // ------------------------------------------------------------
+  // Lo que se envía al despacho: quién es, qué necesita, qué se le
+  // ha dicho y con cuánta urgencia hay que llamarle. El formato es
+  // estable y está versionado, para que el destino (Odoo, una hoja
+  // de cálculo o un correo) pueda cambiar sin tocar la web.
+  // ----------------------------------------------------------
+  function perfilCliente(r, plazo, campos) {
+    var apto = r.estado !== "no-apto";
+    var urgente = plazo.clave === "abierto" && plazo.dias <= 10;
+
+    var prioridad = "baja";
+    if (apto && urgente) prioridad = "alta";
+    else if (apto) prioridad = "media";
+
+    return {
+      version: 2,
+      tipo: "test-subvencion",
+
+      contacto: {
+        nombre: campos.nombre,
+        telefono: campos.telefono,
+        email: campos.email,
+        momentoPreferido: campos.momento,
+      },
+
+      consentimiento: {
+        aceptado: !!campos.consentimiento,
+        texto:
+          "Acepta el tratamiento de sus datos con la finalidad de recibir información sobre esta gestión.",
+        fecha: new Date().toISOString(),
+      },
+
+      convocatoria: {
+        id: ayuda.id,
+        titulo: ayuda.titulo,
+        organismo: ayuda.organismo,
+        cierraEl: ayuda.plazo.fin,
+        diasRestantes: plazo.clave === "abierto" ? plazo.dias : null,
+      },
+
+      diagnostico: {
+        resultado: r.estado,
+        importeEstimado: apto ? r.importeTexto || euros(r.importe) : null,
+        respuestas: resumenRespuestas(),
+        puntosARevisar: r.revisar,
+        motivosDeExclusion: r.bloqueos,
+      },
+
+      seguimiento: {
+        prioridad: prioridad,
+        pagina: window.location.origin + window.location.pathname,
+        origen: origenVisita(),
+        fecha: new Date().toISOString(),
+      },
+
+      // Campo trampa: si llega relleno, lo ha escrito un robot.
+      apellido2: campos.trampa || "",
+    };
   }
 
   function resumenRespuestas() {
@@ -632,30 +729,35 @@
   }
 
   function textoPlano(d) {
+    var dg = d.diagnostico;
     var lineas = [
-      "SOLICITUD DE INFORMACIÓN — " + d.convocatoria,
+      "SOLICITUD DE INFORMACIÓN — " + d.convocatoria.titulo,
+      d.convocatoria.organismo,
       "",
-      "Nombre: " + d.nombre,
-      "Teléfono: " + d.telefono,
-      "Email: " + (d.email || "no indicado"),
-      "Prefiere que le llamen: " + d.momento,
+      "Nombre: " + d.contacto.nombre,
+      "Teléfono: " + d.contacto.telefono,
+      "Email: " + (d.contacto.email || "no indicado"),
+      "Prefiere que le llamen: " + d.contacto.momentoPreferido,
       "",
-      "Resultado del test: " + d.resultado + (d.importeEstimado ? " · Importe estimado: " + d.importeEstimado : ""),
+      "Resultado del test: " +
+        dg.resultado +
+        (dg.importeEstimado ? " · Importe estimado: " + dg.importeEstimado : ""),
+      "Cierre de la convocatoria: " + d.convocatoria.cierraEl,
       "",
       "Respuestas:",
     ];
-    Object.keys(d.respuestas).forEach(function (k) {
-      lineas.push("· " + k + " → " + d.respuestas[k]);
+    Object.keys(dg.respuestas).forEach(function (k) {
+      lineas.push("· " + k + " → " + dg.respuestas[k]);
     });
-    if (d.puntosARevisar.length) {
+    if (dg.puntosARevisar.length) {
       lineas.push("", "Puntos a revisar:");
-      d.puntosARevisar.forEach(function (t) {
+      dg.puntosARevisar.forEach(function (t) {
         lineas.push("· " + t);
       });
     }
-    if (d.motivosDeExclusion.length) {
+    if (dg.motivosDeExclusion.length) {
       lineas.push("", "Motivos de exclusión detectados:");
-      d.motivosDeExclusion.forEach(function (t) {
+      dg.motivosDeExclusion.forEach(function (t) {
         lineas.push("· " + t);
       });
     }
@@ -675,7 +777,12 @@
     })
       .then(function (res) {
         if (!res.ok) throw new Error("HTTP " + res.status);
-        gracias(datos, form);
+        return res.json().catch(function () {
+          return {};
+        });
+      })
+      .then(function (respuesta) {
+        gracias(datos, form, respuesta && respuesta.referencia);
       })
       .catch(function () {
         boton.disabled = false;
@@ -683,7 +790,7 @@
       });
   }
 
-  function gracias(datos, form) {
+  function gracias(datos, form, referencia) {
     var caja = el("div", "lead lead--ok");
     caja.appendChild(el("h4", "lead__title", "Hemos recibido sus datos"));
     caja.appendChild(
@@ -691,10 +798,15 @@
         "p",
         null,
         "Gracias, " +
-          datos.nombre.split(" ")[0] +
-          ". Nos pondremos en contacto con usted en el teléfono indicado, normalmente dentro del mismo día laborable."
+          datos.contacto.nombre.split(" ")[0] +
+          ". Su consulta ha quedado registrada con el diagnóstico completo, así que no tendrá que " +
+          "repetir nada cuando hablemos. Le llamamos al teléfono indicado, normalmente dentro del " +
+          "mismo día laborable."
       )
     );
+    if (referencia) {
+      caja.appendChild(el("p", "lead__ref", "Referencia de su expediente: " + referencia));
+    }
     form.replaceWith(caja);
     caja.tabIndex = -1;
     caja.focus({ preventScroll: true });

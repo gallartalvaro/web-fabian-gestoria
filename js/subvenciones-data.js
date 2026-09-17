@@ -29,8 +29,10 @@ window.SUBVENCIONES = {
       {
         id: "perfil",
         tipo: "unica",
-        titulo: "¿Quién presentaría la solicitud?",
-        ayuda: "La ayuda se dirige a quien inicia una actividad económica por cuenta propia.",
+        titulo: "¿A nombre de quién se pediría la ayuda?",
+        ayuda:
+          "Nos referimos a quién sería la persona o la entidad beneficiaria. De presentar la " +
+          "solicitud nos encargamos nosotros, si así lo desea.",
         opciones: [
           { valor: "fisica", etiqueta: "Una persona física dada de alta como autónoma" },
           { valor: "societaria", etiqueta: "Una sociedad, comunidad de bienes o sociedad civil" },

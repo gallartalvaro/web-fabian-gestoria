@@ -1,0 +1,10 @@
+{
+  "name": "gestoria-leads",
+  "private": true,
+  "type": "module",
+  "description": "Receptor de contactos del test de subvenciones que crea la oportunidad en Odoo CRM.",
+  "scripts": {
+    "test": "node test-worker.mjs",
+    "deploy": "wrangler deploy"
+  }
+}

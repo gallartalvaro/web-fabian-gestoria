@@ -79,11 +79,28 @@ Las etiquetas de estado se calculan solas a partir de las fechas: cualquier elem
 
 ### Dónde llegan los contactos
 
-`js/config.js` → `formEndpoint`. Con un endpoint configurado (Formspree, Netlify Forms,
-Make, n8n…) el envío es automático y el visitante ve una pantalla de agradecimiento. Sin
-endpoint, o si el envío falla, el test muestra el diagnóstico completo ya redactado con
-botones de WhatsApp y correo, y opción de copiarlo: el contacto no se pierde por un
-problema de configuración.
+Quien termina el test y deja sus datos genera un **perfil de cliente**: contacto, convocatoria,
+diagnóstico con todas sus respuestas, prioridad de seguimiento y procedencia de la visita.
+Ese perfil se envía a `js/config.js` → `formEndpoint`.
+
+El destino previsto es **[backend/](backend/README.md)**, un receptor que crea la oportunidad
+en el **CRM de Odoo** con el diagnóstico completo, la fecha de cierre de la convocatoria como
+fecha límite y la prioridad ya puesta; si el teléfono o el email ya existen en Contactos, la
+oportunidad se engancha a esa ficha en lugar de duplicarla. Vive fuera de Odoo, así que **no
+factura "Custom Code Maintenance"**.
+
+Se prueba sin tocar la instancia real ni necesitar credenciales:
+
+```bash
+node backend/test-worker.mjs
+```
+
+Sin endpoint configurado, o si el envío falla, el test muestra el diagnóstico ya redactado con
+botones de WhatsApp y correo, y opción de copiarlo: el contacto no se pierde por un problema de
+configuración.
+
+El formato del perfil está versionado (`version: 2`), de modo que se puede cambiar de destino
+—una hoja de cálculo del despacho, otro CRM— sin tocar la web.
 
 > El aviso legal del formulario enlaza a `privacidad.html`, que es **un borrador** y debe
 > revisarse con los datos reales del despacho antes de publicar.
@@ -113,6 +130,7 @@ Sitio estático sin dependencias ni proceso de compilación:
 ├── js/main.js                       # Explorador de áreas, acordeones y formulario
 ├── js/subvenciones-data.js          # Convocatorias, preguntas y reglas del test
 ├── js/subvenciones.js               # Estado del plazo, test y captación de contactos
+├── backend/                         # Receptor que crea la oportunidad en Odoo CRM
 └── assets/                          # Logo y favicon (SVG)
 ```
 
@@ -138,6 +156,6 @@ automáticamente**, sin pasos adicionales.
 - [ ] Fotos reales del despacho / del equipo
 - [ ] Logotipo definitivo (el actual es una propuesta hecha a medida)
 - [ ] Revisar `privacidad.html` con los datos reales y redactar el aviso legal
-- [ ] Configurar `formEndpoint` en `js/config.js` (Formspree, Netlify Forms o similar)
+- [ ] Desplegar el receptor de `backend/` y poner su URL en `formEndpoint` (`js/config.js`)
 - [ ] Ir publicando nuevas convocatorias en la sección de subvenciones
 - [ ] Dominio propio + Google Business Profile

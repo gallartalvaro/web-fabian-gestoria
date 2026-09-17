@@ -17,8 +17,11 @@ window.SITE_CONFIG = {
   // Ej.: "34600000000". Si se deja vacío, no se muestra el botón.
   whatsapp: "",
 
-  // Endpoint del formulario (Formspree, Netlify Forms, Make, n8n…).
-  // Ej.: "https://formspree.io/f/xxxxxxx"
+  // Dónde se registran los contactos del test de subvenciones.
+  // Lo habitual aquí es el receptor que crea la oportunidad en el
+  // CRM de Odoo: ver backend/README.md para desplegarlo.
+  // Ej.: "https://gestoria-leads.xxxx.workers.dev"
+  //
   // Vacío = los envíos caen al método alternativo (WhatsApp / correo
   // ya redactado + copiar al portapapeles), sin perder el contacto.
   formEndpoint: "",
