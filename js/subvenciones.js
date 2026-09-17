@@ -352,13 +352,20 @@
     if (r.estado !== "no-apto") {
       var importe = el("div", "res__importe");
       importe.appendChild(el("span", "res__importe-label", "Importe estimado"));
-      importe.appendChild(el("strong", "res__importe-cifra", euros(r.importe)));
-      if (r.favorables.length) {
-        var det = el("span", "res__importe-det", euros(ayuda.importeBase) + " de base · " + r.favorables.join(" · "));
-        importe.appendChild(det);
-      } else {
-        importe.appendChild(el("span", "res__importe-det", "Cuantía base de la convocatoria"));
+
+      // Las ayudas de cuantía fija devuelven un número; las que
+      // dependen del gasto devuelven un rango ya redactado.
+      importe.appendChild(el("strong", "res__importe-cifra", r.importeTexto || euros(r.importe)));
+
+      var detalle = r.importeDetalle;
+      if (!detalle) {
+        detalle = r.favorables.length
+          ? euros(ayuda.importeBase) + " de base · " + r.favorables.join(" · ")
+          : "Cuantía base de la convocatoria";
+      } else if (r.favorables.length) {
+        detalle += " · " + r.favorables.join(" · ");
       }
+      importe.appendChild(el("span", "res__importe-det", detalle));
       caja.appendChild(importe);
     }
 
@@ -558,7 +565,7 @@
         convocatoria: ayuda.titulo,
         organismo: ayuda.organismo,
         resultado: r.estado,
-        importeEstimado: r.estado === "no-apto" ? null : euros(r.importe),
+        importeEstimado: r.estado === "no-apto" ? null : r.importeTexto || euros(r.importe),
         nombre: nombre.value.trim(),
         telefono: telefono.value.trim(),
         email: email.value.trim(),

@@ -53,6 +53,10 @@ deja sus datos para que el despacho presente la solicitud.
 subvenciones.html  →  ayuda-<convocatoria>.html  →  test  →  resultado  →  datos de contacto
 ```
 
+Convocatorias publicadas: **Emprende y Concilia** (Ayuntamiento de València),
+**renovación de equipamiento en hostelería** (Ministerio de Industria y Turismo) y
+**EMDANA** (Generalitat Valenciana, municipios de la DANA).
+
 **El test no descarta a nadie a la ligera.** Solo devuelve "no encaja" ante un requisito que
 la convocatoria excluye sin matices (fecha de alta, municipio, padrón, plantilla, tipo de
 entidad). Todo lo demás —IAE pendiente, deudas, falta de certificado digital— se presenta
@@ -63,8 +67,10 @@ tampoco se pierde: se le ofrece aviso de futuras convocatorias.
 
 1. Añada un objeto en `js/subvenciones-data.js` con su `plazo`, sus `preguntas` y su
    función `evaluar()`.
-2. Duplique `ayuda-emprende-y-concilia.html`, actualice la ficha y ponga el `id` de la
+2. Duplique una de las fichas existentes, actualice el contenido y ponga el `id` de la
    convocatoria en `<div class="wiz" id="wizard" data-grant="...">`.
+   Si la ayuda no es de cuantía fija, `evaluar()` puede devolver `importeTexto`
+   e `importeDetalle` para mostrar un rango en lugar de una cifra.
 3. Añada la tarjeta en `subvenciones.html` y, si procede, el banner de `index.html`.
 
 Las etiquetas de estado se calculan solas a partir de las fechas: cualquier elemento con
@@ -97,7 +103,9 @@ Sitio estático sin dependencias ni proceso de compilación:
 ```
 ├── index.html                       # Página principal (one-page)
 ├── subvenciones.html                # Listado de convocatorias abiertas
-├── ayuda-emprende-y-concilia.html   # Ficha + test de una convocatoria
+├── ayuda-emprende-y-concilia.html   # Ficha + test (Ayuntamiento de València)
+├── ayuda-hosteleria-equipamiento.html  # Ficha + test (Ministerio, hostelería)
+├── ayuda-emdana-emprendimiento.html    # Ficha + test (GVA, zona DANA)
 ├── privacidad.html                  # Política de privacidad (borrador)
 ├── css/styles.css                   # Estilos generales
 ├── css/subvenciones.css             # Estilos de la sección de subvenciones
