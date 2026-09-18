@@ -78,7 +78,7 @@ jobs:
           revisar FTP_USUARIO "$USUARIO"
           revisar FTP_CONTRASENA "$CLAVE"
 
-      - name: Subir por FTP a public_html
+      - name: Subir por FTP a la raíz del dominio
         if: steps.credenciales.outputs.listo == 'si'
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -92,7 +92,10 @@ jobs:
           # Solo el contenido de public/: al servidor no llega ni el
           # receptor, ni la documentación, ni nada propio de git.
           local-dir: ./public/
-          server-dir: public_html/
+          # Raíz del dominio. valentramites.com está dado de alta como
+          # dominio adicional, así que NO se sirve desde el public_html
+          # de la cuenta, sino desde el suyo propio.
+          server-dir: domains/valentramites.com/public_html/
 
       - name: Resumen
         if: steps.credenciales.outputs.listo == 'si'
