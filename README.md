@@ -144,30 +144,40 @@ python -m http.server 8124
 
 ## 📦 Despliegue
 
-Dos escalones. Nada llega a los clientes sin repasarlo antes.
+Dos ramas. Nada llega a los clientes sin verlo antes en una copia real.
 
 ```
-push a main  →  PRUEBAS (GitHub Pages)  →  [revisión]  →  PRODUCCIÓN (Hostinger)
-                     automático                            a mano, con confirmación
+rama pruebas  →  GitHub Pages   →  [usted revisa]  →  main  →  Hostinger
+                   automático                                  automático
 ```
 
-### 1. Pruebas — automático
+### 1. Trabajar y revisar
 
-Cada `push` a `main` lanza `.github/workflows/pruebas.yml`: comprueba que estén las seis
-páginas, ejecuta la prueba del receptor de contactos y publica en **GitHub Pages**.
+Los cambios se suben a la rama **`pruebas`**. Cada push lanza
+`.github/workflows/pruebas.yml`, que comprueba que estén las seis páginas, ejecuta la prueba
+del receptor de contactos y publica en **GitHub Pages**:
 
-Esa copia lleva `noindex` y un `robots.txt` que impide su indexación —si no, competiría en
-Google con la web real— y un distintivo **«Copia de pruebas»** en la esquina, para no
-confundirla con producción. La dirección aparece en el resumen de cada ejecución, en la
-pestaña **Actions**.
+🔗 https://gallartalvaro.github.io/web-fabian-gestoria/
 
-> Requiere tener **Settings → Pages → Source** en *GitHub Actions*.
+Esa copia lleva `noindex` y un `robots.txt` que impiden su indexación —si no, competiría en
+Google con la web real— y un distintivo **«Copia de pruebas»** en la esquina inferior
+izquierda, para no confundirla con producción.
 
-### 2. Producción — a mano
+> Requiere **Settings → Pages → Source** en *GitHub Actions*. Si el flujo falla diciendo que
+> la rama no puede desplegar, añada `pruebas` en **Settings → Environments → github-pages →
+> Deployment branches**.
 
-Cuando la copia de pruebas está conforme: **Actions → Publicar en producción (Hostinger) →
-Run workflow**, y escribir `PUBLICAR` para confirmar. Se repiten las comprobaciones y se
-sube el contenido de `public/` por FTP a `public_html/`.
+### 2. Publicar
+
+Cuando la copia de pruebas está conforme, se pasa `pruebas` a **`main`**:
+
+```bash
+git checkout main && git merge pruebas && git push
+```
+
+Eso dispara `.github/workflows/produccion.yml`, que repite las comprobaciones y sube el
+contenido de `public/` por FTP a `public_html/`. **Todo lo que entra en `main` se publica**,
+así que main es producción y no se trabaja directamente sobre ella.
 
 Hacen falta tres secretos en **Settings → Secrets and variables → Actions**, con los datos
 de *hPanel → Archivos → Cuentas FTP*:
@@ -178,9 +188,11 @@ de *hPanel → Archivos → Cuentas FTP*:
 | `FTP_USUARIO` | El usuario de la cuenta FTP |
 | `FTP_CONTRASENA` | Su contraseña |
 
-> **Si prefiere el gestor de git de Hostinger** (hPanel → Avanzado → GIT), la carpeta del
-> proyecto que hay que seleccionar es **`public`**. Pero entonces publica en cuanto recibe
-> el aviso de GitHub, sin el paso de revisión.
+Mientras falten, el flujo no da error: avisa en el resumen de la ejecución de que la
+publicación está pendiente de configurar.
+
+> **Si prefiere el gestor de git de Hostinger** (hPanel → Avanzado → GIT), conéctelo a la
+> rama `main` y seleccione la carpeta **`public`**.
 
 ## ✅ Pendiente / mejoras futuras
 

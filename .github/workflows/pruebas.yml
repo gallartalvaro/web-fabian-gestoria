@@ -1,11 +1,11 @@
 name: Publicar en pruebas (GitHub Pages)
 
-# Cada push a main publica en la web de pruebas, para poder revisar
-# los cambios antes de que los vean los clientes. Producción no se
-# toca aquí: eso lo hace "Publicar en producción", y a mano.
+# La rama "pruebas" es el banco de trabajo: cada cambio que se sube
+# ahí se publica en GitHub Pages para poder revisarlo. Producción no
+# se entera de nada hasta que ese cambio pasa a main.
 on:
   push:
-    branches: [main]
+    branches: [pruebas]
   workflow_dispatch:
 
 permissions:
@@ -21,8 +21,9 @@ jobs:
   publicar:
     name: Montar y publicar la copia de pruebas
     runs-on: ubuntu-latest
+    # actions/deploy-pages exige este nombre de entorno.
     environment:
-      name: pruebas
+      name: github-pages
       url: ${{ steps.desplegar.outputs.page_url }}
 
     steps:
@@ -79,5 +80,5 @@ jobs:
             echo ""
             echo "${{ steps.desplegar.outputs.page_url }}"
             echo ""
-            echo "Si está conforme, lance **Publicar en producción** desde la pestaña Actions."
+            echo "Si está conforme, pase la rama \`pruebas\` a \`main\` y se publicará en Hostinger."
           } >> "$GITHUB_STEP_SUMMARY"

@@ -1,15 +1,12 @@
 name: Publicar en producción (Hostinger)
 
-# No se dispara solo: se lanza a mano desde la pestaña Actions,
-# una vez revisada la copia de pruebas. Lo que se publica es
-# siempre lo que hay en main.
+# main es producción. Todo lo que llega aquí se publica, así que el
+# camino normal es: trabajar en la rama "pruebas", revisarla en
+# GitHub Pages y, cuando esté conforme, pasarla a main.
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
-    inputs:
-      confirmacion:
-        description: 'Escriba PUBLICAR para confirmar que la copia de pruebas está revisada'
-        required: true
-        default: ''
 
 concurrency:
   group: produccion
@@ -24,13 +21,6 @@ jobs:
       url: https://valentramites.com
 
     steps:
-      - name: Confirmar la publicación
-        run: |
-          if [ "${{ github.event.inputs.confirmacion }}" != "PUBLICAR" ]; then
-            echo "Para publicar en producción hay que escribir PUBLICAR en el formulario."
-            exit 1
-          fi
-
       - name: Descargar el repositorio
         uses: actions/checkout@v4
 
@@ -49,7 +39,26 @@ jobs:
       - name: Probar el receptor de contactos
         run: node backend/test-worker.mjs
 
+      - name: Comprobar que hay credenciales de FTP
+        id: credenciales
+        env:
+          SERVIDOR: ${{ secrets.FTP_SERVIDOR }}
+        run: |
+          if [ -z "$SERVIDOR" ]; then
+            echo "listo=no" >> "$GITHUB_OUTPUT"
+            {
+              echo "### Publicación pendiente de configurar"
+              echo ""
+              echo "Faltan los secretos \`FTP_SERVIDOR\`, \`FTP_USUARIO\` y \`FTP_CONTRASENA\`."
+              echo "Se crean en **Settings → Secrets and variables → Actions** con los datos de"
+              echo "*hPanel → Archivos → Cuentas FTP*."
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "listo=si" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Subir por FTP a public_html
+        if: steps.credenciales.outputs.listo == 'si'
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVIDOR }}
@@ -61,6 +70,7 @@ jobs:
           server-dir: public_html/
 
       - name: Resumen
+        if: steps.credenciales.outputs.listo == 'si'
         run: |
           {
             echo "### Publicado en producción"
