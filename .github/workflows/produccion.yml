@@ -64,6 +64,10 @@ jobs:
           server: ${{ secrets.FTP_SERVIDOR }}
           username: ${{ secrets.FTP_USUARIO }}
           password: ${{ secrets.FTP_CONTRASENA }}
+          # FTP con TLS: sin esto, el usuario y la contraseña viajarían
+          # en claro desde el servidor de GitHub hasta Hostinger.
+          protocol: ftps
+          port: 21
           # Solo el contenido de public/: al servidor no llega ni el
           # receptor, ni la documentación, ni nada propio de git.
           local-dir: ./public/
