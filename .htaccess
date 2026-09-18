@@ -55,7 +55,7 @@ AddDefaultCharset UTF-8
 #   RewriteEngine On
 #   RewriteCond %{HTTPS} !=on
 #   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-#   RewriteCond %{HTTP_HOST} ^www\.valentramite\.com$ [NC]
-#   RewriteRule ^ https://valentramite.com%{REQUEST_URI} [L,R=301]
+#   RewriteCond %{HTTP_HOST} ^www\.valentramites\.com$ [NC]
+#   RewriteRule ^ https://valentramites.com%{REQUEST_URI} [L,R=301]
 # </IfModule>
 # ------------------------------------------------------------

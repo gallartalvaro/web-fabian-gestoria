@@ -3,7 +3,7 @@
 Web de presentación de una gestoría y asesoría integral. Su función principal es **dar a
 conocer el despacho y facilitar al máximo que el cliente se ponga en contacto**.
 
-🔗 **En producción:** https://valentramite.com
+🔗 **En producción:** https://valentramites.com
 
 ## 🧭 Áreas de trabajo
 
@@ -157,7 +157,7 @@ En **hPanel de Hostinger → Archivos → Cuentas FTP**, tome los datos de acces
 
 | Secreto | Valor |
 |---|---|
-| `FTP_SERVIDOR` | El servidor FTP que indica Hostinger (p. ej. `ftp.valentramite.com`) |
+| `FTP_SERVIDOR` | El servidor FTP que indica Hostinger (p. ej. `ftp.valentramites.com`) |
 | `FTP_USUARIO` | El usuario de la cuenta FTP |
 | `FTP_CONTRASENA` | Su contraseña |
 

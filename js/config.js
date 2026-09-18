@@ -8,7 +8,7 @@
 
 window.SITE_CONFIG = {
   // Email del despacho.
-  email: "hola@valentramite.com",
+  email: "hola@valentramites.com",
 
   // Teléfono para mostrar.
   telefono: "+34 615 78 08 36",

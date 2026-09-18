@@ -17,7 +17,7 @@
  *   ODOO_DB       fabian-okue-kung-mangue
  *   ODOO_USER     fabian.kung@coev.com
  *   ODOO_API_KEY  (clave de API, nunca la contraseña)
- *   ORIGENES      https://gallartalvaro.github.io,https://valentramite.com
+ *   ORIGENES      https://gallartalvaro.github.io,https://valentramites.com
  * ============================================================
  */
 
