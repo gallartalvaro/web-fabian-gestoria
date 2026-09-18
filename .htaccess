@@ -20,6 +20,17 @@ AddDefaultCharset UTF-8
 </IfModule>
 
 # ------------------------------------------------------------
+# El gestor de git de Hostinger despliega el repositorio entero,
+# así que en el servidor quedan archivos que no son la web. No
+# contienen secretos, pero no hay motivo para servirlos.
+# ------------------------------------------------------------
+<IfModule mod_alias.c>
+  RedirectMatch 404 ^/(backend|\.github|\.claude|\.git)(/|$)
+  RedirectMatch 404 \.(md|mjs|toml|ejemplo|yml|yaml)$
+  RedirectMatch 404 ^/(package\.json|wrangler\.toml|\.dev\.vars)$
+</IfModule>
+
+# ------------------------------------------------------------
 # Caché: la web es estática y cambia poco. El HTML no se cachea
 # para que los plazos de las convocatorias se vean al día.
 # ------------------------------------------------------------
