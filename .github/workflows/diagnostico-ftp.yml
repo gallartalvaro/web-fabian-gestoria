@@ -12,19 +12,55 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Instalar el cliente de FTP
+        run: npm install basic-ftp@5
+
       - name: Listar carpetas
         env:
           SERVIDOR: ${{ secrets.FTP_SERVIDOR }}
           USUARIO: ${{ secrets.FTP_USUARIO }}
           CLAVE: ${{ secrets.FTP_CONTRASENA }}
         run: |
-          listar() {
-            echo ""
-            echo "===== /$1 ====="
-            curl -s --ssl-reqd --max-time 40 --user "$USUARIO:$CLAVE" \
-                 "ftp://$SERVIDOR/$1" 2>&1 | head -40 || echo "(no accesible)"
+          cat > listar.mjs <<'FIN'
+          import { Client } from "basic-ftp";
+
+          const cliente = new Client(30000);
+          await cliente.access({
+            host: process.env.SERVIDOR,
+            user: process.env.USUARIO,
+            password: process.env.CLAVE,
+            secure: true,
+            secureOptions: { rejectUnauthorized: false },
+          });
+
+          const carpetas = [
+            "/",
+            "/public_html",
+            "/domains",
+            "/domains/valentramites.com",
+            "/domains/valentramites.com/public_html",
+          ];
+
+          for (const ruta of carpetas) {
+            console.log("\n===== " + ruta + " =====");
+            try {
+              const lista = await cliente.list(ruta);
+              if (!lista.length) console.log("(vacía)");
+              for (const e of lista.slice(0, 30)) {
+                console.log(
+                  (e.isDirectory ? "[carpeta] " : "          ") +
+                    e.name.padEnd(38) +
+                    String(e.size).padStart(8) +
+                    "  " +
+                    (e.rawModifiedAt || "")
+                );
+              }
+              if (lista.length > 30) console.log("… y " + (lista.length - 30) + " más");
+            } catch (err) {
+              console.log("(no existe o no es accesible: " + err.message + ")");
+            }
           }
 
-          listar ""
-          listar "public_html/"
-          listar "domains/"
+          cliente.close();
+          FIN
+          node listar.mjs
