@@ -27,3 +27,6 @@ backend/wrangler.toml
 .dev.vars
 *.dev.vars
 .wrangler/
+
+# Informe de la vigilancia: se regenera en cada pasada
+vigilancia/informe.md
