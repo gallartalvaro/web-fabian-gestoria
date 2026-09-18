@@ -14,6 +14,7 @@ window.SUBVENCIONES = {
   "emprende-y-concilia-2026": {
     id: "emprende-y-concilia-2026",
     titulo: "Subvenciones «Emprende y Concilia» 2026",
+    nombreCorto: "Emprende y Concilia 2026",
     organismo: "Ayuntamiento de València",
     importeBase: 3000,
 
@@ -168,6 +169,21 @@ window.SUBVENCIONES = {
     // presenta como "a comprobar", que es justamente el trabajo
     // del despacho.
     // --------------------------------------------------------
+    // Rasgos del cliente que en Odoo se pueden filtrar y agrupar.
+    // Se mantienen pocos y concretos: sirven para segmentar, no para
+    // repetir el diagnóstico, que ya va en la descripción.
+    etiquetar: function (r) {
+      var e = ["Nuevo autónomo"];
+      if (r.perfil === "societaria") e.push("Sociedad o CB");
+      if (r.altaReta === "pendiente") e.push("Alta RETA pendiente");
+      if (r.joven === "si") e.push("Menor de 36");
+      var c = r.conciliacion || [];
+      if (c.indexOf("hijos") !== -1) e.push("Con hijos menores de 12");
+      if (c.indexOf("dependientes") !== -1) e.push("Familiar dependiente");
+      if ((r.situacion || []).indexOf("certificado") === -1) e.push("Sin certificado digital");
+      return e;
+    },
+
     evaluar: function (r) {
       var bloqueos = [];
       var revisar = [];
@@ -276,6 +292,7 @@ window.SUBVENCIONES = {
   "hosteleria-equipamiento-2026": {
     id: "hosteleria-equipamiento-2026",
     titulo: "Plan de choque para la renovación de equipamiento en hostelería",
+    nombreCorto: "Equipamiento hostelería 2026",
     organismo: "Ministerio de Industria y Turismo",
     importeBase: 5000,
     plazo: { inicio: "2026-08-05", fin: "2026-09-30" },
@@ -388,6 +405,17 @@ window.SUBVENCIONES = {
       },
     ],
 
+    etiquetar: function (r) {
+      var e = ["Hostelería"];
+      if (r.actividad === "restauracion") e.push("Restauración");
+      if (r.actividad === "alojamiento") e.push("Alojamiento");
+      if (r.establecimientos === "varios") e.push("Varios establecimientos");
+      if (r.comprado === "marzo") e.push("Equipo ya adquirido");
+      if (r.importe === "mas") e.push("Inversión superior al tope");
+      if ((r.situacion || []).indexOf("certificado") === -1) e.push("Sin certificado digital");
+      return e;
+    },
+
     evaluar: function (r) {
       var bloqueos = [];
       var revisar = [];
@@ -494,6 +522,7 @@ window.SUBVENCIONES = {
   "emdana-emprendimiento-2026": {
     id: "emdana-emprendimiento-2026",
     titulo: "Ayudas EMDANA 2026 a la reactivación económica",
+    nombreCorto: "EMDANA 2026",
     organismo: "Generalitat Valenciana",
     importeBase: 20000,
     plazo: { inicio: "2026-09-15", fin: "2026-09-30" },
@@ -595,6 +624,16 @@ window.SUBVENCIONES = {
         ],
       },
     ],
+
+    etiquetar: function (r) {
+      var e = ["Zona DANA"];
+      if (r.forma === "autonomo") e.push("Autónomo");
+      if (r.forma === "pyme") e.push("Pyme o cooperativa");
+      if (r.municipio === "pedania" || r.municipio === "nose") e.push("Municipio por confirmar");
+      var sit = r.situacion || [];
+      if (sit.indexOf("facturas") === -1 || sit.indexOf("pagos") === -1) e.push("Justificantes por reunir");
+      return e;
+    },
 
     evaluar: function (r) {
       var bloqueos = [];

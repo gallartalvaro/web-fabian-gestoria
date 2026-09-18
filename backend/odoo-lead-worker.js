@@ -7,6 +7,10 @@
  * Si el visitante ya existe como contacto, la oportunidad se
  * engancha a su ficha en lugar de duplicarla.
  *
+ * Todo lo que el visitante respondió llega por partida doble:
+ * como texto legible en la descripción, y como campos y
+ * etiquetas con los que se puede filtrar y agrupar el embudo.
+ *
  * Se despliega como Cloudflare Worker. Vive FUERA de Odoo: la
  * clave de API nunca llega al navegador, y no cuenta como
  * "Custom Code Maintenance" porque no es código alojado en la
@@ -17,7 +21,7 @@
  *   ODOO_DB       fabian-okue-kung-mangue
  *   ODOO_USER     fabian.kung@coev.com
  *   ODOO_API_KEY  (clave de API, nunca la contraseña)
- *   ORIGENES      https://gallartalvaro.github.io,https://valentramites.com
+ *   ORIGENES      https://valentramites.com,https://gallartalvaro.github.io
  * ============================================================
  */
 
@@ -91,35 +95,59 @@ const texto = (v) => typeof v === "string" && v.trim().length > 0;
 // ------------------------------------------------------------
 // Alta en Odoo
 // ------------------------------------------------------------
+const RESULTADOS = {
+  apto: "cumple los requisitos",
+  revisar: "con puntos a comprobar",
+  "no-apto": "no encaja · avisar de otras ayudas",
+};
+
 async function crearOportunidad(p, env) {
   const uid = await autenticar(env);
   const contacto = p.contacto;
   const conv = p.convocatoria;
   const diag = p.diagnostico || {};
+  const seg = p.seguimiento || {};
+  const org = seg.origen || {};
 
   // Si ya es cliente del despacho, la oportunidad se engancha a su ficha.
   const partnerId = await buscarContacto(env, uid, contacto);
 
-  const etiquetas = await etiquetasDe(env, uid, ["Web · Subvenciones", conv.titulo]);
+  // Etiquetas: la convocatoria y los rasgos del cliente que dedujo el
+  // test. Son el criterio con el que después se filtra el embudo.
+  const etiquetas = await idsDe(env, uid, "crm.tag", [
+    "Web · Subvenciones",
+    conv.nombreCorto || conv.titulo,
+    ...(Array.isArray(diag.etiquetas) ? diag.etiquetas : []),
+  ]);
 
-  const titulos = {
-    apto: "cumple los requisitos",
-    revisar: "con puntos a comprobar",
-    "no-apto": "no encaja · avisar de otras ayudas",
-  };
+  const corto = conv.nombreCorto || conv.titulo;
+  const importe = diag.importeEstimado ? " · " + diag.importeEstimado : "";
 
   const valores = {
-    name: conv.titulo + " — " + (titulos[diag.resultado] || "consulta"),
+    name: corto + " · " + (RESULTADOS[diag.resultado] || "consulta") + importe,
     type: "opportunity",
     contact_name: contacto.nombre,
     phone: contacto.telefono,
-    priority: { alta: "3", media: "2", baja: "1" }[(p.seguimiento || {}).prioridad] || "1",
+    priority: { alta: "3", media: "2", baja: "1" }[seg.prioridad] || "1",
     description: descripcion(p),
   };
 
   if (contacto.email) valores.email_from = contacto.email;
   if (partnerId) valores.partner_id = partnerId;
   if (etiquetas.length) valores.tag_ids = [[6, 0, etiquetas]];
+
+  // Procedencia en los campos propios de Odoo, para que estas
+  // oportunidades salgan en los informes de origen y campaña del CRM.
+  const fuente = await unId(env, uid, "utm.source", org.canal || "Web Valentramites");
+  if (fuente) valores.source_id = fuente;
+  if (org.medio) {
+    const medio = await unId(env, uid, "utm.medium", org.medio);
+    if (medio) valores.medium_id = medio;
+  }
+  if (org.campana) {
+    const campana = await unId(env, uid, "utm.campaign", org.campana);
+    if (campana) valores.campaign_id = campana;
+  }
 
   // El cierre de la convocatoria marca la fecha límite en el
   // pipeline: en el kanban se ve solo lo que corre prisa.
@@ -140,19 +168,31 @@ async function buscarContacto(env, uid, contacto) {
   return encontrados.length ? encontrados[0] : null;
 }
 
-async function etiquetasDe(env, uid, nombres) {
+// Busca un registro por nombre y lo crea si no existe. Sirve para
+// etiquetas, orígenes, medios y campañas: todos tienen campo "name".
+async function unId(env, uid, modelo, nombre) {
+  if (!texto(nombre)) return null;
+  const limpio = nombre.trim().slice(0, 60);
+  const existentes = await llamar(env, uid, modelo, "search", [[["name", "=", limpio]]], { limit: 1 });
+  if (existentes.length) return existentes[0];
+  return llamar(env, uid, modelo, "create", [{ name: limpio }]);
+}
+
+async function idsDe(env, uid, modelo, nombres) {
+  const vistos = new Set();
   const ids = [];
-  for (const nombre of nombres.filter(Boolean)) {
-    const existentes = await llamar(env, uid, "crm.tag", "search", [[["name", "=", nombre]]], {
-      limit: 1,
-    });
-    ids.push(existentes.length ? existentes[0] : await llamar(env, uid, "crm.tag", "create", [{ name: nombre }]));
+  for (const nombre of nombres) {
+    if (!texto(nombre) || vistos.has(nombre)) continue;
+    vistos.add(nombre);
+    const id = await unId(env, uid, modelo, nombre);
+    if (id) ids.push(id);
   }
   return ids;
 }
 
 // ------------------------------------------------------------
-// El diagnóstico completo, para no volver a preguntar nada
+// El diagnóstico completo, para no volver a preguntar nada.
+// Arriba una ficha de un vistazo; debajo, el detalle.
 // ------------------------------------------------------------
 function descripcion(p) {
   const c = p.contacto;
@@ -162,32 +202,48 @@ function descripcion(p) {
   const o = s.origen || {};
   const partes = [];
 
-  partes.push("<h3>Contacto</h3><ul>");
-  partes.push(fila("Teléfono", c.telefono));
-  partes.push(fila("Email", c.email || "no indicado"));
-  partes.push(fila("Prefiere que le llamen", c.momentoPreferido));
-  partes.push("</ul>");
+  partes.push(
+    tabla("Resumen", [
+      ["Convocatoria", conv.titulo],
+      ["Organismo", conv.organismo],
+      ["Resultado del test", RESULTADOS[d.resultado] || d.resultado],
+      ["Importe estimado", d.importeEstimado || "—"],
+      ["Cierre del plazo", conv.cierraEl],
+      [
+        "Días que quedaban",
+        conv.diasRestantes === null || conv.diasRestantes === undefined
+          ? "—"
+          : String(conv.diasRestantes),
+      ],
+      ["Prioridad de seguimiento", s.prioridad],
+    ])
+  );
 
-  partes.push("<h3>Resultado del test</h3><ul>");
-  partes.push(fila("Convocatoria", conv.titulo + " (" + conv.organismo + ")"));
-  partes.push(fila("Resultado", d.resultado));
-  if (d.importeEstimado) partes.push(fila("Importe estimado", d.importeEstimado));
-  partes.push(fila("Cierre del plazo", conv.cierraEl));
-  if (conv.diasRestantes !== null && conv.diasRestantes !== undefined)
-    partes.push(fila("Días restantes al rellenarlo", String(conv.diasRestantes)));
-  partes.push("</ul>");
+  partes.push(
+    tabla("Contacto", [
+      ["Teléfono", c.telefono],
+      ["Email", c.email || "no indicado"],
+      ["Prefiere que le llamen", c.momentoPreferido],
+    ])
+  );
 
-  partes.push(lista("Respuestas", Object.keys(d.respuestas || {}).map((k) => k + ": " + d.respuestas[k])));
-  partes.push(lista("Puntos a resolver", d.puntosARevisar));
+  const respuestas = d.respuestas || {};
+  partes.push(
+    tabla(
+      "Lo que respondió",
+      Object.keys(respuestas).map((k) => [k, respuestas[k]])
+    )
+  );
+
+  partes.push(lista("Puntos a resolver antes de solicitar", d.puntosARevisar));
   partes.push(lista("Motivos de exclusión detectados", d.motivosDeExclusion));
 
-  partes.push("<h3>Procedencia</h3><ul>");
-  partes.push(fila("Página", s.pagina));
-  if (o.campana) partes.push(fila("Campaña", o.campana));
-  if (o.canal) partes.push(fila("Canal", o.canal + (o.medio ? " / " + o.medio : "")));
-  if (o.procedencia) partes.push(fila("Llegó desde", o.procedencia));
-  partes.push(fila("Fecha", s.fecha));
-  partes.push("</ul>");
+  const procedencia = [["Página", s.pagina]];
+  if (o.campana) procedencia.push(["Campaña", o.campana]);
+  if (o.canal) procedencia.push(["Canal", o.canal + (o.medio ? " / " + o.medio : "")]);
+  if (o.procedencia) procedencia.push(["Llegó desde", o.procedencia]);
+  procedencia.push(["Fecha del test", s.fecha]);
+  partes.push(tabla("Procedencia", procedencia));
 
   partes.push(
     "<p><i>Consentimiento aceptado el " +
@@ -200,7 +256,21 @@ function descripcion(p) {
   return partes.join("");
 }
 
-const fila = (etiqueta, valor) => "<li><b>" + esc(etiqueta) + ":</b> " + esc(valor || "—") + "</li>";
+function tabla(titulo, filas) {
+  const utiles = (filas || []).filter(
+    (f) => f && f[1] !== undefined && f[1] !== null && f[1] !== ""
+  );
+  if (!utiles.length) return "";
+  return (
+    "<h3>" +
+    esc(titulo) +
+    "</h3><table><tbody>" +
+    utiles
+      .map((f) => "<tr><td><b>" + esc(f[0]) + "</b></td><td>" + esc(f[1]) + "</td></tr>")
+      .join("") +
+    "</tbody></table>"
+  );
+}
 
 function lista(titulo, items) {
   if (!items || !items.length) return "";

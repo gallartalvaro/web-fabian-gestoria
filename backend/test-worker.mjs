@@ -23,8 +23,10 @@ globalThis.fetch = async (url, opts) => {
   let result;
   if (service === "common") result = 7; // uid
   else if (args[3] === "res.partner" && args[4] === "search") result = [42];
-  else if (args[3] === "crm.tag" && args[4] === "search") result = [];
-  else if (args[3] === "crm.tag" && args[4] === "create") result = 99;
+  else if (args[4] === "search" && ["crm.tag", "utm.source", "utm.medium", "utm.campaign"].includes(args[3]))
+    result = [];
+  else if (args[4] === "create" && ["crm.tag", "utm.source", "utm.medium", "utm.campaign"].includes(args[3]))
+    result = 90 + llamadas.filter((l) => l.metodo === "create").length;
   else if (args[3] === "crm.lead" && args[4] === "create") result = 417;
   else result = [];
 
@@ -44,6 +46,7 @@ const perfil = {
   convocatoria: {
     id: "emprende-y-concilia-2026",
     titulo: "Subvenciones «Emprende y Concilia» 2026",
+    nombreCorto: "Emprende y Concilia 2026",
     organismo: "Ayuntamiento de València",
     cierraEl: "2026-09-22",
     diasRestantes: 5,
@@ -52,6 +55,8 @@ const perfil = {
     resultado: "revisar",
     importeEstimado: "4.000 €",
     respuestas: { "¿A nombre de quién?": "Persona física <autónoma>" },
+    respuestasCrudas: { perfil: "fisica", joven: "si" },
+    etiquetas: ["Nuevo autónomo", "Menor de 36"],
     puntosARevisar: ["Comprobar deudas con el Ayuntamiento."],
     motivosDeExclusion: [],
   },
@@ -94,8 +99,29 @@ comprobar("crea oportunidad, no lead oculto", lead.type === "opportunity", lead.
 comprobar("prioridad alta = 3", lead.priority === "3", lead.priority);
 comprobar("fecha límite = cierre convocatoria", lead.date_deadline === "2026-09-22", lead.date_deadline);
 comprobar("engancha el contacto existente", lead.partner_id === 42, lead.partner_id);
-comprobar("dos etiquetas", lead.tag_ids[0][2].length === 2, JSON.stringify(lead.tag_ids));
-comprobar("nombre con convocatoria y resultado", /Emprende y Concilia.*puntos a comprobar/.test(lead.name), lead.name);
+comprobar(
+  "etiqueta general + convocatoria + 2 rasgos",
+  lead.tag_ids[0][2].length === 4,
+  JSON.stringify(lead.tag_ids)
+);
+comprobar(
+  "nombre corto, resultado e importe en el titulo",
+  /^Emprende y Concilia 2026 · con puntos a comprobar · 4\.000 €$/.test(lead.name),
+  lead.name
+);
+comprobar("origen de la visita como fuente del CRM", !!lead.source_id, lead.source_id);
+comprobar("medio de la visita", !!lead.medium_id, lead.medium_id);
+comprobar("campaña de la visita", !!lead.campaign_id, lead.campaign_id);
+comprobar(
+  "las etiquetas de perfil llegan a Odoo",
+  llamadas.some((l) => l.modelo === "crm.tag" && l.metodo === "create" && l.valores?.[0]?.name === "Menor de 36"),
+  "no se creó la etiqueta"
+);
+comprobar(
+  "descripción con ficha resumen",
+  lead.description.includes("<h3>Resumen</h3>") && lead.description.includes("Lo que respondió"),
+  "sin resumen"
+);
 comprobar("teléfono y email", lead.phone === "600 11 22 33" && lead.email_from === "lucia@example.com", lead.phone);
 comprobar("descripción escapa el HTML del visitante", lead.description.includes("&lt;autónoma&gt;"), "sin escapar");
 comprobar("descripción incluye la campaña", lead.description.includes("prueba-sept"), "falta origen");

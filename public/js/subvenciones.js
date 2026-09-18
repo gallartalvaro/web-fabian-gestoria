@@ -675,6 +675,9 @@
       convocatoria: {
         id: ayuda.id,
         titulo: ayuda.titulo,
+        // Nombre manejable para el embudo del CRM, donde el título
+        // completo no cabe en la tarjeta.
+        nombreCorto: ayuda.nombreCorto || ayuda.titulo,
         organismo: ayuda.organismo,
         cierraEl: ayuda.plazo.fin,
         diasRestantes: plazo.clave === "abierto" ? plazo.dias : null,
@@ -683,7 +686,14 @@
       diagnostico: {
         resultado: r.estado,
         importeEstimado: apto ? r.importeTexto || euros(r.importe) : null,
+        // Las preguntas y respuestas tal y como las leyó el visitante.
         respuestas: resumenRespuestas(),
+        // Las mismas respuestas en bruto, por si más adelante hay que
+        // explotarlas o cruzarlas sin depender de la redacción.
+        respuestasCrudas: estado.respuestas,
+        // Rasgos del cliente, que en Odoo llegan como etiquetas y
+        // permiten filtrar y agrupar el embudo.
+        etiquetas: typeof ayuda.etiquetar === "function" ? ayuda.etiquetar(estado.respuestas) : [],
         puntosARevisar: r.revisar,
         motivosDeExclusion: r.bloqueos,
       },
