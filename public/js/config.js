@@ -24,5 +24,5 @@ window.SITE_CONFIG = {
   //
   // Vacío = los envíos caen al método alternativo (WhatsApp / correo
   // ya redactado + copiar al portapapeles), sin perder el contacto.
-  formEndpoint: "",
+  formEndpoint: "https://valentramites-leads.gallart-alvaro.workers.dev",
 };
