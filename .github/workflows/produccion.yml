@@ -84,11 +84,35 @@ jobs:
           # guiones. Añadiendo la versión a su dirección, cada
           # publicación estrena ruta y la CDN sirve siempre lo nuevo,
           # sin depender de vaciar la caché a mano.
-          VER="${GITHUB_SHA:0:7}"
           cp -r public _publicar
-          sed -i -E "s#(href=\"css/[^\"?]+\.css)\"#?v=$VER\"#g; s#(src=\"js/[^\"?]+\.js)\"#?v=$VER\"#g" _publicar/*.html
-          echo "Versión publicada: $VER"
-          grep -o 'css/[^"]*\|js/[^"]*' _publicar/index.html | head -5
+          VER="${GITHUB_SHA:0:7}" python3 - <<'PY'
+          import os, re, pathlib
+          ver = os.environ["VER"]
+          patron = re.compile(r'(?P<attr>href|src)="(?P<ruta>(?:css|js)/[^"?]+\.(?:css|js))"')
+          total = 0
+          for pagina in pathlib.Path("_publicar").glob("*.html"):
+              texto = pagina.read_text(encoding="utf-8")
+              texto, n = patron.subn(
+                  lambda m: '%s="%s?v=%s"' % (m.group("attr"), m.group("ruta"), ver), texto
+              )
+              pagina.write_text(texto, encoding="utf-8", newline="")
+              total += n
+              print("%-40s %d rutas" % (pagina.name, n))
+          # Si no se ha tocado nada, algo ha cambiado en las páginas:
+          # mejor detener la publicación que subir algo a medias.
+          if total == 0:
+              raise SystemExit("No se ha versionado ninguna ruta: revisar el paso.")
+          PY
+
+      - name: Comprobar que las páginas siguen enteras
+        run: |
+          cd _publicar
+          for pagina in *.html; do
+            grep -q 'href="css/styles.css?v=' "$pagina" || { echo "$pagina perdió la hoja de estilos"; exit 1; }
+            grep -q 'src="js/main.js?v=' "$pagina" || { echo "$pagina perdió los guiones"; exit 1; }
+          done
+          echo "Rutas correctas en todas las páginas:"
+          grep -o 'href="css/[^"]*"' index.html | head -2
 
       - name: Subir por FTP a la raíz del dominio
         if: steps.credenciales.outputs.listo == 'si'
