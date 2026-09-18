@@ -77,7 +77,7 @@ Wrangler devuelve una URL del tipo `https://valentramites-leads.<subdominio>.wor
 
 **6. Conectar la web**
 
-En `js/config.js`, poner esa URL en `formEndpoint`, y confirmar el push a `main`:
+En `public/js/config.js`, poner esa URL en `formEndpoint`, y confirmar el push a `main`:
 
 ```js
 formEndpoint: "https://valentramites-leads.xxxx.workers.dev",

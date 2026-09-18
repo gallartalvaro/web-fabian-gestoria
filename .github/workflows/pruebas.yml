@@ -1,0 +1,83 @@
+name: Publicar en pruebas (GitHub Pages)
+
+# Cada push a main publica en la web de pruebas, para poder revisar
+# los cambios antes de que los vean los clientes. Producción no se
+# toca aquí: eso lo hace "Publicar en producción", y a mano.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pruebas
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    name: Montar y publicar la copia de pruebas
+    runs-on: ubuntu-latest
+    environment:
+      name: pruebas
+      url: ${{ steps.desplegar.outputs.page_url }}
+
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Comprobar que el sitio está completo
+        run: |
+          cd public
+          for pagina in index.html subvenciones.html privacidad.html \
+                        ayuda-emprende-y-concilia.html \
+                        ayuda-hosteleria-equipamiento.html \
+                        ayuda-emdana-emprendimiento.html; do
+            test -f "$pagina" || { echo "Falta public/$pagina"; exit 1; }
+          done
+          echo "Las seis páginas están en su sitio."
+
+      - name: Probar el receptor de contactos
+        run: node backend/test-worker.mjs
+
+      - name: Preparar la copia de pruebas
+        run: |
+          cp -r public _sitio
+
+          # La copia de pruebas NO debe indexarse: es el mismo
+          # contenido que producción y competiría con ella en Google.
+          printf 'User-agent: *\nDisallow: /\n' > _sitio/robots.txt
+          for f in _sitio/*.html; do
+            sed -i 's|<meta charset="UTF-8">|<meta charset="UTF-8">\n<meta name="robots" content="noindex, nofollow">|' "$f"
+          done
+
+          # Distintivo visible, para no confundir esta copia con la
+          # web real al revisarla.
+          for f in _sitio/*.html; do
+            sed -i 's|</body>|<div style="position:fixed;left:12px;bottom:12px;z-index:9999;background:#c08a3e;color:#10243d;font:600 11px/1 Inter,system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:7px 11px;border-radius:999px;box-shadow:0 4px 16px rgba(16,36,61,.25)">Copia de pruebas</div>\n</body>|' "$f"
+          done
+
+          # .htaccess es de Apache: en GitHub Pages no pinta nada.
+          rm -f _sitio/.htaccess
+
+      - name: Empaquetar
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _sitio
+
+      - name: Publicar
+        id: desplegar
+        uses: actions/deploy-pages@v4
+
+      - name: Dónde revisarlo
+        run: |
+          {
+            echo "### Copia de pruebas lista"
+            echo ""
+            echo "${{ steps.desplegar.outputs.page_url }}"
+            echo ""
+            echo "Si está conforme, lance **Publicar en producción** desde la pestaña Actions."
+          } >> "$GITHUB_STEP_SUMMARY"

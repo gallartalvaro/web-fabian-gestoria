@@ -115,21 +115,21 @@ Sitio estático sin dependencias ni proceso de compilación:
 ## 📂 Estructura
 
 ```
-├── index.html                       # Página principal (one-page)
-├── subvenciones.html                # Listado de convocatorias abiertas
-├── ayuda-emprende-y-concilia.html   # Ficha + test (Ayuntamiento de València)
-├── ayuda-hosteleria-equipamiento.html  # Ficha + test (Ministerio, hostelería)
-├── ayuda-emdana-emprendimiento.html    # Ficha + test (GVA, zona DANA)
-├── privacidad.html                  # Política de privacidad (borrador)
-├── css/styles.css                   # Estilos generales
-├── css/subvenciones.css             # Estilos de la sección de subvenciones
-├── js/config.js                     # Datos de contacto y endpoint del formulario
-├── js/main.js                       # Explorador de áreas, acordeones y formulario
-├── js/subvenciones-data.js          # Convocatorias, preguntas y reglas del test
-├── js/subvenciones.js               # Estado del plazo, test y captación de contactos
-├── backend/                         # Receptor que crea la oportunidad en Odoo CRM
-└── assets/                          # Logo y favicon (SVG)
+├── public/                          # LA WEB. Es lo único que se publica
+│   ├── index.html                   # Página principal (one-page)
+│   ├── subvenciones.html            # Listado de convocatorias abiertas
+│   ├── ayuda-*.html                 # Ficha + test de cada convocatoria
+│   ├── privacidad.html              # Política de privacidad (borrador)
+│   ├── .htaccess                    # Configuración del servidor (Hostinger)
+│   ├── css/                         # styles.css y subvenciones.css
+│   ├── js/                          # config, main, datos y test de ayudas
+│   └── assets/                      # Logo y favicon (SVG)
+├── backend/                         # Receptor que crea la oportunidad en Odoo
+└── .github/workflows/               # Pruebas y producción
 ```
+
+La web vive dentro de `public/` para que lo que se sube al servidor sea exactamente
+eso: ni el receptor, ni la documentación, ni los archivos de git.
 
 Enlaces profundos: `#financiero`, `#administrativa`, `#exportacion` y `#vehiculos` abren
 la página con esa área ya seleccionada (útil para campañas o para el perfil de Google).
@@ -144,16 +144,33 @@ python -m http.server 8124
 
 ## 📦 Despliegue
 
-Alojamiento en **Hostinger**. Cada `push` a `main` lo publica solo: el flujo de trabajo
-`.github/workflows/desplegar.yml` comprueba que estén todas las páginas, ejecuta la prueba del
-receptor de contactos y sube el sitio por FTP a `public_html/`.
+Dos escalones. Nada llega a los clientes sin repasarlo antes.
 
-No se suben `backend/`, la documentación ni los archivos de git: en el servidor queda solo la web.
+```
+push a main  →  PRUEBAS (GitHub Pages)  →  [revisión]  →  PRODUCCIÓN (Hostinger)
+                     automático                            a mano, con confirmación
+```
 
-### Lo que hay que configurar una vez
+### 1. Pruebas — automático
 
-En **hPanel de Hostinger → Archivos → Cuentas FTP**, tome los datos de acceso. Luego, en
-**GitHub → Settings → Secrets and variables → Actions**, cree tres secretos:
+Cada `push` a `main` lanza `.github/workflows/pruebas.yml`: comprueba que estén las seis
+páginas, ejecuta la prueba del receptor de contactos y publica en **GitHub Pages**.
+
+Esa copia lleva `noindex` y un `robots.txt` que impide su indexación —si no, competiría en
+Google con la web real— y un distintivo **«Copia de pruebas»** en la esquina, para no
+confundirla con producción. La dirección aparece en el resumen de cada ejecución, en la
+pestaña **Actions**.
+
+> Requiere tener **Settings → Pages → Source** en *GitHub Actions*.
+
+### 2. Producción — a mano
+
+Cuando la copia de pruebas está conforme: **Actions → Publicar en producción (Hostinger) →
+Run workflow**, y escribir `PUBLICAR` para confirmar. Se repiten las comprobaciones y se
+sube el contenido de `public/` por FTP a `public_html/`.
+
+Hacen falta tres secretos en **Settings → Secrets and variables → Actions**, con los datos
+de *hPanel → Archivos → Cuentas FTP*:
 
 | Secreto | Valor |
 |---|---|
@@ -161,13 +178,9 @@ En **hPanel de Hostinger → Archivos → Cuentas FTP**, tome los datos de acces
 | `FTP_USUARIO` | El usuario de la cuenta FTP |
 | `FTP_CONTRASENA` | Su contraseña |
 
-A partir de ahí, cada push publica. El resultado de cada despliegue se ve en la pestaña
-**Actions** del repositorio, y puede lanzarse a mano desde ahí con *Run workflow*.
-
-> **Alternativa sin GitHub Actions:** Hostinger trae su propia integración en
-> *hPanel → Avanzado → GIT*, que descarga el repositorio y ofrece una URL de webhook para
-> añadir en GitHub. Es más sencilla de configurar, pero publica el repositorio entero
-> —incluidos `backend/` y la documentación— dentro de `public_html`.
+> **Si prefiere el gestor de git de Hostinger** (hPanel → Avanzado → GIT), la carpeta del
+> proyecto que hay que seleccionar es **`public`**. Pero entonces publica en cuanto recibe
+> el aviso de GitHub, sin el paso de revisión.
 
 ## ✅ Pendiente / mejoras futuras
 

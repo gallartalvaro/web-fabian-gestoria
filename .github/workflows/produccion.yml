@@ -1,0 +1,71 @@
+name: Publicar en producción (Hostinger)
+
+# No se dispara solo: se lanza a mano desde la pestaña Actions,
+# una vez revisada la copia de pruebas. Lo que se publica es
+# siempre lo que hay en main.
+on:
+  workflow_dispatch:
+    inputs:
+      confirmacion:
+        description: 'Escriba PUBLICAR para confirmar que la copia de pruebas está revisada'
+        required: true
+        default: ''
+
+concurrency:
+  group: produccion
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    name: Subir la web a Hostinger
+    runs-on: ubuntu-latest
+    environment:
+      name: produccion
+      url: https://valentramites.com
+
+    steps:
+      - name: Confirmar la publicación
+        run: |
+          if [ "${{ github.event.inputs.confirmacion }}" != "PUBLICAR" ]; then
+            echo "Para publicar en producción hay que escribir PUBLICAR en el formulario."
+            exit 1
+          fi
+
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Comprobar que el sitio está completo
+        run: |
+          cd public
+          for pagina in index.html subvenciones.html privacidad.html \
+                        ayuda-emprende-y-concilia.html \
+                        ayuda-hosteleria-equipamiento.html \
+                        ayuda-emdana-emprendimiento.html; do
+            test -f "$pagina" || { echo "Falta public/$pagina"; exit 1; }
+          done
+          test -f .htaccess || { echo "Falta public/.htaccess"; exit 1; }
+          echo "Las seis páginas y el .htaccess están en su sitio."
+
+      - name: Probar el receptor de contactos
+        run: node backend/test-worker.mjs
+
+      - name: Subir por FTP a public_html
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVIDOR }}
+          username: ${{ secrets.FTP_USUARIO }}
+          password: ${{ secrets.FTP_CONTRASENA }}
+          # Solo el contenido de public/: al servidor no llega ni el
+          # receptor, ni la documentación, ni nada propio de git.
+          local-dir: ./public/
+          server-dir: public_html/
+
+      - name: Resumen
+        run: |
+          {
+            echo "### Publicado en producción"
+            echo ""
+            echo "https://valentramites.com"
+            echo ""
+            echo "Commit publicado: \`${{ github.sha }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
