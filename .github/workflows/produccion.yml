@@ -57,6 +57,27 @@ jobs:
             echo "listo=si" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Revisar el formato de las credenciales
+        if: steps.credenciales.outputs.listo == 'si'
+        env:
+          USUARIO: ${{ secrets.FTP_USUARIO }}
+          CLAVE: ${{ secrets.FTP_CONTRASENA }}
+        run: |
+          # Un espacio o un salto de línea colado al copiar y pegar es
+          # la causa mas frecuente de "530 Login incorrect". Se informa
+          # solo de la longitud: el valor nunca se imprime.
+          revisar() {
+            etiqueta="$1"; valor="$2"
+            limpio=$(printf '%s' "$valor" | tr -d '[:space:]')
+            if [ "${#valor}" -ne "${#limpio}" ]; then
+              echo "AVISO · $etiqueta lleva espacios o saltos de línea: ${#valor} caracteres, ${#limpio} sin ellos. Vuelva a guardarlo sin espacios."
+            else
+              echo "OK · $etiqueta: ${#valor} caracteres, sin espacios."
+            fi
+          }
+          revisar FTP_USUARIO "$USUARIO"
+          revisar FTP_CONTRASENA "$CLAVE"
+
       - name: Subir por FTP a public_html
         if: steps.credenciales.outputs.listo == 'si'
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
