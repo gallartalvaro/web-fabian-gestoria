@@ -78,6 +78,18 @@ jobs:
           revisar FTP_USUARIO "$USUARIO"
           revisar FTP_CONTRASENA "$CLAVE"
 
+      - name: Marcar los archivos con la versión publicada
+        run: |
+          # La CDN de Hostinger cachea las hojas de estilo y los
+          # guiones. Añadiendo la versión a su dirección, cada
+          # publicación estrena ruta y la CDN sirve siempre lo nuevo,
+          # sin depender de vaciar la caché a mano.
+          VER="${GITHUB_SHA:0:7}"
+          cp -r public _publicar
+          sed -i -E "s#(href=\"css/[^\"?]+\.css)\"#?v=$VER\"#g; s#(src=\"js/[^\"?]+\.js)\"#?v=$VER\"#g" _publicar/*.html
+          echo "Versión publicada: $VER"
+          grep -o 'css/[^"]*\|js/[^"]*' _publicar/index.html | head -5
+
       - name: Subir por FTP a la raíz del dominio
         if: steps.credenciales.outputs.listo == 'si'
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -91,7 +103,7 @@ jobs:
           port: 21
           # Solo el contenido de public/: al servidor no llega ni el
           # receptor, ni la documentación, ni nada propio de git.
-          local-dir: ./public/
+          local-dir: ./_publicar/
           # Raíz del dominio. valentramites.com está dado de alta como
           # dominio adicional, así que NO se sirve desde el public_html
           # de la cuenta, sino desde el suyo propio.
