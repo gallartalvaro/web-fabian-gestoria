@@ -1,5 +1,5 @@
 // ============================================================
-// Gestoría Fabián — Configuración común del sitio
+// Valentramite — Configuración común del sitio
 // ------------------------------------------------------------
 // PENDIENTE: rellenar con los datos reales del despacho.
 // Todo lo que dependa de un dato de contacto se lee de aquí,
@@ -8,7 +8,7 @@
 
 window.SITE_CONFIG = {
   // Email del despacho.
-  email: "fabian.kung@coev.com",
+  email: "hola@valentramite.com",
 
   // Teléfono para mostrar.
   telefono: "+34 615 78 08 36",

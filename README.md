@@ -1,9 +1,9 @@
-# Gestoría Fabián — Sitio web
+# Valentramite — Sitio web
 
 Web de presentación de una gestoría y asesoría integral. Su función principal es **dar a
 conocer el despacho y facilitar al máximo que el cliente se ponga en contacto**.
 
-🔗 **En producción:** https://gallartalvaro.github.io/web-fabian-gestoria/
+🔗 **En producción:** https://valentramite.com
 
 ## 🧭 Áreas de trabajo
 
@@ -144,8 +144,30 @@ python -m http.server 8124
 
 ## 📦 Despliegue
 
-GitHub Pages sirve la rama `main` desde la raíz. **Cada `push` a `main` publica la web
-automáticamente**, sin pasos adicionales.
+Alojamiento en **Hostinger**. Cada `push` a `main` lo publica solo: el flujo de trabajo
+`.github/workflows/desplegar.yml` comprueba que estén todas las páginas, ejecuta la prueba del
+receptor de contactos y sube el sitio por FTP a `public_html/`.
+
+No se suben `backend/`, la documentación ni los archivos de git: en el servidor queda solo la web.
+
+### Lo que hay que configurar una vez
+
+En **hPanel de Hostinger → Archivos → Cuentas FTP**, tome los datos de acceso. Luego, en
+**GitHub → Settings → Secrets and variables → Actions**, cree tres secretos:
+
+| Secreto | Valor |
+|---|---|
+| `FTP_SERVIDOR` | El servidor FTP que indica Hostinger (p. ej. `ftp.valentramite.com`) |
+| `FTP_USUARIO` | El usuario de la cuenta FTP |
+| `FTP_CONTRASENA` | Su contraseña |
+
+A partir de ahí, cada push publica. El resultado de cada despliegue se ve en la pestaña
+**Actions** del repositorio, y puede lanzarse a mano desde ahí con *Run workflow*.
+
+> **Alternativa sin GitHub Actions:** Hostinger trae su propia integración en
+> *hPanel → Avanzado → GIT*, que descarga el repositorio y ofrece una URL de webhook para
+> añadir en GitHub. Es más sencilla de configurar, pero publica el repositorio entero
+> —incluidos `backend/` y la documentación— dentro de `public_html`.
 
 ## ✅ Pendiente / mejoras futuras
 

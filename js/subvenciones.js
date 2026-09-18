@@ -1,5 +1,5 @@
 // ============================================================
-// Gestoría Fabián — Sección de subvenciones
+// Valentramite — Sección de subvenciones
 // ------------------------------------------------------------
 // 1. Estado del plazo de cada convocatoria (abierto / cierra en
 //    X días / cerrado), calculado a partir de las fechas.

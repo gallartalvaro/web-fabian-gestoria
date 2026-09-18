@@ -1,0 +1,56 @@
+name: Desplegar en Hostinger
+
+# Cada push a main publica la web. También puede lanzarse a mano
+# desde la pestaña Actions de GitHub.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: despliegue-hostinger
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    name: Subir la web por FTP
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Comprobar que el sitio está completo
+        # Si faltara alguna página, mejor detenerse aquí que dejar
+        # la web a medias en producción.
+        run: |
+          for pagina in index.html subvenciones.html privacidad.html \
+                        ayuda-emprende-y-concilia.html \
+                        ayuda-hosteleria-equipamiento.html \
+                        ayuda-emdana-emprendimiento.html; do
+            test -f "$pagina" || { echo "Falta $pagina"; exit 1; }
+          done
+          echo "Todas las páginas están en su sitio."
+
+      - name: Probar el receptor de contactos
+        # No toca Odoo: usa un servidor simulado.
+        run: node backend/test-worker.mjs
+
+      - name: Publicar en Hostinger
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVIDOR }}
+          username: ${{ secrets.FTP_USUARIO }}
+          password: ${{ secrets.FTP_CONTRASENA }}
+          server-dir: public_html/
+          # Solo se sube la web. El código del receptor, la
+          # documentación y lo propio de git se quedan fuera.
+          exclude: |
+            **/.git*
+            **/.git*/**
+            backend/**
+            .claude/**
+            README.md
+            CLAUDE.md
+            **/*.md
+            **/.dev.vars

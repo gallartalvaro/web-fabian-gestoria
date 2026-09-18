@@ -22,5 +22,8 @@ CLAUDE.md
 credenciales*
 
 # Receptor de contactos (Cloudflare Worker)
+# NUNCA subir: contienen la clave de API de Odoo.
 backend/wrangler.toml
+.dev.vars
+*.dev.vars
 .wrangler/

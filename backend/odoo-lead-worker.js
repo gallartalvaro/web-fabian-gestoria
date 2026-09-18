@@ -1,6 +1,6 @@
 /**
  * ============================================================
- * Gestoría Fabián — Receptor de contactos del test de ayudas
+ * Valentramite — Receptor de contactos del test de ayudas
  * ------------------------------------------------------------
  * Recibe el perfil que envía la web, lo valida y crea una
  * oportunidad (crm.lead) en Odoo con el diagnóstico completo.
@@ -17,7 +17,7 @@
  *   ODOO_DB       fabian-okue-kung-mangue
  *   ODOO_USER     fabian.kung@coev.com
  *   ODOO_API_KEY  (clave de API, nunca la contraseña)
- *   ORIGENES      https://gallartalvaro.github.io
+ *   ORIGENES      https://gallartalvaro.github.io,https://valentramite.com
  * ============================================================
  */
 
