@@ -73,20 +73,20 @@ Y las demás variables, que no son secretas, van en `wrangler.toml`: `ODOO_URL`,
 wrangler deploy
 ```
 
-Wrangler devuelve una URL del tipo `https://valentramite-leads.<subdominio>.workers.dev`.
+Wrangler devuelve una URL del tipo `https://valentramites-leads.<subdominio>.workers.dev`.
 
 **6. Conectar la web**
 
 En `js/config.js`, poner esa URL en `formEndpoint`, y confirmar el push a `main`:
 
 ```js
-formEndpoint: "https://valentramite-leads.xxxx.workers.dev",
+formEndpoint: "https://valentramites-leads.xxxx.workers.dev",
 ```
 
 ## Comprobar que funciona
 
 ```bash
-curl -X POST https://valentramite-leads.xxxx.workers.dev -H "Content-Type: application/json" -d "{\"version\":2,\"contacto\":{\"nombre\":\"Prueba Prueba\",\"telefono\":\"600000000\",\"email\":\"prueba@example.com\",\"momentoPreferido\":\"Indiferente\"},\"consentimiento\":{\"aceptado\":true,\"texto\":\"prueba\",\"fecha\":\"2026-09-17T10:00:00Z\"},\"convocatoria\":{\"id\":\"prueba\",\"titulo\":\"PRUEBA - borrar\",\"organismo\":\"Prueba\",\"cierraEl\":\"2026-09-30\",\"diasRestantes\":13},\"diagnostico\":{\"resultado\":\"apto\",\"importeEstimado\":\"4.000 EUR\",\"respuestas\":{},\"puntosARevisar\":[],\"motivosDeExclusion\":[]},\"seguimiento\":{\"prioridad\":\"alta\",\"pagina\":\"prueba\",\"origen\":{},\"fecha\":\"2026-09-17T10:00:00Z\"}}"
+curl -X POST https://valentramites-leads.xxxx.workers.dev -H "Content-Type: application/json" -d "{\"version\":2,\"contacto\":{\"nombre\":\"Prueba Prueba\",\"telefono\":\"600000000\",\"email\":\"prueba@example.com\",\"momentoPreferido\":\"Indiferente\"},\"consentimiento\":{\"aceptado\":true,\"texto\":\"prueba\",\"fecha\":\"2026-09-17T10:00:00Z\"},\"convocatoria\":{\"id\":\"prueba\",\"titulo\":\"PRUEBA - borrar\",\"organismo\":\"Prueba\",\"cierraEl\":\"2026-09-30\",\"diasRestantes\":13},\"diagnostico\":{\"resultado\":\"apto\",\"importeEstimado\":\"4.000 EUR\",\"respuestas\":{},\"puntosARevisar\":[],\"motivosDeExclusion\":[]},\"seguimiento\":{\"prioridad\":\"alta\",\"pagina\":\"prueba\",\"origen\":{},\"fecha\":\"2026-09-17T10:00:00Z\"}}"
 ```
 
 Debe responder `{"ok":true,"referencia":"SUB-123"}` y aparecer la oportunidad en el CRM. Bórrela

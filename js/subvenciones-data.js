@@ -1,5 +1,5 @@
 // ============================================================
-// Valentramite — Catálogo de ayudas y sus cuestionarios
+// Valentramites — Catálogo de ayudas y sus cuestionarios
 // ------------------------------------------------------------
 // Cada ayuda es un objeto con el plazo oficial, las preguntas
 // del test y la función que decide el resultado. Para añadir una

@@ -1,5 +1,5 @@
 // ============================================================
-// Valentramite — Interacciones de la página
+// Valentramites — Interacciones de la página
 // ============================================================
 
 (function () {

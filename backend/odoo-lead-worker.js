@@ -1,6 +1,6 @@
 /**
  * ============================================================
- * Valentramite — Receptor de contactos del test de ayudas
+ * Valentramites — Receptor de contactos del test de ayudas
  * ------------------------------------------------------------
  * Recibe el perfil que envía la web, lo valida y crea una
  * oportunidad (crm.lead) en Odoo con el diagnóstico completo.

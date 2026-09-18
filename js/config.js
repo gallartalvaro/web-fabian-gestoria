@@ -1,5 +1,5 @@
 // ============================================================
-// Valentramite — Configuración común del sitio
+// Valentramites — Configuración común del sitio
 // ------------------------------------------------------------
 // PENDIENTE: rellenar con los datos reales del despacho.
 // Todo lo que dependa de un dato de contacto se lee de aquí,

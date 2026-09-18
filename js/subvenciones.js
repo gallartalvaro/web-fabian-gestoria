@@ -1,5 +1,5 @@
 // ============================================================
-// Valentramite — Sección de subvenciones
+// Valentramites — Sección de subvenciones
 // ------------------------------------------------------------
 // 1. Estado del plazo de cada convocatoria (abierto / cierra en
 //    X días / cerrado), calculado a partir de las fechas.
