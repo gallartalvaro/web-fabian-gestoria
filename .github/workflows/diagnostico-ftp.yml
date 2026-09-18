@@ -1,0 +1,30 @@
+name: Diagnóstico del FTP
+
+# Herramienta de apoyo: lista las carpetas del servidor para saber
+# cuál es la raíz real del dominio. No sube ni borra nada.
+# Se lanza a mano desde la pestaña Actions.
+on:
+  workflow_dispatch:
+
+jobs:
+  mirar:
+    name: Ver la estructura del servidor
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Listar carpetas
+        env:
+          SERVIDOR: ${{ secrets.FTP_SERVIDOR }}
+          USUARIO: ${{ secrets.FTP_USUARIO }}
+          CLAVE: ${{ secrets.FTP_CONTRASENA }}
+        run: |
+          listar() {
+            echo ""
+            echo "===== /$1 ====="
+            curl -s --ssl-reqd --max-time 40 --user "$USUARIO:$CLAVE" \
+                 "ftp://$SERVIDOR/$1" 2>&1 | head -40 || echo "(no accesible)"
+          }
+
+          listar ""
+          listar "public_html/"
+          listar "domains/"
