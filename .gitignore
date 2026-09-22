@@ -30,3 +30,6 @@ backend/wrangler.toml
 
 # Informe de la vigilancia: se regenera en cada pasada
 vigilancia/informe.md
+
+# Material de referencia temporal
+public/_ref/

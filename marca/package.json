@@ -1,0 +1,12 @@
+{
+  "name": "valentramites-marca",
+  "private": true,
+  "description": "Genera los archivos del logotipo de Valentramites.",
+  "scripts": {
+    "generar": "node generar.cjs && node png.cjs"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "opentype.js": "1.3.4"
+  }
+}
