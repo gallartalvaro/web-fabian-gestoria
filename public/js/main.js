@@ -211,8 +211,11 @@
       // Validación mínima en cliente
       let firstInvalid = null;
 
-      [nombre, email, mensaje].forEach((el) => {
-        const invalid = !el.value.trim() || !el.checkValidity();
+      [nombre, email, telefono, mensaje].forEach((el) => {
+        let invalid = !el.value.trim() || !el.checkValidity();
+        // El teléfono es obligatorio: sin él no hay forma ágil de
+        // devolver la llamada. Se exigen al menos nueve cifras.
+        if (el === telefono && el.value.replace(/\D/g, "").length < 9) invalid = true;
         el.classList.toggle("is-invalid", invalid);
         if (invalid && !firstInvalid) firstInvalid = el;
       });
@@ -239,7 +242,7 @@
       const cuerpo = [
         `Nombre: ${nombre.value.trim()}`,
         `Email: ${email.value.trim()}`,
-        `Teléfono: ${telefono.value.trim() || "no indicado"}`,
+        `Teléfono: ${telefono.value.trim()}`,
         `Área: ${area.value}`,
         "",
         "Consulta:",

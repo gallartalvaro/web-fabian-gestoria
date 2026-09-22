@@ -582,6 +582,8 @@
       var invalido = null;
       [nombre, telefono].forEach(function (campo) {
         var mal = !campo.value.trim();
+        // Teléfono obligatorio y con al menos nueve cifras.
+        if (campo === telefono && campo.value.replace(/\D/g, "").length < 9) mal = true;
         campo.classList.toggle("is-invalid", mal);
         if (mal && !invalido) invalido = campo;
       });

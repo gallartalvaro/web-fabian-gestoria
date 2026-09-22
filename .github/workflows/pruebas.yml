@@ -33,7 +33,7 @@ jobs:
       - name: Comprobar que el sitio está completo
         run: |
           cd public
-          for pagina in index.html subvenciones.html privacidad.html \
+          for pagina in index.html subvenciones.html privacidad.html precios.html \
                         ayuda-emprende-y-concilia.html \
                         ayuda-hosteleria-equipamiento.html \
                         ayuda-emdana-emprendimiento.html; do
