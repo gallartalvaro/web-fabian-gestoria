@@ -65,6 +65,10 @@ export default {
     if (fallo) return json({ error: fallo }, 422, cors);
 
     try {
+      if (perfil.tipo === "solicitud-llamada") {
+        const id = await crearSolicitudLlamada(perfil, env);
+        return json({ ok: true, referencia: "LLA-" + id }, 200, cors);
+      }
       const id = await crearOportunidad(perfil, env);
       return json({ ok: true, referencia: "SUB-" + id }, 200, cors);
     } catch (err) {
@@ -84,6 +88,8 @@ function validar(p) {
   if (!p.contacto || !texto(p.contacto.nombre)) return "Falta el nombre";
   if (!texto(p.contacto.telefono)) return "Falta el teléfono";
   if (!p.consentimiento || p.consentimiento.aceptado !== true) return "Falta el consentimiento";
+  if (String(p.contacto.telefono).replace(/\D/g, "").length < 9) return "El teléfono no es válido";
+  if (p.tipo === "solicitud-llamada") return null;
   if (!p.convocatoria || !texto(p.convocatoria.titulo)) return "Falta la convocatoria";
   if (p.contacto.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(p.contacto.email))
     return "El email no es válido";
@@ -152,6 +158,57 @@ async function crearOportunidad(p, env) {
   // El cierre de la convocatoria marca la fecha límite en el
   // pipeline: en el kanban se ve solo lo que corre prisa.
   if (/^\d{4}-\d{2}-\d{2}$/.test(conv.cierraEl || "")) valores.date_deadline = conv.cierraEl;
+
+  return llamar(env, uid, "crm.lead", "create", [valores]);
+}
+
+// ------------------------------------------------------------
+// «Que me llamen»: alguien ha dejado nombre y teléfono desde el
+// panel de contacto, sin pasar por un test. Se registra como
+// oportunidad con prioridad alta: es una petición expresa de
+// llamada y conviene atenderla el mismo día.
+// ------------------------------------------------------------
+async function crearSolicitudLlamada(p, env) {
+  const uid = await autenticar(env);
+  const contacto = p.contacto;
+  const contexto = (p.solicitud && p.solicitud.contexto) || "Consulta general";
+  const seg = p.seguimiento || {};
+  const org = seg.origen || {};
+
+  const partnerId = await buscarContacto(env, uid, contacto);
+  const etiquetas = await idsDe(env, uid, "crm.tag", ["Web · Que me llamen", contexto]);
+
+  const valores = {
+    name: "Llamar · " + contexto,
+    type: "opportunity",
+    contact_name: contacto.nombre,
+    phone: contacto.telefono,
+    priority: "3",
+    description:
+      tabla("Solicitud de llamada", [
+        ["Sobre", contexto],
+        ["Teléfono", contacto.telefono],
+        ["Cuándo prefiere", contacto.momentoPreferido],
+        ["Página", seg.pagina],
+        ["Fecha", seg.fecha],
+      ]) +
+      "<p><i>Consentimiento aceptado el " +
+      esc((p.consentimiento || {}).fecha || "") +
+      ". " +
+      esc((p.consentimiento || {}).texto || "") +
+      "</i></p>",
+    // Plazo para devolver la llamada: hoy mismo.
+    date_deadline: new Date().toISOString().slice(0, 10),
+  };
+  if (partnerId) valores.partner_id = partnerId;
+  if (etiquetas.length) valores.tag_ids = [[6, 0, etiquetas]];
+
+  const fuente = await unId(env, uid, "utm.source", org.canal || "Web Valentramites");
+  if (fuente) valores.source_id = fuente;
+  if (org.campana) {
+    const campana = await unId(env, uid, "utm.campaign", org.campana);
+    if (campana) valores.campaign_id = campana;
+  }
 
   return llamar(env, uid, "crm.lead", "create", [valores]);
 }

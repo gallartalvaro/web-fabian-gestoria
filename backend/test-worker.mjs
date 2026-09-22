@@ -15,7 +15,7 @@ const env = {
 
 // --- Odoo simulado -------------------------------------------------
 let llamadas = [];
-globalThis.fetch = async (url, opts) => {
+const fetchSimulado = async (url, opts) => {
   const body = JSON.parse(opts.body);
   const [service, method, args] = [body.params.service, body.params.method, body.params.args];
   llamadas.push({ service, method, modelo: args[3], metodo: args[4], valores: args[5] });
@@ -68,6 +68,8 @@ const perfil = {
   },
   apellido2: "",
 };
+
+globalThis.fetch = fetchSimulado;
 
 const pedir = (cuerpo, origin = "https://gallartalvaro.github.io") =>
   worker.fetch(
@@ -158,6 +160,35 @@ console.log("\n6. Odoo no responde");
 globalThis.fetch = async () => ({ ok: false, status: 503, json: async () => ({}) });
 res = await pedir(perfil);
 comprobar("devuelve 502 para que la web use el camino alternativo", res.status === 502, res.status);
+
+// --- 8. Solicitud de llamada (panel de contacto) --------------------
+console.log("\n8. Que me llamen");
+globalThis.fetch = fetchSimulado;
+llamadas = [];
+res = await pedir({
+  version: 2,
+  tipo: "solicitud-llamada",
+  contacto: { nombre: "Ana Soler", telefono: "611 22 33 44", email: "", momentoPreferido: "Esta tarde" },
+  consentimiento: { aceptado: true, texto: "Acepta.", fecha: "2026-09-22T17:00:00Z" },
+  solicitud: { contexto: "Plan Profesional (autónomos)" },
+  seguimiento: { prioridad: "media", pagina: "https://valentramites.com/precios.html", origen: {}, fecha: "2026-09-22T17:00:00Z" },
+  apellido2: "",
+});
+datos = await res.json();
+const llamada = llamadas.find((l) => l.modelo === "crm.lead")?.valores?.[0] || {};
+comprobar("responde 200 con referencia LLA-", res.status === 200 && /^LLA-/.test(datos.referencia || ""), JSON.stringify(datos));
+comprobar("no exige convocatoria", !!llamada.name, "no se creó");
+comprobar("titulo con el contexto", llamada.name === "Llamar · Plan Profesional (autónomos)", llamada.name);
+comprobar("prioridad alta", llamada.priority === "3", llamada.priority);
+comprobar("plazo: hoy", /^\d{4}-\d{2}-\d{2}$/.test(llamada.date_deadline || ""), llamada.date_deadline);
+
+console.log("\n9. Teléfono demasiado corto");
+res = await pedir({
+  version: 2, tipo: "solicitud-llamada",
+  contacto: { nombre: "X", telefono: "1234" },
+  consentimiento: { aceptado: true }, solicitud: {}, seguimiento: {}, apellido2: "",
+});
+comprobar("rechaza con 422", res.status === 422, res.status);
 
 // --- 7. Preflight ----------------------------------------------------
 console.log("\n7. Preflight CORS");

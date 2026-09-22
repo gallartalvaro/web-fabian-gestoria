@@ -1,0 +1,166 @@
+/* ============================================================
+   Valentramites — Panel de contacto
+   Ventana sobre la propia página; en móvil sube desde abajo.
+   ============================================================ */
+
+html.contacto-abierto { overflow: hidden; }
+
+/* El atributo hidden debe mandar sobre los display de abajo: sin
+   esto, el formulario y las opciones se verían a la vez. */
+.contacto [hidden] { display: none !important; }
+
+dialog.contacto {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  max-width: 100vw;
+  max-height: 100vh;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  display: none;
+}
+dialog.contacto[open] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+dialog.contacto::backdrop {
+  background: rgba(16, 36, 61, 0.55);
+  backdrop-filter: blur(2px);
+}
+
+.contacto__caja {
+  width: min(480px, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: 0 24px 60px rgba(16, 36, 61, 0.3);
+  padding: 1.6rem 1.6rem 1.3rem;
+  animation: contacto-entra 0.22s ease-out;
+}
+@keyframes contacto-entra {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+
+.contacto__cabecera { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.contacto__titulo { font-size: 1.35rem; }
+.contacto__cerrar {
+  flex: none;
+  width: 2.2rem;
+  height: 2.2rem;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-bg-alt);
+  color: var(--color-ink);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.contacto__cerrar svg { width: 1.1rem; height: 1.1rem; }
+.contacto__cerrar:hover { background: var(--color-line); }
+
+.contacto__contexto {
+  margin-top: 0.6rem;
+  font-size: 0.88rem;
+  color: var(--color-ink-soft);
+  background: var(--color-accent-soft);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.8rem;
+}
+.contacto__contexto strong { color: var(--color-ink); font-weight: 600; }
+
+.contacto__opciones { display: grid; gap: 0.6rem; margin-top: 1.2rem; }
+
+.contacto__opcion {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.9rem 1rem;
+  border: 1.5px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  color: var(--color-ink);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+}
+.contacto__opcion:hover { border-color: var(--color-primary); background: #fbfcfe; color: var(--color-ink); }
+.contacto__opcion:active { transform: scale(0.99); }
+.contacto__opcion--destacada { border-color: var(--color-accent); background: #fffaf1; }
+
+.contacto__icono {
+  flex: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--color-bg-alt);
+  color: var(--color-primary);
+}
+.contacto__opcion--destacada .contacto__icono { background: var(--color-accent); color: #fff; }
+.contacto__icono svg { width: 1.25rem; height: 1.25rem; }
+
+.contacto__textos { display: grid; gap: 0.1rem; }
+.contacto__opcion-titulo { font-weight: 600; font-size: 0.98rem; }
+.contacto__opcion-detalle { font-size: 0.83rem; color: var(--color-ink-soft); }
+.contacto__opcion-detalle.is-aviso { color: #a4551c; }
+
+.contacto__form { display: grid; gap: 0.9rem; margin-top: 1.2rem; }
+.contacto__form-intro { font-size: 0.92rem; color: var(--color-ink-soft); }
+.contacto__form .field label { font-size: 0.86rem; font-weight: 600; }
+.contacto__form .field input,
+.contacto__form .field select {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border: 1.5px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  font: inherit;
+  background: #fff;
+  color: var(--color-ink);
+}
+.contacto__form .field input:focus,
+.contacto__form .field select:focus { outline: none; border-color: var(--color-primary); }
+.contacto__form .field input.is-invalid { border-color: #c0392b; background: #fdf3f2; }
+.contacto__form .check { font-size: 0.85rem; }
+.contacto__form-acciones { display: flex; gap: 0.6rem; justify-content: flex-end; }
+
+.contacto__ok { margin-top: 1.2rem; display: grid; gap: 0.7rem; }
+.contacto__ok h3 { font-size: 1.2rem; color: #1a7a48; }
+.contacto__ok p { color: var(--color-ink-soft); }
+.contacto__ok .btn { justify-self: start; }
+
+.contacto__pie {
+  margin-top: 1.1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--color-line);
+  text-align: center;
+  font-size: 0.86rem;
+}
+.contacto__pie a { color: var(--color-ink-soft); text-decoration: underline; }
+.contacto__pie a:hover { color: var(--color-primary); }
+
+/* En móvil, hoja que sube desde abajo */
+@media (max-width: 560px) {
+  dialog.contacto[open] { align-items: flex-end; }
+  .contacto__caja {
+    width: 100vw;
+    max-height: 88vh;
+    border-radius: var(--radius) var(--radius) 0 0;
+    padding-bottom: calc(1.3rem + env(safe-area-inset-bottom));
+    animation-name: contacto-sube;
+  }
+  @keyframes contacto-sube {
+    from { transform: translateY(100%); }
+    to   { transform: none; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contacto__caja { animation: none; }
+}

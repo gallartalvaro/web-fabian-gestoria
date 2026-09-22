@@ -24,5 +24,13 @@ window.SITE_CONFIG = {
   //
   // Vacío = los envíos caen al método alternativo (WhatsApp / correo
   // ya redactado + copiar al portapapeles), sin perder el contacto.
+  // Agenda pública de Odoo Citas: llamada de 15 minutos. Las reservas
+  // crean la cita en el calendario y la oportunidad en el CRM.
+  cita: "https://fabian-okue-kung-mangue.odoo.com/appointment/1",
+
+  // Horario de atención telefónica (hora de Madrid). Decide si el
+  // panel de contacto invita a llamar o a reservar.
+  horario: { dias: [1, 2, 3, 4, 5], desde: 16, hasta: 21 },
+
   formEndpoint: "https://valentramites-leads.gallart-alvaro.workers.dev",
 };
