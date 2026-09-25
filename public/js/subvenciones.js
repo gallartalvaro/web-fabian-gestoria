@@ -77,6 +77,12 @@
     return origen;
   }
 
+  // Días mínimos que deben quedar para aceptar un encargo. Con menos
+  // no da tiempo a reunir la documentación y presentar con garantías,
+  // así que la convocatoria se retira de la web: ni se anuncia ni se
+  // deja hacer el test.
+  var MARGEN_MINIMO = 2;
+
   // Estado del plazo: la web nunca queda desfasada aunque nadie
   // la toque el día que cierra la convocatoria.
   function estadoPlazo(inicio, fin) {
@@ -89,6 +95,7 @@
       return {
         clave: "proximo",
         dias: faltan,
+        aTiempo: true,
         etiqueta: "Abre el " + fechaLarga(inicio),
         breve: "Próxima apertura",
       };
@@ -97,6 +104,7 @@
       return {
         clave: "cerrado",
         dias: 0,
+        aTiempo: false,
         etiqueta: "Plazo cerrado el " + fechaLarga(fin),
         breve: "Plazo cerrado",
       };
@@ -105,6 +113,7 @@
     return {
       clave: "abierto",
       dias: restan,
+      aTiempo: restan >= MARGEN_MINIMO,
       etiqueta:
         restan === 0
           ? "Último día de plazo"
@@ -121,9 +130,42 @@
       var e = estadoPlazo(nodo.dataset.inicio, nodo.dataset.fin);
       nodo.classList.add("estado", "estado--" + e.clave);
       nodo.textContent = nodo.dataset.plazo === "breve" ? e.breve : e.etiqueta;
+
       var tarjeta = nodo.closest("[data-convocatoria]");
-      if (tarjeta) tarjeta.dataset.estado = e.clave;
+      if (!tarjeta) return;
+      tarjeta.dataset.estado = e.clave;
+      // Fuera del listado: anunciar una ayuda que ya no se puede
+      // tramitar solo genera llamadas que hay que rechazar.
+      if (!e.aTiempo) tarjeta.hidden = true;
     });
+    avisarSiNoHayConvocatorias();
+  }
+
+  // Si no queda ninguna en plazo, el listado lo dice en lugar de
+  // quedarse vacío.
+  function avisarSiNoHayConvocatorias() {
+    var lista = document.querySelector(".grants");
+    if (!lista) return;
+    var visibles = Array.prototype.filter.call(
+      lista.querySelectorAll("[data-convocatoria]"),
+      function (t) { return !t.hidden; }
+    );
+    if (visibles.length || lista.querySelector(".grant--vacia")) return;
+
+    var aviso = el("article", "grant grant--vacia");
+    aviso.appendChild(el("h3", "grant__title", "Ahora mismo no hay convocatorias en plazo"));
+    aviso.appendChild(
+      el("p", "grant__desc",
+        "Las que estaban abiertas ya han cerrado. Salen convocatorias nuevas durante todo el año: " +
+        "díganos a qué se dedica y le avisamos en cuanto aparezca una que encaje con su actividad.")
+    );
+    var pie = el("div", "grant__foot");
+    var boton = el("a", "btn btn--primary btn--sm", "Quiero que me avisen");
+    boton.href = "index.html#contacto";
+    boton.dataset.contexto = "Aviso de nuevas convocatorias";
+    pie.appendChild(boton);
+    aviso.appendChild(pie);
+    lista.insertBefore(aviso, lista.firstChild);
   }
 
   // ----------------------------------------------------------
@@ -179,9 +221,42 @@
 
   function render() {
     contenedor.innerHTML = "";
+    if (!estadoPlazo(ayuda.plazo.inicio, ayuda.plazo.fin).aTiempo) return pantallaFueraDePlazo();
     if (estado.paso === -1) return pantallaIntro();
     if (estado.paso < preguntas.length) return pantallaPregunta(preguntas[estado.paso]);
     return pantallaResultado();
+  }
+
+  // --- Sin margen para tramitar ---
+  function pantallaFueraDePlazo() {
+    var e = estadoPlazo(ayuda.plazo.inicio, ayuda.plazo.fin);
+    var caja = el("div", "wiz__screen");
+
+    var h = el("h3", "wiz__title",
+      e.clave === "cerrado" ? "Esta convocatoria ya ha cerrado" : "Queda muy poco plazo para esta ayuda");
+    h.tabIndex = -1;
+    h.setAttribute("data-foco", "");
+    caja.appendChild(h);
+
+    caja.appendChild(
+      el("p", "wiz__lead",
+        e.clave === "cerrado"
+          ? "El plazo terminó el " + fechaLarga(ayuda.plazo.fin) + ", así que el test ya no tiene sentido."
+          : "El plazo termina el " + fechaLarga(ayuda.plazo.fin) + ". No queda margen para reunir la " +
+            "documentación y presentar el expediente con garantías, de modo que preferimos no empezarlo.")
+    );
+    caja.appendChild(
+      el("p", "wiz__lead",
+        "Lo que sí podemos hacer es avisarle en cuanto se publique una convocatoria que encaje con su " +
+        "actividad, y prepararla con tiempo. Suelen repetirse cada año.")
+    );
+
+    var boton = el("a", "btn btn--primary", "Avíseme de las próximas ayudas");
+    boton.href = "index.html#contacto";
+    boton.dataset.contexto = "Aviso de nuevas convocatorias";
+    caja.appendChild(boton);
+
+    contenedor.appendChild(caja);
   }
 
   // --- Pantalla inicial ---
