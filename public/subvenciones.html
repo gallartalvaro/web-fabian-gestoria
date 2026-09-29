@@ -21,9 +21,9 @@
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/fuentes.css">
 
 <link rel="stylesheet" href="css/styles.css">
 <link rel="stylesheet" href="css/contacto.css">
@@ -93,8 +93,82 @@
 
       <div class="grants">
 
+        <!-- ---------- Emprendedores de Paiporta ---------- -->
+        <article class="grant reveal" hidden data-convocatoria="paiporta-emprendedores-2026">
+          <div class="grant__top">
+            <span class="grant__org">Ayuntamiento de Paiporta</span>
+            <span class="estado" data-plazo="breve" data-inicio="2026-07-03" data-fin="2026-12-10">Plazo abierto</span>
+          </div>
+
+          <h3 class="grant__title">
+            <a href="ayuda-paiporta-emprendedores.html">Ayudas a nuevos emprendedores de Paiporta tras la DANA</a>
+          </h3>
+          <p class="grant__desc">
+            2.500 € de cuantía fija para quien salió del desempleo abriendo un negocio en el casco
+            urbano de Paiporta desde el 30 de octubre de 2024. No hay que justificar gastos y no se
+            exige estar al corriente con Hacienda ni con la Seguridad Social.
+          </p>
+
+          <dl class="grant__data">
+            <div>
+              <dt>Importe</dt>
+              <dd>2.500 €</dd>
+            </div>
+            <div>
+              <dt>Dirigida a</dt>
+              <dd>Nuevos autónomos en Paiporta</dd>
+            </div>
+            <div>
+              <dt>Cierre</dt>
+              <dd>10 dic. 2026</dd>
+            </div>
+          </dl>
+
+          <div class="grant__foot">
+            <a class="btn btn--primary btn--sm" href="ayuda-paiporta-emprendedores.html#test">¿Puedo solicitarla?</a>
+            <a class="btn btn--ghost btn--sm" href="ayuda-paiporta-emprendedores.html">Ver la ficha</a>
+          </div>
+        </article>
+
+        <!-- ---------- Eficiencia energética IVACE ---------- -->
+        <article class="grant reveal" hidden data-convocatoria="ivace-eficiencia-energetica-2026">
+          <div class="grant__top">
+            <span class="grant__org">IVACE · Generalitat Valenciana</span>
+            <span class="estado" data-plazo="breve" data-inicio="2026-06-27" data-fin="2026-10-29">Plazo abierto</span>
+          </div>
+
+          <h3 class="grant__title">
+            <a href="ayuda-ivace-eficiencia-energetica.html">Eficiencia energética en empresas 2026</a>
+          </h3>
+          <p class="grant__desc">
+            Hasta el 55 % de la inversión en sustituir maquinaria, equipos de frío o motores por
+            otros que consuman menos, y en sistemas de control del consumo. Se resuelve por orden
+            de entrada, y no puede haberse encargado nada antes de solicitarla.
+          </p>
+
+          <dl class="grant__data">
+            <div>
+              <dt>Importe</dt>
+              <dd>Del 35 % al 55 %</dd>
+            </div>
+            <div>
+              <dt>Dirigida a</dt>
+              <dd>Empresas y autónomos</dd>
+            </div>
+            <div>
+              <dt>Cierre</dt>
+              <dd>29 oct. 2026</dd>
+            </div>
+          </dl>
+
+          <div class="grant__foot">
+            <a class="btn btn--primary btn--sm" href="ayuda-ivace-eficiencia-energetica.html#test">¿Puedo solicitarla?</a>
+            <a class="btn btn--ghost btn--sm" href="ayuda-ivace-eficiencia-energetica.html">Ver la ficha</a>
+          </div>
+        </article>
+
         <!-- ---------- Emprende y Concilia 2026 ---------- -->
-        <article class="grant reveal" data-convocatoria="emprende-y-concilia-2026">
+        <article class="grant reveal" hidden data-convocatoria="emprende-y-concilia-2026">
           <div class="grant__top">
             <span class="grant__org">Ayuntamiento de València</span>
             <span class="estado" data-plazo="breve" data-inicio="2026-09-03" data-fin="2026-09-22">Plazo abierto</span>
@@ -131,7 +205,7 @@
         </article>
 
         <!-- ---------- Equipamiento de hostelería ---------- -->
-        <article class="grant reveal" data-convocatoria="hosteleria-equipamiento-2026">
+        <article class="grant reveal" hidden data-convocatoria="hosteleria-equipamiento-2026">
           <div class="grant__top">
             <span class="grant__org">Ministerio de Industria y Turismo</span>
             <span class="estado" data-plazo="breve" data-inicio="2026-08-05" data-fin="2026-09-30">Plazo abierto</span>
@@ -168,7 +242,7 @@
         </article>
 
         <!-- ---------- EMDANA 2026 ---------- -->
-        <article class="grant reveal" data-convocatoria="emdana-emprendimiento-2026">
+        <article class="grant reveal" hidden data-convocatoria="emdana-emprendimiento-2026">
           <div class="grant__top">
             <span class="grant__org">Generalitat Valenciana</span>
             <span class="estado" data-plazo="breve" data-inicio="2026-09-15" data-fin="2026-09-30">Plazo abierto</span>

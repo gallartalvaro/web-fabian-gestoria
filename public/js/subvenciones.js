@@ -77,8 +77,22 @@
     return origen;
   }
 
-  // Estado del plazo: la web nunca queda desfasada aunque nadie
-  // la toque el día que cierra la convocatoria.
+  // Días mínimos que deben quedar para aceptar un encargo. Con menos
+  // no da tiempo a reunir la documentación y presentar con garantías,
+  // así que la convocatoria se desactiva: se sigue viendo, pero deja de
+  // ofrecer el test.
+  var MARGEN_MINIMO = 2;
+
+  // Días que una convocatoria cerrada sigue a la vista, desactivada,
+  // antes de desaparecer del todo. Quien la vio anunciada y llega tarde
+  // merece encontrar el aviso de que cerró, no una página sin rastro.
+  var DIAS_EN_CARTEL = 2;
+
+  // Estado del plazo: la web nunca queda desfasada aunque nadie la
+  // toque el día que cierra la convocatoria. Dos decisiones salen de
+  // aquí, y son distintas:
+  //   activa  → se puede hacer el test y aceptar el encargo
+  //   visible → la tarjeta se pinta en el listado
   function estadoPlazo(inicio, fin) {
     var h = hoy();
     var ini = fecha(inicio);
@@ -89,14 +103,19 @@
       return {
         clave: "proximo",
         dias: faltan,
+        activa: true,
+        visible: true,
         etiqueta: "Abre el " + fechaLarga(inicio),
         breve: "Próxima apertura",
       };
     }
     if (h > f) {
+      var desde = Math.round((h - f) / MS_DIA);
       return {
         clave: "cerrado",
         dias: 0,
+        activa: false,
+        visible: desde <= DIAS_EN_CARTEL,
         etiqueta: "Plazo cerrado el " + fechaLarga(fin),
         breve: "Plazo cerrado",
       };
@@ -105,13 +124,22 @@
     return {
       clave: "abierto",
       dias: restan,
+      activa: restan >= MARGEN_MINIMO,
+      visible: true,
       etiqueta:
         restan === 0
           ? "Último día de plazo"
           : restan === 1
           ? "Queda 1 día de plazo"
           : "Quedan " + restan + " días de plazo",
-      breve: "Plazo abierto",
+      // Dentro del margen el plazo sigue abierto, pero decirlo así a
+      // secas al lado de un botón desactivado es contradictorio.
+      breve:
+        restan >= MARGEN_MINIMO
+          ? "Plazo abierto"
+          : restan === 0
+          ? "Último día"
+          : "Cierra mañana",
     };
   }
 
@@ -121,9 +149,66 @@
       var e = estadoPlazo(nodo.dataset.inicio, nodo.dataset.fin);
       nodo.classList.add("estado", "estado--" + e.clave);
       nodo.textContent = nodo.dataset.plazo === "breve" ? e.breve : e.etiqueta;
+
       var tarjeta = nodo.closest("[data-convocatoria]");
-      if (tarjeta) tarjeta.dataset.estado = e.clave;
+      if (!tarjeta) return;
+      tarjeta.dataset.estado = e.clave;
+
+      // Las tarjetas nacen ocultas en el HTML y solo se revelan aquí:
+      // así una convocatoria que ya no toca no aparece ni un instante
+      // antes de que corra el guion, ni queda en el texto de la página
+      // para quien no tenga JavaScript.
+      tarjeta.hidden = !e.visible;
+      if (!e.activa) desactivar(tarjeta, e);
     });
+    avisarSiNoHayConvocatorias();
+  }
+
+  // Desactivar no es ocultar: la tarjeta sigue a la vista, atenuada, y
+  // con el botón del test sustituido por el motivo. Ofrecer un test que
+  // solo puede responder "ha llegado tarde" no le sirve a nadie.
+  function desactivar(tarjeta, e) {
+    if (tarjeta.dataset.activa === "no") return;
+    tarjeta.dataset.activa = "no";
+
+    var boton = tarjeta.querySelector('a[href*="#test"]');
+    if (!boton) return;
+    // Una cosa es que el plazo haya cerrado y otra que quede tan poco
+    // que no dé tiempo a presentar. El visitante merece saber cuál es.
+    var texto = e.clave === "cerrado" ? "Fuera de plazo" : "Ya no da tiempo";
+    var motivo = el("span", "btn btn--sm btn--inerte", texto);
+    motivo.setAttribute("aria-disabled", "true");
+    boton.parentNode.replaceChild(motivo, boton);
+  }
+
+  // Si no queda ninguna en plazo, el listado lo dice en lugar de
+  // quedarse vacío.
+  function avisarSiNoHayConvocatorias() {
+    var lista = document.querySelector(".grants");
+    if (!lista) return;
+    // Cuentan las que se pueden solicitar, no las que se ven: si lo
+    // único que queda en el listado son convocatorias cerradas, el
+    // visitante tiene que leerlo, no deducirlo.
+    var vigentes = Array.prototype.filter.call(
+      lista.querySelectorAll("[data-convocatoria]"),
+      function (t) { return !t.hidden && t.dataset.activa !== "no"; }
+    );
+    if (vigentes.length || lista.querySelector(".grant--vacia")) return;
+
+    var aviso = el("article", "grant grant--vacia");
+    aviso.appendChild(el("h3", "grant__title", "Ahora mismo no hay convocatorias en plazo"));
+    aviso.appendChild(
+      el("p", "grant__desc",
+        "Las que estaban abiertas ya han cerrado. Salen convocatorias nuevas durante todo el año: " +
+        "díganos a qué se dedica y le avisamos en cuanto aparezca una que encaje con su actividad.")
+    );
+    var pie = el("div", "grant__foot");
+    var boton = el("a", "btn btn--primary btn--sm", "Quiero que me avisen");
+    boton.href = "index.html#contacto";
+    boton.dataset.contexto = "Aviso de nuevas convocatorias";
+    pie.appendChild(boton);
+    aviso.appendChild(pie);
+    lista.insertBefore(aviso, lista.firstChild);
   }
 
   // ----------------------------------------------------------
@@ -179,9 +264,42 @@
 
   function render() {
     contenedor.innerHTML = "";
+    if (!estadoPlazo(ayuda.plazo.inicio, ayuda.plazo.fin).activa) return pantallaFueraDePlazo();
     if (estado.paso === -1) return pantallaIntro();
     if (estado.paso < preguntas.length) return pantallaPregunta(preguntas[estado.paso]);
     return pantallaResultado();
+  }
+
+  // --- Sin margen para tramitar ---
+  function pantallaFueraDePlazo() {
+    var e = estadoPlazo(ayuda.plazo.inicio, ayuda.plazo.fin);
+    var caja = el("div", "wiz__screen");
+
+    var h = el("h3", "wiz__title",
+      e.clave === "cerrado" ? "Esta convocatoria ya ha cerrado" : "Queda muy poco plazo para esta ayuda");
+    h.tabIndex = -1;
+    h.setAttribute("data-foco", "");
+    caja.appendChild(h);
+
+    caja.appendChild(
+      el("p", "wiz__lead",
+        e.clave === "cerrado"
+          ? "El plazo terminó el " + fechaLarga(ayuda.plazo.fin) + ", así que el test ya no tiene sentido."
+          : "El plazo termina el " + fechaLarga(ayuda.plazo.fin) + ". No queda margen para reunir la " +
+            "documentación y presentar el expediente con garantías, de modo que preferimos no empezarlo.")
+    );
+    caja.appendChild(
+      el("p", "wiz__lead",
+        "Lo que sí podemos hacer es avisarle en cuanto se publique una convocatoria que encaje con su " +
+        "actividad, y prepararla con tiempo. Suelen repetirse cada año.")
+    );
+
+    var boton = el("a", "btn btn--primary", "Avíseme de las próximas ayudas");
+    boton.href = "index.html#contacto";
+    boton.dataset.contexto = "Aviso de nuevas convocatorias";
+    caja.appendChild(boton);
+
+    contenedor.appendChild(caja);
   }
 
   // --- Pantalla inicial ---

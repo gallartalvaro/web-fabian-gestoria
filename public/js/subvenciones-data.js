@@ -724,4 +724,470 @@ window.SUBVENCIONES = {
       };
     },
   },
+
+  // ============================================================
+  // Paiporta — Nuevos Emprendedores (línea 2)
+  // Ayudas a la reactivación económica tras la DANA del 29 de
+  // octubre de 2024. Cuantía fija y por orden de registro de
+  // entrada hasta agotar el crédito. BDNS 923051.
+  // ============================================================
+  "paiporta-emprendedores-2026": {
+    id: "paiporta-emprendedores-2026",
+    titulo: "Ayudas a nuevos emprendedores de Paiporta tras la DANA",
+    nombreCorto: "Emprendedores Paiporta 2026",
+    organismo: "Ayuntamiento de Paiporta",
+    importeBase: 2500,
+
+    // Línea 2 de la convocatoria. La línea 1 —hostelería y
+    // servicios deportivos de los polígonos— cerró a los 30 días
+    // de su publicación en el BOP y no se publica en la web.
+    plazo: { inicio: "2026-07-03", fin: "2026-12-10" },
+
+    preguntas: [
+      {
+        id: "perfil",
+        tipo: "unica",
+        titulo: "¿A nombre de quién se pediría la ayuda?",
+        ayuda:
+          "La convocatoria admite tanto personas físicas como jurídicas. De presentar la " +
+          "solicitud nos encargamos nosotros, si así lo desea.",
+        opciones: [
+          { valor: "fisica", etiqueta: "Una persona física dada de alta como autónoma" },
+          { valor: "societaria", etiqueta: "Una sociedad, comunidad de bienes o sociedad civil" },
+          {
+            valor: "excluida",
+            etiqueta: "Una administración pública o una entidad sin ánimo de lucro",
+          },
+        ],
+      },
+      {
+        id: "desempleo",
+        tipo: "unica",
+        titulo: "Antes de darse de alta, ¿estaba en situación de desempleo?",
+        ayuda:
+          "Es el requisito que define esta línea: la ayuda es para quien sale del desempleo " +
+          "montando su propia actividad. Se acredita con el informe de vida laboral.",
+        opciones: [
+          { valor: "si", etiqueta: "Sí, venía de una situación de desempleo" },
+          { valor: "no", etiqueta: "No; venía de trabajar por cuenta ajena o propia" },
+          { valor: "nose", etiqueta: "No estoy seguro o segura de cómo consta" },
+        ],
+      },
+      {
+        id: "fechaAlta",
+        tipo: "unica",
+        titulo: "¿Cuándo se dio de alta en el censo (036/037) y en el RETA?",
+        ayuda:
+          "La convocatoria admite las altas producidas desde el 30 de octubre de 2024 —el día " +
+          "siguiente a la DANA— hasta la víspera de presentar la solicitud.",
+        opciones: [
+          { valor: "dentro", etiqueta: "El 30 de octubre de 2024 o después" },
+          { valor: "antes", etiqueta: "Antes del 30 de octubre de 2024" },
+          { valor: "pendiente", etiqueta: "Todavía no me he dado de alta" },
+        ],
+      },
+      {
+        id: "ubicacion",
+        tipo: "unica",
+        titulo: "¿Dónde se desarrolla la actividad?",
+        ayuda:
+          "Esta línea exige que la actividad radique y se mantenga en el casco urbano " +
+          "residencial de Paiporta.",
+        opciones: [
+          { valor: "casco", etiqueta: "En el casco urbano de Paiporta" },
+          { valor: "poligono", etiqueta: "En un polígono industrial de Paiporta" },
+          { valor: "otro", etiqueta: "En otro municipio" },
+        ],
+      },
+      {
+        id: "local",
+        tipo: "unica",
+        titulo: "¿Cómo es el local de la actividad?",
+        ayuda:
+          "Se exige local abierto al público a pie de calle, con el título habilitante " +
+          "municipal para ejercer la actividad o, al menos, solicitado.",
+        opciones: [
+          { valor: "licencia", etiqueta: "Local a pie de calle, con la licencia concedida" },
+          { valor: "tramite", etiqueta: "Local a pie de calle, con la licencia en trámite" },
+          { valor: "sinlocal", etiqueta: "Trabajo desde casa, en línea o sin local propio" },
+        ],
+      },
+      {
+        id: "documentacion",
+        tipo: "multiple",
+        titulo: "De lo siguiente, ¿qué tiene ya preparado?",
+        ayuda:
+          "Marque únicamente lo que ya tiene. Lo que quede sin marcar no le excluye: " +
+          "es justamente lo que preparamos nosotros antes de presentar.",
+        opciones: [
+          { valor: "vidalaboral", etiqueta: "Informe de vida laboral actualizado" },
+          { valor: "modelo036", etiqueta: "Modelo 036 o 037 con la fecha de alta y el domicilio" },
+          { valor: "altass", etiqueta: "Alta en la Seguridad Social en el régimen que corresponda" },
+          { valor: "memoria", etiqueta: "Memoria del proyecto empresarial (máximo 2 páginas)" },
+          { valor: "certificado", etiqueta: "Certificado digital o Cl@ve para firmar la solicitud" },
+        ],
+      },
+    ],
+
+    etiquetar: function (r) {
+      var e = ["Nuevo autónomo", "Zona DANA", "Paiporta"];
+      if (r.perfil === "societaria") e.push("Sociedad o CB");
+      if (r.fechaAlta === "pendiente") e.push("Alta RETA pendiente");
+      if (r.local === "tramite") e.push("Licencia en trámite");
+      if ((r.documentacion || []).indexOf("certificado") === -1) e.push("Sin certificado digital");
+      return e;
+    },
+
+    evaluar: function (r) {
+      var bloqueos = [];
+      var revisar = [];
+      var favorables = [];
+
+      // --- Motivos de exclusión claros ---
+      if (r.perfil === "excluida") {
+        bloqueos.push(
+          "La ayuda se dirige a quien ejerce una actividad económica; las administraciones y las entidades sin ánimo de lucro quedan fuera."
+        );
+      }
+      if (r.desempleo === "no") {
+        bloqueos.push(
+          "Esta línea exige haber estado en situación de desempleo inmediatamente antes del alta en el censo de obligados tributarios."
+        );
+      }
+      if (r.fechaAlta === "antes") {
+        bloqueos.push(
+          "El alta en el censo y en el RETA es anterior al 30 de octubre de 2024, fecha desde la que se admiten las altas en esta convocatoria."
+        );
+      }
+      if (r.ubicacion === "otro") {
+        bloqueos.push(
+          "La actividad debe radicarse y mantenerse dentro del término municipal de Paiporta."
+        );
+      }
+      if (r.ubicacion === "poligono") {
+        bloqueos.push(
+          "Esta línea exige que la actividad esté en el casco urbano residencial. Los polígonos Pascualeta, Estación y Mina entraban en la línea 1, cuyo plazo ya ha terminado."
+        );
+      }
+      if (r.local === "sinlocal") {
+        bloqueos.push(
+          "Se exige un local abierto al público a pie de calle. La actividad ejercida desde el domicilio o sin establecimiento no cumple ese requisito."
+        );
+      }
+
+      // --- Puntos que conviene comprobar, pero que no excluyen ---
+      if (r.perfil === "societaria") {
+        revisar.push(
+          "Tratándose de una persona jurídica, hay que concretar en quién se acredita la situación de desempleo previa al alta de la actividad."
+        );
+      }
+      if (r.desempleo === "nose") {
+        revisar.push(
+          "Conviene confirmar en el informe de vida laboral que la situación anterior al alta consta como desempleo."
+        );
+      }
+      if (r.fechaAlta === "pendiente") {
+        revisar.push(
+          "Todavía no hay alta. El alta en el censo y en el RETA debe ser anterior al día de la solicitud, de modo que aún se llega si se tramita de inmediato."
+        );
+      }
+      if (r.local === "tramite") {
+        revisar.push(
+          "La convocatoria admite el título habilitante en trámite, pero hay que acreditar que está solicitado ante el Ayuntamiento."
+        );
+      }
+
+      var doc = r.documentacion || [];
+      if (doc.indexOf("vidalaboral") === -1) {
+        revisar.push(
+          "Falta el informe de vida laboral actualizado, que es lo que acredita el desempleo previo al alta."
+        );
+      }
+      if (doc.indexOf("modelo036") === -1) {
+        revisar.push(
+          "Falta la copia del modelo 036 o 037 en la que consten la fecha de alta y el domicilio de la actividad."
+        );
+      }
+      if (doc.indexOf("altass") === -1) {
+        revisar.push(
+          "Falta el documento de alta en la Seguridad Social en el régimen que corresponda."
+        );
+      }
+      if (doc.indexOf("memoria") === -1) {
+        revisar.push(
+          "Falta la memoria descriptiva del proyecto, de dos páginas como máximo, con su viabilidad y su aportación a la reactivación de la zona. La redactamos nosotros."
+        );
+      }
+      if (doc.indexOf("certificado") === -1) {
+        revisar.push(
+          "La solicitud se presenta en la sede electrónica con certificado digital o Cl@ve. Podemos presentarla en su nombre."
+        );
+      }
+
+      // Particularidad de esta convocatoria: el Decreto Ley 11/2024
+      // exime del requisito general de estar al corriente.
+      if (!bloqueos.length) {
+        favorables.push(
+          "No se exige estar al corriente con Hacienda ni con la Seguridad Social (Decreto Ley 11/2024)."
+        );
+      }
+
+      var estado = "apto";
+      if (bloqueos.length) estado = "no-apto";
+      else if (revisar.length) estado = "revisar";
+
+      return {
+        estado: estado,
+        importe: 2500,
+        importeTexto: "2.500 €",
+        importeDetalle: "Cuantía fija, por orden de registro de entrada hasta agotar el crédito",
+        bloqueos: bloqueos,
+        revisar: revisar,
+        favorables: favorables,
+      };
+    },
+  },
+
+  // ============================================================
+  // IVACE — Eficiencia energética en empresas 2026
+  // Bases: Resolución de 18/08/2025 (DOGV 10179). Convocatoria:
+  // Resolución de 18/06/2026. Cofinanciada por FEDER.
+  // BDNS 914587.
+  // ============================================================
+  "ivace-eficiencia-energetica-2026": {
+    id: "ivace-eficiencia-energetica-2026",
+    titulo: "Ayudas del IVACE a la eficiencia energética en empresas 2026",
+    nombreCorto: "Eficiencia energética IVACE 2026",
+    organismo: "IVACE · Generalitat Valenciana",
+
+    // La cuantía depende de la inversión, así que evaluar()
+    // devuelve importeTexto en lugar de una cifra fija.
+    importeBase: 0,
+    plazo: { inicio: "2026-06-27", fin: "2026-10-29" },
+
+    preguntas: [
+      {
+        id: "perfil",
+        tipo: "unica",
+        titulo: "¿Quién solicitaría la ayuda?",
+        ayuda:
+          "La convocatoria admite cualquier entidad privada, incluidos los empresarios " +
+          "individuales y las entidades sin ánimo de lucro. El tamaño decide el porcentaje.",
+        opciones: [
+          { valor: "autonomo", etiqueta: "Un empresario o empresaria individual (autónomo)" },
+          { valor: "pequena", etiqueta: "Una empresa de menos de 50 personas" },
+          { valor: "mediana", etiqueta: "Una empresa de entre 50 y 249 personas" },
+          { valor: "grande", etiqueta: "Una empresa de 250 personas o más" },
+        ],
+      },
+      {
+        id: "actuacion",
+        tipo: "unica",
+        titulo: "¿Qué tiene previsto hacer?",
+        ayuda:
+          "Se apoyan las actuaciones que producen un ahorro de energía medible. Las " +
+          "instalaciones de energías renovables no entran en esta convocatoria.",
+        opciones: [
+          {
+            valor: "equipos",
+            etiqueta:
+              "Sustituir maquinaria o equipos auxiliares —calderas, compresores, motores, quemadores— por otros de alta eficiencia",
+          },
+          {
+            valor: "frio",
+            etiqueta: "Renovar equipos de refrigeración o armarios de conservación profesionales",
+          },
+          {
+            valor: "control",
+            etiqueta: "Implantar sistemas de gestión energética, medida, control o automatización",
+          },
+          {
+            valor: "edificio",
+            etiqueta: "Mejorar la iluminación, la climatización o el aislamiento del edificio",
+          },
+          { valor: "renovable", etiqueta: "Instalar placas solares u otra energía renovable" },
+        ],
+      },
+      {
+        id: "uso",
+        tipo: "unica",
+        titulo: "¿Qué uso tiene el edificio o la instalación?",
+        ayuda:
+          "La convocatoria excluye las mejoras de iluminación, climatización y aislamiento en " +
+          "determinados usos de edificio. La maquinaria de proceso, en cambio, se apoya sea " +
+          "cual sea el uso.",
+        opciones: [
+          { valor: "industrial", etiqueta: "Industrial, taller, obrador, almacén o logística" },
+          {
+            valor: "terciario",
+            etiqueta: "Comercio, restauración, hotel, oficina, centro docente, sanitario o deportivo",
+          },
+          { valor: "otro", etiqueta: "Otro uso, o todavía sin definir" },
+        ],
+      },
+      {
+        id: "inicio",
+        tipo: "unica",
+        titulo: "¿Ha empezado ya la inversión?",
+        ayuda:
+          "La ayuda tiene carácter incentivador: la actuación no puede haberse iniciado antes " +
+          "de registrar la solicitud. Un pedido en firme o un anticipo ya cuentan como inicio.",
+        opciones: [
+          { valor: "no", etiqueta: "No, todavía no he encargado ni pagado nada" },
+          { valor: "presupuestos", etiqueta: "Solo tengo presupuestos pedidos, sin encargo en firme" },
+          { valor: "si", etiqueta: "Sí; hay pedido en firme, obra empezada o equipos comprados" },
+        ],
+      },
+      {
+        id: "inversion",
+        tipo: "unica",
+        titulo: "¿De cuánto sería aproximadamente la inversión?",
+        ayuda:
+          "Sirve para estimar el importe. La ayuda se calcula sobre el coste subvencionable, " +
+          "que no siempre coincide con el total de la factura.",
+        opciones: [
+          { valor: "baja", etiqueta: "Menos de 20.000 €" },
+          { valor: "media", etiqueta: "Entre 20.000 y 100.000 €" },
+          { valor: "alta", etiqueta: "Más de 100.000 €" },
+          { valor: "nose", etiqueta: "Todavía no lo sé" },
+        ],
+      },
+      {
+        id: "situacion",
+        tipo: "multiple",
+        titulo: "De lo siguiente, ¿qué tiene ya en regla?",
+        ayuda:
+          "Marque únicamente lo que ya cumple. Lo que quede sin marcar no le excluye: " +
+          "en la mayoría de los casos se resuelve antes de presentar la solicitud.",
+        opciones: [
+          { valor: "ubicacion", etiqueta: "La instalación está en la Comunitat Valenciana" },
+          { valor: "ahorro", etiqueta: "Un técnico ha calculado el ahorro energético previsto" },
+          { valor: "ofertas", etiqueta: "Tengo tres ofertas de proveedores distintos" },
+          { valor: "corriente", etiqueta: "Al corriente con Hacienda y con la Seguridad Social" },
+          { valor: "certificado", etiqueta: "Certificado digital para firmar la solicitud" },
+        ],
+      },
+    ],
+
+    etiquetar: function (r) {
+      var e = ["Eficiencia energética"];
+      if (r.perfil === "autonomo") e.push("Autónomo");
+      if (r.perfil === "pequena") e.push("Pequeña empresa");
+      if (r.perfil === "mediana") e.push("Mediana empresa");
+      if (r.perfil === "grande") e.push("Gran empresa");
+      if (r.uso === "industrial") e.push("Industria o taller");
+      if (r.uso === "terciario") e.push("Comercio u hostelería");
+      if (r.inversion === "alta") e.push("Inversión alta");
+      if ((r.situacion || []).indexOf("certificado") === -1) e.push("Sin certificado digital");
+      return e;
+    },
+
+    evaluar: function (r) {
+      var bloqueos = [];
+      var revisar = [];
+      var favorables = [];
+
+      // --- Motivos de exclusión claros ---
+      if (r.actuacion === "renovable") {
+        bloqueos.push(
+          "Los proyectos de instalación de energías renovables quedan expresamente fuera de esta convocatoria, que es solo de ahorro y eficiencia energética."
+        );
+      }
+      if (r.actuacion === "edificio" && r.uso === "terciario") {
+        bloqueos.push(
+          "Las mejoras de iluminación, climatización y envolvente térmica no se apoyan en edificios de uso comercial, de restauración, hotelero, administrativo, docente, sanitario, cultural, recreativo o deportivo."
+        );
+      }
+      if (r.inicio === "si") {
+        bloqueos.push(
+          "La actuación no puede haberse iniciado antes de registrar la solicitud: con el pedido en firme o la compra ya hecha, la ayuda pierde su carácter incentivador."
+        );
+      }
+
+      // --- Puntos que conviene comprobar, pero que no excluyen ---
+      if (r.actuacion === "edificio" && r.uso === "otro") {
+        revisar.push(
+          "Hay que concretar el uso del edificio: esta clase de mejora está excluida en los usos comercial, de restauración, hotelero, administrativo, docente, sanitario, cultural, recreativo y deportivo, pero sí se apoya en instalaciones industriales."
+        );
+      }
+      if (r.actuacion === "frio" && r.uso === "terciario") {
+        revisar.push(
+          "La renovación de equipos de refrigeración profesionales figura entre las actuaciones apoyables, pero hay que delimitarla bien frente a la mejora de las instalaciones térmicas del edificio, que en este uso sí queda excluida."
+        );
+      }
+      if (r.inicio === "presupuestos") {
+        revisar.push(
+          "Pedir presupuestos no inicia la actuación, pero no debe firmarse ningún encargo ni anticipo hasta que la solicitud esté registrada."
+        );
+      }
+
+      var s = r.situacion || [];
+      if (s.indexOf("ubicacion") === -1) {
+        revisar.push("El proyecto debe ejecutarse dentro del territorio de la Comunitat Valenciana.");
+      }
+      if (s.indexOf("ahorro") === -1) {
+        revisar.push(
+          "Hay que justificar documentalmente el ahorro de energía y de emisiones, con un ratio mínimo de 150 tep por millón de euros de inversión elegible. Es el punto técnico que más solicitudes deja fuera."
+        );
+      }
+      if (s.indexOf("ofertas") === -1 && r.inversion !== "baja") {
+        revisar.push(
+          "Cuando un gasto supera los 15.000 € en suministros o servicios, o los 40.000 € en obra —IVA excluido—, hay que aportar tres ofertas de proveedoras distintas y sin vinculación entre sí."
+        );
+      }
+      if (s.indexOf("corriente") === -1) {
+        revisar.push(
+          "Hay que estar al corriente con Hacienda y con la Seguridad Social en el momento de solicitar."
+        );
+      }
+      if (s.indexOf("certificado") === -1) {
+        revisar.push(
+          "La solicitud se presenta obligatoriamente por vía telemática en la sede de la Generalitat. Podemos presentarla en su nombre."
+        );
+      }
+
+      // --- Intensidad de la ayuda e importe estimado ---
+      // 35 % general, +20 puntos para pequeña empresa y +10 para
+      // mediana, con un tope de 400.000 € por proyecto.
+      var intensidad = 35;
+      if (r.perfil === "pequena" || r.perfil === "autonomo") intensidad = 55;
+      else if (r.perfil === "mediana") intensidad = 45;
+
+      if (intensidad === 55) {
+        favorables.push(
+          "Intensidad máxima del 55 %, la que corresponde a la pequeña empresa."
+        );
+      } else if (intensidad === 45) {
+        favorables.push("Intensidad máxima del 45 % por tratarse de una mediana empresa.");
+      }
+
+      var redondo = function (bruto) {
+        return String(Math.round(bruto / 100) * 100).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      };
+      var texto = "Hasta el " + intensidad + " % de la inversión";
+      if (r.inversion === "baja") {
+        texto = "Hasta unos " + redondo((20000 * intensidad) / 100) + " €";
+      } else if (r.inversion === "media") {
+        texto =
+          redondo((20000 * intensidad) / 100) + " – " + redondo((100000 * intensidad) / 100) + " €";
+      } else if (r.inversion === "alta") {
+        texto = "Desde " + redondo((100000 * intensidad) / 100) + " €";
+      }
+
+      var estado = "apto";
+      if (bloqueos.length) estado = "no-apto";
+      else if (revisar.length) estado = "revisar";
+
+      return {
+        estado: estado,
+        importe: 0,
+        importeTexto: texto,
+        importeDetalle:
+          "El " + intensidad + " % del coste subvencionable, con un tope de 400.000 € por proyecto",
+        bloqueos: bloqueos,
+        revisar: revisar,
+        favorables: favorables,
+      };
+    },
+  },
 };

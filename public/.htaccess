@@ -17,6 +17,10 @@ AddDefaultCharset UTF-8
 <IfModule mod_mime.c>
   AddType image/svg+xml .svg
   AddType application/json .json
+  # Sin esto, un servidor que no conozca woff2 lo sirve como binario
+  # genérico y la cabecera nosniff de más abajo hace que el navegador
+  # rechace la tipografía: la web se vería con la fuente del sistema.
+  AddType font/woff2 .woff2
 </IfModule>
 
 # ------------------------------------------------------------
@@ -49,6 +53,8 @@ AddDefaultCharset UTF-8
   ExpiresByType image/png                 "access plus 30 days"
   ExpiresByType image/jpeg                "access plus 30 days"
   ExpiresByType image/webp                "access plus 30 days"
+  # Las tipografías no cambian nunca y su nombre es fijo.
+  ExpiresByType font/woff2                "access plus 1 year"
 </IfModule>
 
 <IfModule mod_headers.c>

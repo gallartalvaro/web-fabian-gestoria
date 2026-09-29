@@ -30,11 +30,13 @@ jobs:
           for pagina in index.html subvenciones.html privacidad.html precios.html \
                         ayuda-emprende-y-concilia.html \
                         ayuda-hosteleria-equipamiento.html \
-                        ayuda-emdana-emprendimiento.html; do
+                        ayuda-emdana-emprendimiento.html \
+                        ayuda-paiporta-emprendedores.html \
+                        ayuda-ivace-eficiencia-energetica.html; do
             test -f "$pagina" || { echo "Falta public/$pagina"; exit 1; }
           done
           test -f .htaccess || { echo "Falta public/.htaccess"; exit 1; }
-          echo "Las seis páginas y el .htaccess están en su sitio."
+          echo "Las nueve páginas y el .htaccess están en su sitio."
 
       - name: Probar el receptor de contactos
         run: node backend/test-worker.mjs

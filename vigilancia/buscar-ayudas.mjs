@@ -118,7 +118,9 @@ const euros = (n) =>
 
 function interesaPorTerritorio(c) {
   const n1 = sinAcentos(c.nivel1);
-  if (n1 === "AUTONOMICA" || n1 === "ESTATAL") return true;
+  // La BDNS etiqueta el nivel estatal como ESTADO, no ESTATAL:
+  // con el valor equivocado no pasaba ninguna convocatoria del Estado.
+  if (n1 === "AUTONOMICA" || n1 === "ESTADO" || n1 === "ESTATAL") return true;
   if (n1 !== "LOCAL") return false;
   const n2 = sinAcentos(c.nivel2);
   return MUNICIPIOS.some((m) => n2 === m || n2.startsWith(m + "/"));
