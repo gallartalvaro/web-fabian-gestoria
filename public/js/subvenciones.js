@@ -199,13 +199,14 @@
     aviso.appendChild(el("h3", "grant__title", "Ahora mismo no hay convocatorias en plazo"));
     aviso.appendChild(
       el("p", "grant__desc",
-        "Las que estaban abiertas ya han cerrado. Salen convocatorias nuevas durante todo el año: " +
-        "díganos a qué se dedica y le avisamos en cuanto aparezca una que encaje con su actividad.")
+        "Las que estaban abiertas ya han cerrado. Salen convocatorias nuevas durante todo el año " +
+        "y aquí se publican las que encajan con autónomos y pequeñas empresas, así que vuelva a " +
+        "asomarse. Si su caso tiene matices, cuéntenoslo y lo valoramos.")
     );
     var pie = el("div", "grant__foot");
-    var boton = el("a", "btn btn--primary btn--sm", "Quiero que me avisen");
+    var boton = el("a", "btn btn--primary btn--sm", "Consultar mi caso");
     boton.href = "index.html#contacto";
-    boton.dataset.contexto = "Aviso de nuevas convocatorias";
+    boton.dataset.contexto = "Consulta sobre convocatorias";
     pie.appendChild(boton);
     aviso.appendChild(pie);
     lista.insertBefore(aviso, lista.firstChild);
@@ -290,13 +291,14 @@
     );
     caja.appendChild(
       el("p", "wiz__lead",
-        "Lo que sí podemos hacer es avisarle en cuanto se publique una convocatoria que encaje con su " +
-        "actividad, y prepararla con tiempo. Suelen repetirse cada año.")
+        "Estas ayudas suelen repetirse cada año, y las convocatorias nuevas se publican en esta " +
+        "misma web conforme salen. Si nos cuenta a qué se dedica, le decimos con qué plazos suele " +
+        "moverse la suya para poder prepararla con tiempo.")
     );
 
-    var boton = el("a", "btn btn--primary", "Avíseme de las próximas ayudas");
+    var boton = el("a", "btn btn--primary", "Consultar mi caso");
     boton.href = "index.html#contacto";
-    boton.dataset.contexto = "Aviso de nuevas convocatorias";
+    boton.dataset.contexto = "Consulta sobre convocatorias";
     caja.appendChild(boton);
 
     contenedor.appendChild(caja);
@@ -345,8 +347,9 @@
         el(
           "p",
           "wiz__nota",
-          "El plazo de esta convocatoria ya está cerrado. Puede hacer el test igualmente: " +
-            "si encaja en el perfil, le avisaremos en cuanto se publique la siguiente."
+          "El plazo de esta convocatoria ya está cerrado. Puede hacer el test igualmente para " +
+            "saber si habría encajado en el perfil: suelen repetirse cada año, y la siguiente se " +
+            "publicará aquí cuando salga."
         )
       );
     } else if (e.clave === "abierto" && e.dias <= 7) {
@@ -544,7 +547,7 @@
           "p",
           "res__texto",
           "Esta ayuda concreta no encaja con su situación, pero es solo una de las convocatorias abiertas. " +
-            "Déjenos sus datos y le avisaremos de las que sí pueda aprovechar, sin coste alguno."
+            "Cuéntenos su caso y le decimos si alguna de las que hay en plazo le sirve, sin coste alguno."
         )
       );
     }

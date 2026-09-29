@@ -97,28 +97,26 @@ el aviso legal debe recoger:
 11. ⚠️ **Registro de actividades de tratamiento**: no consta que exista. Siendo responsable de
     datos de clientes, conviene resolverlo aunque sea al margen de la web.
 
-> ### ⚠️ La respuesta 9 choca con lo que la web promete hoy
+> ### La respuesta 9, resuelta en la web
 >
-> En `subvenciones.html` hay una tarjeta —«¿Y si la suya todavía no está publicada?»— que dice
-> literalmente: *«díganos a qué se dedica y le avisaremos solo cuando aparezca una que encaje con
-> su actividad»*. El listado vacío ofrece lo mismo con el botón «Quiero que me avisen».
+> `subvenciones.html` prometía *«díganos a qué se dedica y le avisaremos solo cuando aparezca una
+> que encaje con su actividad»*, y el listado vacío y la pantalla de fuera de plazo decían lo
+> mismo. Como no se van a enviar esos avisos, **se ha quitado la promesa de los cinco sitios en
+> que aparecía** (29/09/2026): ahora la web dice que las convocatorias nuevas **se publican aquí**
+> y los botones piden consultar el caso, que sí es la finalidad declarada.
 >
-> Si no se van a enviar esos avisos, la web está pidiendo datos para una finalidad que no se
-> cumple. Hay dos salidas, y hay que elegir una:
->
-> 1. **Quitar la promesa** de la web y dejar esos botones como un contacto normal.
-> 2. **Mantenerla** y añadir su casilla de consentimiento propia, separada de la de «atender su
->    consulta».
->
-> Dígame cuál y lo dejo hecho. La 1 son diez minutos.
+> Consecuencia para los textos legales: **no hace falta casilla de consentimiento adicional.** La
+> única finalidad sigue siendo atender la consulta.
 
 ### d) Condiciones de contratación
 
 12. ✅ **Sin permanencia.**
-13. ✅ **Cobro por domiciliación SEPA**, y la baja a mitad de mes **contabiliza el mes completo**.
+13. ✅ **Cobro por domiciliación SEPA**, y la baja con el mes ya empezado **factura el mes
+    completo**.
 
-> Lo de «sin permanencia» hoy no se dice en ningún sitio, y vende. Puedo añadirlo a
-> `precios.html` junto con la forma de cobro, si quiere.
+> Ambas están ya publicadas en `precios.html` (29/09/2026), fuera de los grupos de planes para
+> que se vean tanto en autónomos como en empresas. Falta redactarlas como condiciones de
+> contratación formales, para lo que no hace falta ningún dato más.
 
 ## 3. Tres decisiones que afectan al contenido
 

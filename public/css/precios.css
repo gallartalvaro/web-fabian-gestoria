@@ -202,3 +202,14 @@
 @media (max-width: 560px) {
   .acc__precio { display: none; }
 }
+
+/* Condiciones de cobro. Van fuera de los grupos de planes porque
+   valen para los dos, así que no heredan el ancho de la rejilla. */
+.planes__condiciones {
+  max-width: 62ch;
+  margin: 1.6rem auto 0;
+  text-align: center;
+  font-size: 0.92rem;
+  color: var(--color-ink-soft);
+}
+.planes__condiciones strong { color: var(--color-ink); }
