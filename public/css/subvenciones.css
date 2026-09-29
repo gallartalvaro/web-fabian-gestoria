@@ -85,7 +85,11 @@
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 .grant:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
-.grant[data-estado="cerrado"] { opacity: 0.72; }
+
+/* Desactivada: sigue en el listado los dos días siguientes al cierre,
+   atenuada y sin test, hasta que el guion la retira del todo. */
+.grant[data-activa="no"] { opacity: 0.66; }
+.grant[data-activa="no"]:hover { transform: none; box-shadow: var(--shadow-sm); }
 
 .grant__top { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; margin-bottom: 1rem; }
 .grant__org {

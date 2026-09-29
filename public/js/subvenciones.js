@@ -79,12 +79,20 @@
 
   // Días mínimos que deben quedar para aceptar un encargo. Con menos
   // no da tiempo a reunir la documentación y presentar con garantías,
-  // así que la convocatoria se retira de la web: ni se anuncia ni se
-  // deja hacer el test.
+  // así que la convocatoria se desactiva: se sigue viendo, pero deja de
+  // ofrecer el test.
   var MARGEN_MINIMO = 2;
 
-  // Estado del plazo: la web nunca queda desfasada aunque nadie
-  // la toque el día que cierra la convocatoria.
+  // Días que una convocatoria cerrada sigue a la vista, desactivada,
+  // antes de desaparecer del todo. Quien la vio anunciada y llega tarde
+  // merece encontrar el aviso de que cerró, no una página sin rastro.
+  var DIAS_EN_CARTEL = 2;
+
+  // Estado del plazo: la web nunca queda desfasada aunque nadie la
+  // toque el día que cierra la convocatoria. Dos decisiones salen de
+  // aquí, y son distintas:
+  //   activa  → se puede hacer el test y aceptar el encargo
+  //   visible → la tarjeta se pinta en el listado
   function estadoPlazo(inicio, fin) {
     var h = hoy();
     var ini = fecha(inicio);
@@ -95,16 +103,19 @@
       return {
         clave: "proximo",
         dias: faltan,
-        aTiempo: true,
+        activa: true,
+        visible: true,
         etiqueta: "Abre el " + fechaLarga(inicio),
         breve: "Próxima apertura",
       };
     }
     if (h > f) {
+      var desde = Math.round((h - f) / MS_DIA);
       return {
         clave: "cerrado",
         dias: 0,
-        aTiempo: false,
+        activa: false,
+        visible: desde <= DIAS_EN_CARTEL,
         etiqueta: "Plazo cerrado el " + fechaLarga(fin),
         breve: "Plazo cerrado",
       };
@@ -113,14 +124,22 @@
     return {
       clave: "abierto",
       dias: restan,
-      aTiempo: restan >= MARGEN_MINIMO,
+      activa: restan >= MARGEN_MINIMO,
+      visible: true,
       etiqueta:
         restan === 0
           ? "Último día de plazo"
           : restan === 1
           ? "Queda 1 día de plazo"
           : "Quedan " + restan + " días de plazo",
-      breve: "Plazo abierto",
+      // Dentro del margen el plazo sigue abierto, pero decirlo así a
+      // secas al lado de un botón desactivado es contradictorio.
+      breve:
+        restan >= MARGEN_MINIMO
+          ? "Plazo abierto"
+          : restan === 0
+          ? "Último día"
+          : "Cierra mañana",
     };
   }
 
@@ -134,11 +153,32 @@
       var tarjeta = nodo.closest("[data-convocatoria]");
       if (!tarjeta) return;
       tarjeta.dataset.estado = e.clave;
-      // Fuera del listado: anunciar una ayuda que ya no se puede
-      // tramitar solo genera llamadas que hay que rechazar.
-      if (!e.aTiempo) tarjeta.hidden = true;
+
+      // Las tarjetas nacen ocultas en el HTML y solo se revelan aquí:
+      // así una convocatoria que ya no toca no aparece ni un instante
+      // antes de que corra el guion, ni queda en el texto de la página
+      // para quien no tenga JavaScript.
+      tarjeta.hidden = !e.visible;
+      if (!e.activa) desactivar(tarjeta, e);
     });
     avisarSiNoHayConvocatorias();
+  }
+
+  // Desactivar no es ocultar: la tarjeta sigue a la vista, atenuada, y
+  // con el botón del test sustituido por el motivo. Ofrecer un test que
+  // solo puede responder "ha llegado tarde" no le sirve a nadie.
+  function desactivar(tarjeta, e) {
+    if (tarjeta.dataset.activa === "no") return;
+    tarjeta.dataset.activa = "no";
+
+    var boton = tarjeta.querySelector('a[href*="#test"]');
+    if (!boton) return;
+    // Una cosa es que el plazo haya cerrado y otra que quede tan poco
+    // que no dé tiempo a presentar. El visitante merece saber cuál es.
+    var texto = e.clave === "cerrado" ? "Fuera de plazo" : "Ya no da tiempo";
+    var motivo = el("span", "btn btn--sm btn--inerte", texto);
+    motivo.setAttribute("aria-disabled", "true");
+    boton.parentNode.replaceChild(motivo, boton);
   }
 
   // Si no queda ninguna en plazo, el listado lo dice en lugar de
@@ -146,11 +186,14 @@
   function avisarSiNoHayConvocatorias() {
     var lista = document.querySelector(".grants");
     if (!lista) return;
-    var visibles = Array.prototype.filter.call(
+    // Cuentan las que se pueden solicitar, no las que se ven: si lo
+    // único que queda en el listado son convocatorias cerradas, el
+    // visitante tiene que leerlo, no deducirlo.
+    var vigentes = Array.prototype.filter.call(
       lista.querySelectorAll("[data-convocatoria]"),
-      function (t) { return !t.hidden; }
+      function (t) { return !t.hidden && t.dataset.activa !== "no"; }
     );
-    if (visibles.length || lista.querySelector(".grant--vacia")) return;
+    if (vigentes.length || lista.querySelector(".grant--vacia")) return;
 
     var aviso = el("article", "grant grant--vacia");
     aviso.appendChild(el("h3", "grant__title", "Ahora mismo no hay convocatorias en plazo"));
@@ -221,7 +264,7 @@
 
   function render() {
     contenedor.innerHTML = "";
-    if (!estadoPlazo(ayuda.plazo.inicio, ayuda.plazo.fin).aTiempo) return pantallaFueraDePlazo();
+    if (!estadoPlazo(ayuda.plazo.inicio, ayuda.plazo.fin).activa) return pantallaFueraDePlazo();
     if (estado.paso === -1) return pantallaIntro();
     if (estado.paso < preguntas.length) return pantallaPregunta(preguntas[estado.paso]);
     return pantallaResultado();

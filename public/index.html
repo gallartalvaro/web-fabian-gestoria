@@ -140,23 +140,26 @@
 
 
   <!-- ===================== AVISO DE SUBVENCION ABIERTA =====================
-       Se retira solo cuando pasa la fecha de cierre (js/subvenciones.js).
+       Nace oculto y solo aparece si la ventana de fechas sigue en plazo:
+       el data-convocatoria es lo que hace que js/subvenciones.js lo retire
+       solo, igual que las tarjetas del listado. Las fechas deben cubrir las
+       convocatorias que se citan en el texto.
        Para cambiarlo de convocatoria basta con editar este bloque. -->
   <section class="section" style="padding-top:clamp(2.5rem,5vw,3.5rem);padding-bottom:0">
     <div class="container">
-      <div class="banner-ayuda reveal">
+      <div class="banner-ayuda reveal" hidden data-convocatoria="aviso-portada">
         <div>
-          <span class="estado" data-plazo="breve" data-inicio="2026-09-03" data-fin="2026-09-30">Plazo abierto</span>
-          <h2>Tres ayudas con el plazo abierto ahora mismo</h2>
+          <span class="estado" data-plazo="breve" data-inicio="2026-06-27" data-fin="2026-10-29">Plazo abierto</span>
+          <h2>Dos ayudas con el plazo abierto ahora mismo</h2>
           <p>
-            De 3.000 a 4.000 € por darse de alta como autónomo en València; de 5.000 a 11.000 €
-            para renovar el equipamiento de un bar, restaurante u hotel; y hasta 20.000 € para
-            quien montó su negocio tras la DANA. Un test de un minuto le dice si le corresponden.
+            2.500 € para quien salió del desempleo abriendo su negocio en Paiporta después de la
+            DANA; y del 35 al 55 % de lo que cueste renovar maquinaria, equipos de frío o motores
+            por otros que consuman menos. Un test de un minuto le dice si le corresponden.
           </p>
         </div>
         <div class="pagehero__actions" style="margin:0">
           <a class="btn btn--primary" href="subvenciones.html">Ver las ayudas abiertas</a>
-          <a class="btn btn--ghost" href="ayuda-emprende-y-concilia.html#test">Soy autónomo nuevo</a>
+          <a class="btn btn--ghost" href="ayuda-paiporta-emprendedores.html#test">Emprendí en Paiporta</a>
         </div>
       </div>
     </div>

@@ -34,6 +34,12 @@
 /* ===== Reset básico ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* El atributo hidden debe ganar a cualquier display de componente.
+   Sin esto, una regla como .grant { display: flex } lo anula y las
+   convocatorias que el guion retira al cerrarse el plazo se siguen
+   viendo: el atributo está puesto, pero la tarjeta se pinta igual. */
+[hidden] { display: none !important; }
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-h) + 16px);
@@ -114,6 +120,16 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.2; font-weight
   background: transparent;
 }
 .btn--ghost:hover { border-color: var(--color-ink); color: var(--color-ink); transform: translateY(-2px); }
+
+/* Ocupa el sitio de un botón que ya no lleva a ninguna parte.
+   No es un enlace: no se pulsa, no recibe el foco y no promete nada. */
+.btn--inerte {
+  background: transparent;
+  border: 1px dashed var(--color-line);
+  color: var(--color-ink-soft);
+  cursor: default;
+}
+.btn--inerte:hover { transform: none; }
 
 .btn--block { width: 100%; }
 

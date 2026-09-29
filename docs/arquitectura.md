@@ -63,9 +63,26 @@ Los guiones que las mueven:
 
 Ningún plazo está escrito a mano en el texto. Cualquier elemento con
 `data-plazo data-inicio="AAAA-MM-DD" data-fin="AAAA-MM-DD"` se rellena solo con «Quedan N días»,
-«Abre el …» o «Plazo cerrado», y **cuando quedan menos de dos días la convocatoria se retira**:
-desaparece del listado y su ficha deja de ofrecer el test. El margen es la constante
-`MARGEN_MINIMO` de `js/subvenciones.js`.
+«Abre el …» o «Plazo cerrado». De ahí salen **dos decisiones distintas**, y conviene no
+confundirlas:
+
+| | Se puede hacer el test | Se ve en el listado |
+|---|---|---|
+| Antes de abrir, o con dos días o más de plazo | sí | sí |
+| Con menos de dos días de plazo | no | sí, atenuada: «Ya no da tiempo» |
+| Cerrada hace dos días o menos | no | sí, atenuada: «Fuera de plazo» |
+| Cerrada hace más de dos días | no | **no: desaparece** |
+
+Las dos constantes están en `js/subvenciones.js`: `MARGEN_MINIMO` (días que deben quedar para
+aceptar el encargo) y `DIAS_EN_CARTEL` (días que una convocatoria cerrada sigue a la vista).
+
+**Las tarjetas nacen con el atributo `hidden` en el HTML** y el guión revela solo las que
+procede. Así una convocatoria que ya no toca no aparece ni un instante antes de que corra el
+guión, ni queda en el texto de la página para los buscadores.
+
+> El atributo `hidden` por sí solo no basta: cualquier `display` de componente lo anula. Por eso
+> `styles.css` lleva `[hidden] { display: none !important; }` en el reset. Sin esa regla,
+> `.grant { display: flex }` dejaba visibles las convocatorias que el guión creía haber retirado.
 
 Consecuencia práctica: la web no se queda desfasada aunque nadie la toque durante semanas.
 

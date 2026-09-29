@@ -49,14 +49,20 @@ no confundirla con la real.
 
 ---
 
-## Las convocatorias se retiran con un día de plazo
+## Desactivar y retirar son dos cosas distintas
 
-**Qué se hizo.** Con menos de dos días, la convocatoria desaparece del listado y su ficha deja de
-ofrecer el test.
+**Qué se hizo.** Una convocatoria deja de ofrecer el test cuando quedan menos de dos días de
+plazo, pero **sigue viéndose**, atenuada y con el motivo en lugar del botón. Solo desaparece del
+listado cuando han pasado dos días desde el cierre.
 
-**Por qué.** No da tiempo a reunir documentación y presentar con garantías. Anunciarla solo
-genera llamadas que hay que rechazar, y deja al cliente con la sensación de haber llegado tarde
-por culpa de la web.
+**Por qué.** Son dos problemas con respuestas contrarias. Con un día de plazo no da tiempo a
+reunir documentación y presentar con garantías: aceptar el encargo solo genera una llamada que
+hay que rechazar. Pero hacer desaparecer la convocatoria sin más deja peor al que llegó tarde:
+la vio anunciada, vuelve, y no encuentra ni rastro. Durante esos dos días la web le dice
+expresamente que cerró y cuándo, que es lo que ha ido a buscar.
+
+**Cuándo revisarlo.** Si el despacho empieza a poder presentar con menos margen, baje
+`MARGEN_MINIMO`; si le llegan llamadas por convocatorias ya cerradas, baje `DIAS_EN_CARTEL`.
 
 ---
 

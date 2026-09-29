@@ -36,8 +36,9 @@ revisarla. Al pasarla a `main`, se publica sola en Hostinger.
 oportunidad en Odoo con el diagnóstico completo, etiquetas de perfil y prioridad. Si falla, la
 web ofrece el mismo diagnóstico por WhatsApp o correo: nunca se pierde un contacto.
 
-**Qué se actualiza solo.** Los plazos de las convocatorias —incluida su retirada cuando quedan
-menos de dos días— y la revisión semanal de convocatorias nuevas en la BDNS.
+**Qué se actualiza solo.** Los plazos de las convocatorias —que dejan de ofrecer el test cuando
+quedan menos de dos días y desaparecen dos días después de cerrar— y la revisión semanal de
+convocatorias nuevas en la BDNS.
 
 ```
 public/          la web (lo único que se publica)
