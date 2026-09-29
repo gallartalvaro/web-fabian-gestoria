@@ -74,7 +74,7 @@
       return "Plan " + plan.querySelector(".plan__nombre").textContent.trim() + " (" + tipo + ")";
     }
     if (enlace.dataset.ask) return enlace.dataset.ask;
-    if (enlace.closest(".grant--proxima")) return "Aviso de nuevas convocatorias";
+    if (enlace.closest(".grant--proxima")) return "Consulta sobre convocatorias";
     if (enlace.closest(".puntuales, .puntuales__cta")) return "Presupuesto de un servicio puntual";
     var h1 = document.querySelector("main h1");
     return document.body.dataset.contexto || (h1 && h1 !== document.querySelector(".hero__title") ? h1.textContent.trim() : "Consulta general");
