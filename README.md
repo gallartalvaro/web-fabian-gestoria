@@ -26,7 +26,7 @@ Documentación de cada pieza: [backend/](backend/README.md) ·
 
 ## En dos minutos
 
-**Qué es.** Siete páginas de HTML, CSS y JavaScript planos. Sin dependencias ni compilación: lo
+**Qué es.** Nueve páginas de HTML, CSS y JavaScript planos. Sin dependencias ni compilación: lo
 que hay en `public/` es exactamente lo que se sirve.
 
 **Cómo se publica.** Se trabaja en la rama `pruebas`, que se publica sola en GitHub Pages para

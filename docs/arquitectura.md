@@ -38,7 +38,7 @@ nada propio de git.
 
 ## La web
 
-Siete páginas, 440 KB en total, sin dependencias ni proceso de compilación:
+Nueve páginas, algo más de 500 KB en total, sin dependencias ni proceso de compilación:
 
 | Página | Para qué |
 |---|---|
@@ -101,7 +101,7 @@ Detalle y criterios en [vigilancia/README.md](../vigilancia/README.md).
 
 Dos ramas, explicado en [operacion.md](operacion.md#publicar).
 
-Tres salvaguardas antes de subir nada a producción: que estén las siete páginas y el `.htaccess`,
+Tres salvaguardas antes de subir nada a producción: que estén todas las páginas y el `.htaccess`,
 que las pruebas del receptor pasen, y que cada página conserve su hoja de estilos y sus guiones
 tras versionar las rutas.
 
