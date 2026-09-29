@@ -1,0 +1,28 @@
+Tipografías de valentramites.com
+================================
+
+Los archivos .woff2 de esta carpeta no son obra de Valentramites. Se
+redistribuyen aquí, servidos desde el propio dominio, al amparo de la
+SIL Open Font License 1.1, que lo permite expresamente.
+
+  Inter
+  Copyright (c) 2016 The Inter Project Authors
+  https://github.com/rsms/inter
+  SIL Open Font License 1.1
+
+  Source Serif 4
+  Copyright (c) 2014-2023 Adobe (http://www.adobe.com/)
+  https://github.com/adobe-fonts/source-serif
+  SIL Open Font License 1.1
+
+Texto completo de la licencia: https://openfontlicense.org/
+
+Lo que la licencia exige, y aquí se cumple:
+
+  - No se venden los archivos por separado.
+  - Se conservan los avisos de copyright, que van dentro del propio
+    archivo .woff2 y también aquí.
+  - No se han modificado ni renombrado las familias.
+
+Los archivos proceden de Google Fonts y contienen únicamente los
+subconjuntos latin y latin-ext. Para regenerarlos, ver docs/operacion.md.

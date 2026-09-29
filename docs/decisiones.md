@@ -164,3 +164,20 @@ documentos. Convertir el texto a trazados evita depender de tener la fuente inst
 
 Se añadió una imagen PNG de vista previa porque **WhatsApp y las redes no muestran SVG**, y
 compartir enlaces por WhatsApp es un canal principal del despacho.
+
+---
+
+## Las tipografías se sirven desde el propio dominio
+
+**Qué se hizo.** Inter y Source Serif 4 se descargaron de Google Fonts y viven en
+`public/assets/fonts/`. La web ya no llama a `fonts.googleapis.com` ni a `fonts.gstatic.com`.
+
+**Por qué.** Cargarlas desde Google comunicaba la IP de cada visitante a un tercero fuera de la
+UE sin su consentimiento. Es el motivo de reclamación más frecuente en una web que, por lo
+demás, no pone ni una cookie: sale caro por nada. De paso desaparece un tercero de la política de
+privacidad y se ahorran dos conexiones a otro dominio.
+
+**Lo que no es obvio.** Son tipografías variables: un solo archivo cubre todos los pesos, y
+Google servía el mismo repetido para cada peso pedido. Por eso son cuatro archivos —dos familias
+por dos subconjuntos— y el `font-weight` del `@font-face` es un rango. Solo se incluyen `latin`
+y `latin-ext`; el cirílico, el griego y el vietnamita ocupaban más que todo lo demás junto.

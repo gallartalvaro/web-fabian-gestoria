@@ -67,6 +67,19 @@ Para que vuelva a mirar todo desde cero: `echo '{"codigos": []}' > vigilancia/vi
 
 También se puede lanzar a mano desde *Actions → Vigilancia de convocatorias → Run workflow*.
 
+## Regenerar las tipografías
+
+Viven en `public/assets/fonts/` y se declaran en `public/css/fuentes.css`. **No se cargan desde
+Google**: ver [decisiones.md](decisiones.md#las-tipografías-se-sirven-desde-el-propio-dominio).
+
+Solo hay que tocarlas si cambia la marca. El procedimiento: pedir a Google Fonts el CSS de las
+familias con un agente de navegador moderno, quedarse con los bloques `latin` y `latin-ext`,
+descargar sus `.woff2` y reescribir `fuentes.css` apuntando a las rutas locales.
+
+> Un detalle que ahorra trabajo: Inter y Source Serif 4 son **variables**, y Google sirve el mismo
+> archivo para cada peso que se le pida. Son cuatro archivos, no dieciséis, y el `font-weight` del
+> `@font-face` es un rango.
+
 ## Regenerar el logotipo
 
 ```bash

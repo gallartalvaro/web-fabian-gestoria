@@ -8,6 +8,7 @@ Estado a 29 de septiembre de 2026:
 | Aviso legal | **no existe** |
 | Política de cookies | **no existe** (puede que no haga falta: ver la decisión 3) |
 | Enlaces en el pie | solo apunta a privacidad, en las nueve páginas |
+| Tipografías de Google | **resuelto**: se sirven desde el propio dominio (29/09/2026) |
 
 > No soy abogado y usted trabaja en un despacho: lo que sigue es el inventario técnico de lo que
 > la web hace de verdad, más la lista de datos que hay que decidir. Los textos finales debería
@@ -66,16 +67,16 @@ atención telefónica de lunes a viernes, de 16:00 a 21:00 (`js/config.js`).
 
 ## 2. Lo que necesito de usted
 
-Trece preguntas. Puede responderlas de corrido en un correo; no hace falta formato.
+Siete respuestas recibidas el 29 de septiembre de 2026. **Quedan seis preguntas.**
 
 ### a) Identificación — obligatoria en el aviso legal
 
-1. **¿Confirma que el prestador es usted como persona física**, con el nombre y el NIF que
+1. ❌ **¿Confirma que el prestador es usted como persona física**, con el nombre y el NIF que
    constan en `CLAUDE.md`? (No los repito aquí: este archivo está en el repositorio.)
-2. **Nombre comercial**: ¿«Valentramites» a secas?
-3. **Domicilio a publicar** — ver la decisión ⚠️ del punto 3.
-4. **Correo y teléfono de contacto legal**: ¿los mismos que ya están en la web, o prefiere
-   separarlos de los comerciales?
+2. ✅ **Nombre comercial**: «Valentramites» a secas.
+3. ❌ **Domicilio a publicar** — ver la decisión ⚠️ del punto 3. Es lo único que impide
+   cerrar el aviso legal.
+4. ✅ **Contacto legal**: los mismos correo y teléfono que ya figuran en la web.
 
 ### b) Colegio profesional — casi seguro que aplica
 
@@ -83,32 +84,41 @@ La web anuncia «asesor fiscal personal» en el plan de autónomos, y su correo 
 dominio `coev.com`, que es el Col·legi d'Economistes de València. Si ejerce profesión colegiada,
 el aviso legal debe recoger:
 
-5. **Colegio** y **número de colegiado**.
-6. **Título académico** y país que lo expidió.
-7. **Normas profesionales** aplicables y dónde se consultan.
+5. ❌ **Colegio** y **número de colegiado**.
+6. ❌ **Título académico** y país que lo expidió.
+7. ❌ **Normas profesionales** aplicables y dónde se consultan.
 
 ### c) Protección de datos
 
-8. **Cuánto se conservan** los contactos que no llegan a ser clientes: ¿un año? ¿dos? Hoy el
-   borrador dice «se suprimen una vez atendida la consulta», que en la práctica no se cumple:
-   la oportunidad se queda en el CRM.
-9. **Avisos de nuevas convocatorias.** La web ya ofrece «avíseme de las próximas ayudas», y eso
-   es una finalidad distinta de «atender su consulta»: necesita su propia casilla. ¿Quiere
-   poder enviarlos? Si sí, añado la casilla al formulario.
-10. **Contratos de encargado de tratamiento** con Cloudflare, Odoo y Hostinger: ¿los tiene
+8. ✅ **Conservación**: un año los contactos que no llegan a ser clientes.
+9. ✅ **Avisos de nuevas convocatorias**: no se van a enviar. → **pero ver el aviso de abajo.**
+10. ❌ **Contratos de encargado de tratamiento** con Cloudflare, Odoo y Hostinger: ¿los tiene
     aceptados y guardados? Los tres los ofrecen; hay que aceptarlos expresamente.
-11. **Registro de actividades de tratamiento**: ¿existe? Habría que añadirle esta actividad.
+11. ⚠️ **Registro de actividades de tratamiento**: no consta que exista. Siendo responsable de
+    datos de clientes, conviene resolverlo aunque sea al margen de la web.
+
+> ### ⚠️ La respuesta 9 choca con lo que la web promete hoy
+>
+> En `subvenciones.html` hay una tarjeta —«¿Y si la suya todavía no está publicada?»— que dice
+> literalmente: *«díganos a qué se dedica y le avisaremos solo cuando aparezca una que encaje con
+> su actividad»*. El listado vacío ofrece lo mismo con el botón «Quiero que me avisen».
+>
+> Si no se van a enviar esos avisos, la web está pidiendo datos para una finalidad que no se
+> cumple. Hay dos salidas, y hay que elegir una:
+>
+> 1. **Quitar la promesa** de la web y dejar esos botones como un contacto normal.
+> 2. **Mantenerla** y añadir su casilla de consentimiento propia, separada de la de «atender su
+>    consulta».
+>
+> Dígame cuál y lo dejo hecho. La 1 son diez minutos.
 
 ### d) Condiciones de contratación
 
-Los planes son cuotas mensuales recurrentes (35,90 / 53,90 / 89,90 € + IVA), así que esto no es
-opcional:
+12. ✅ **Sin permanencia.**
+13. ✅ **Cobro por domiciliación SEPA**, y la baja a mitad de mes **contabiliza el mes completo**.
 
-12. **¿Hay permanencia?** Si no la hay, conviene decirlo en la página de precios: vende.
-13. **Cobro y baja**: ¿se domicilian por SEPA, como las cuotas de renta? ¿Qué ocurre si alguien
-    se da de baja a mitad de mes?
-
----
+> Lo de «sin permanencia» hoy no se dice en ningún sitio, y vende. Puedo añadirlo a
+> `precios.html` junto con la forma de cobro, si quiere.
 
 ## 3. Tres decisiones que afectan al contenido
 
@@ -121,14 +131,11 @@ es opcional.**
 Las salidas habituales: usar el domicilio fiscal aunque sea el particular, o dar de alta un
 domicilio profesional —despacho compartido, centro de negocios— y usar ese.
 
-### Las tipografías de Google
+### ~~Las tipografías de Google~~ — resuelto
 
-La web carga las fuentes desde los servidores de Google, lo que comunica la IP del visitante a un
-tercero fuera de la UE. Es motivo frecuente de reclamaciones.
-
-**Se soluciona en media hora**: alojar las tipografías en el propio servidor. Además la web carga
-algo más rápido y desaparece un tercero de la política de privacidad. Lo recomiendo, y no
-depende de que usted decida nada más.
+Se cargaban desde los servidores de Google, lo que comunicaba la IP de cada visitante a un
+tercero fuera de la UE. **Desde el 29 de septiembre de 2026 se sirven desde el propio dominio**:
+Google desaparece de la política de privacidad y la web carga algo antes.
 
 ### La casilla de cookies
 
@@ -144,11 +151,15 @@ un banner menos es una fricción menos.
 
 ---
 
-## 4. Cuando me pase lo anterior
+## 4. Qué falta para cerrar esto
 
-Redacto los tres documentos —aviso legal, privacidad y cookies, si hace falta—, los enlazo desde
-el pie de las nueve páginas y los dejo en la rama `pruebas` para que los revise su asesoría antes
-de publicarlos.
+Para el **aviso legal** basta con las preguntas 1, 3, 5, 6 y 7. La 3 —el domicilio— es la única
+que no tiene alternativa técnica.
 
-Lo que puedo hacer **sin esperar a nada**, si me lo dice: alojar las tipografías en el servidor y
-rellenar en el borrador de privacidad los encargados del tratamiento, que ya están identificados.
+Para la **política de privacidad** ya está casi todo: con la 1 y la 3 se puede cerrar. La 10 y la
+11 no cambian el texto, pero sí su exposición si alguien reclama.
+
+Para las **condiciones de contratación** no falta nada: se pueden redactar ya.
+
+Cuando me lo diga, redacto los documentos, los enlazo desde el pie de las nueve páginas y los
+dejo en la rama `pruebas` para que los revise su asesoría antes de publicarlos.
