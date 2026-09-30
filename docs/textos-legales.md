@@ -92,12 +92,21 @@ el aviso legal debe recoger:
 6. ✅ **Graduado en Administración y Dirección de Empresas** por la Universitat de València, con
    estudios de máster en Derecho de la Empresa, especialidad fiscal, por la misma universidad.
    Títulos expedidos en **España**.
-7. ✅ **Normas profesionales**: la Ley 2/1974 sobre Colegios Profesionales y la normativa propia
-   del COEV. Verificado en la web del Colegio (30/09/2026), con enlace directo a cada documento:
-   [estatutos](https://www.coev.com/estatuto-del-coev) ·
-   [reglamento de colegiación](https://www.coev.com/reglamento-de-colegiacion) ·
-   [código de buen gobierno](https://www.coev.com/codigo-de-buen-gobierno). Los estatutos figuran
-   en su web como **provisionales**; si se aprueban los definitivos, hay que actualizar el enlace.
+7. ✅ **Normas profesionales**, verificadas leyendo los propios documentos del Colegio
+   (30/09/2026): la Ley 2/1974 sobre Colegios Profesionales, la Ley de Colegios Profesionales de
+   la Generalitat Valenciana y los [estatutos del COEV](https://www.coev.com/estatuto-del-coev),
+   que son los que recogen los deberes profesionales, las normas deontológicas y el régimen
+   disciplinario de los colegiados. Se enlaza también el
+   [reglamento de colegiación](https://www.coev.com/reglamento-de-colegiacion).
+
+   > **El código de buen gobierno se ha retirado de la cita.** Lo había puesto yo por su título;
+   > al leerlo resulta que regula «la conducta de los miembros de la Junta de Gobierno», no el
+   > ejercicio profesional del colegiado. Citarlo como norma aplicable a la actividad del
+   > despacho habría sido inexacto. Procede volver a incluirlo solo si se forma parte de la Junta.
+
+   > Los estatutos figuran en la web del Colegio como **provisionales**, aprobados por la
+   > Comisión Gestora el 31 de marzo de 2026. Si se aprueban los definitivos, hay que revisar el
+   > enlace y la cita.
 
 ### c) Protección de datos
 
