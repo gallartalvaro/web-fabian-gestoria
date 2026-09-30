@@ -33,7 +33,8 @@ jobs:
       - name: Comprobar que el sitio está completo
         run: |
           cd public
-          for pagina in index.html subvenciones.html privacidad.html precios.html \
+          for pagina in index.html subvenciones.html precios.html \
+                        privacidad.html aviso-legal.html condiciones.html \
                         ayuda-emprende-y-concilia.html \
                         ayuda-hosteleria-equipamiento.html \
                         ayuda-emdana-emprendimiento.html \
@@ -41,7 +42,7 @@ jobs:
                         ayuda-ivace-eficiencia-energetica.html; do
             test -f "$pagina" || { echo "Falta public/$pagina"; exit 1; }
           done
-          echo "Las nueve páginas están en su sitio."
+          echo "Las once páginas están en su sitio."
 
       - name: Probar el receptor de contactos
         run: node backend/test-worker.mjs

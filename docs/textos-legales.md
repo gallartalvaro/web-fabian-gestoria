@@ -1,14 +1,19 @@
 # Textos legales: qué falta para completarlos
 
-Estado a 29 de septiembre de 2026:
+Estado a 30 de septiembre de 2026:
 
 | Documento | Estado |
 |---|---|
-| Política de privacidad | `public/privacidad.html`, **borrador con tres huecos marcados** |
-| Aviso legal | **no existe** |
-| Política de cookies | **no existe** (puede que no haga falta: ver la decisión 3) |
-| Enlaces en el pie | solo apunta a privacidad, en las nueve páginas |
-| Tipografías de Google | **resuelto**: se sirven desde el propio dominio (29/09/2026) |
+| Aviso legal | `public/aviso-legal.html`, **borrador: falta el domicilio** |
+| Política de privacidad | `public/privacidad.html`, **borrador: falta el domicilio** |
+| Condiciones de contratación | `public/condiciones.html`, **borrador: faltan cuatro decisiones** |
+| Política de cookies | no existe, y puede que no haga falta: ver la decisión 3 |
+| Enlaces en el pie | los tres, en las once páginas |
+| Tipografías de Google | resuelto: se sirven desde el propio dominio |
+
+> ⚠️ **Los tres borradores están en la rama `pruebas` y no deben pasar a producción.** Un aviso
+> legal sin domicilio incumple el artículo 10.1.a de la LSSI, que es justo lo que viene a
+> resolver esa página.
 
 > No soy abogado y usted trabaja en un despacho: lo que sigue es el inventario técnico de lo que
 > la web hace de verdad, más la lista de datos que hay que decidir. Los textos finales debería
@@ -71,11 +76,10 @@ Siete respuestas recibidas el 29 de septiembre de 2026. **Quedan seis preguntas.
 
 ### a) Identificación — obligatoria en el aviso legal
 
-1. ❌ **¿Confirma que el prestador es usted como persona física**, con el nombre y el NIF que
-   constan en `CLAUDE.md`? (No los repito aquí: este archivo está en el repositorio.)
+1. ✅ **Prestador**: Fabian Okue Kung Mangue, NIF 55626142K, persona física.
 2. ✅ **Nombre comercial**: «Valentramites» a secas.
-3. ❌ **Domicilio a publicar** — ver la decisión ⚠️ del punto 3. Es lo único que impide
-   cerrar el aviso legal.
+3. ❌ **Domicilio a publicar** — ver la decisión ⚠️ del punto 3. **Es lo único que impide
+   publicar el aviso legal y la política de privacidad.**
 4. ✅ **Contacto legal**: los mismos correo y teléfono que ya figuran en la web.
 
 ### b) Colegio profesional — casi seguro que aplica
@@ -84,9 +88,13 @@ La web anuncia «asesor fiscal personal» en el plan de autónomos, y su correo 
 dominio `coev.com`, que es el Col·legi d'Economistes de València. Si ejerce profesión colegiada,
 el aviso legal debe recoger:
 
-5. ❌ **Colegio** y **número de colegiado**.
-6. ❌ **Título académico** y país que lo expidió.
-7. ❌ **Normas profesionales** aplicables y dónde se consultan.
+5. ✅ **Ilustre Colegio de Economistas de Valencia**, colegiado número **3692**.
+6. ✅ **Graduado en Administración y Dirección de Empresas** por la Universitat de València, con
+   estudios de máster en Derecho de la Empresa, especialidad fiscal, por la misma universidad.
+   Títulos expedidos en **España**.
+7. ⚠️ **Normas profesionales**: en el borrador constan los estatutos del Colegio y el código
+   deontológico del Consejo General de Economistas. No lo he verificado con el Colegio, y la
+   LSSI pide indicar también dónde se consultan: conviene confirmar la referencia exacta.
 
 ### c) Protección de datos
 
