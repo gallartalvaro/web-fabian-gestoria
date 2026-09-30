@@ -6,7 +6,7 @@ Estado a 30 de septiembre de 2026:
 |---|---|
 | Aviso legal | `public/aviso-legal.html`, **borrador: falta el domicilio** |
 | Política de privacidad | `public/privacidad.html`, **borrador: falta el domicilio** |
-| Condiciones de contratación | `public/condiciones.html`, **borrador: faltan cuatro decisiones** |
+| Condiciones de contratación | `public/condiciones.html`, **borrador: faltan dos decisiones** |
 | Política de cookies | no existe, y puede que no haga falta: ver la decisión 3 |
 | Enlaces en el pie | los tres, en las once páginas |
 | Tipografías de Google | resuelto: se sirven desde el propio dominio |
@@ -92,9 +92,12 @@ el aviso legal debe recoger:
 6. ✅ **Graduado en Administración y Dirección de Empresas** por la Universitat de València, con
    estudios de máster en Derecho de la Empresa, especialidad fiscal, por la misma universidad.
    Títulos expedidos en **España**.
-7. ⚠️ **Normas profesionales**: en el borrador constan los estatutos del Colegio y el código
-   deontológico del Consejo General de Economistas. No lo he verificado con el Colegio, y la
-   LSSI pide indicar también dónde se consultan: conviene confirmar la referencia exacta.
+7. ✅ **Normas profesionales**: la Ley 2/1974 sobre Colegios Profesionales y la normativa propia
+   del COEV. Verificado en la web del Colegio (30/09/2026), con enlace directo a cada documento:
+   [estatutos](https://www.coev.com/estatuto-del-coev) ·
+   [reglamento de colegiación](https://www.coev.com/reglamento-de-colegiacion) ·
+   [código de buen gobierno](https://www.coev.com/codigo-de-buen-gobierno). Los estatutos figuran
+   en su web como **provisionales**; si se aprueban los definitivos, hay que actualizar el enlace.
 
 ### c) Protección de datos
 
@@ -159,13 +162,15 @@ un banner menos es una fricción menos.
 
 ## 4. Qué falta para cerrar esto
 
-Para el **aviso legal** basta con las preguntas 1, 3, 5, 6 y 7. La 3 —el domicilio— es la única
-que no tiene alternativa técnica.
+| Qué | Bloquea |
+|---|---|
+| **El domicilio** del prestador | aviso legal y política de privacidad |
+| **Revisión anual de precios** y con cuánta antelación se avisa | condiciones de contratación |
+| **Fuero** aplicable en caso de controversia | condiciones de contratación |
+| **Contratos de encargado** con Cloudflare, Odoo y Hostinger | nada en la web, pero la privacidad ya los declara |
 
-Para la **política de privacidad** ya está casi todo: con la 1 y la 3 se puede cerrar. La 10 y la
-11 no cambian el texto, pero sí su exposición si alguien reclama.
+Lo demás está redactado y enlazado desde el pie de las once páginas, en la rama `pruebas`.
 
-Para las **condiciones de contratación** no falta nada: se pueden redactar ya.
-
-Cuando me lo diga, redacto los documentos, los enlazo desde el pie de las nueve páginas y los
-dejo en la rama `pruebas` para que los revise su asesoría antes de publicarlos.
+**Condiciones de baja ya cerradas** (30/09/2026): preaviso de 15 días, el mes en que se solicita
+la baja se factura completo, y los trabajos fuera de cuota ya contratados se terminan y se
+facturan según su presupuesto.
