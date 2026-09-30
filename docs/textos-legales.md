@@ -6,7 +6,7 @@ Estado a 30 de septiembre de 2026:
 |---|---|
 | Aviso legal | `public/aviso-legal.html`, **borrador: falta el domicilio** |
 | Política de privacidad | `public/privacidad.html`, **borrador: falta el domicilio** |
-| Condiciones de contratación | `public/condiciones.html`, **borrador: faltan dos decisiones** |
+| Condiciones de contratación | `public/condiciones.html`, **borrador: falta el fuero** |
 | Política de cookies | no existe, y puede que no haga falta: ver la decisión 3 |
 | Enlaces en el pie | los tres, en las once páginas |
 | Tipografías de Google | resuelto: se sirven desde el propio dominio |
@@ -174,12 +174,12 @@ un banner menos es una fricción menos.
 | Qué | Bloquea |
 |---|---|
 | **El domicilio** del prestador | aviso legal y política de privacidad |
-| **Revisión anual de precios** y con cuánta antelación se avisa | condiciones de contratación |
 | **Fuero** aplicable en caso de controversia | condiciones de contratación |
 | **Contratos de encargado** con Cloudflare, Odoo y Hostinger | nada en la web, pero la privacidad ya los declara |
 
 Lo demás está redactado y enlazado desde el pie de las once páginas, en la rama `pruebas`.
 
-**Condiciones de baja ya cerradas** (30/09/2026): preaviso de 15 días, el mes en que se solicita
-la baja se factura completo, y los trabajos fuera de cuota ya contratados se terminan y se
-facturan según su presupuesto.
+**Condiciones ya cerradas** (30/09/2026): sin permanencia; preaviso de 15 días para la baja; el
+mes en que se solicita la baja se factura completo; los trabajos fuera de cuota ya contratados se
+terminan y se facturan según su presupuesto; y las cuotas se revisan una vez al año, avisando con
+un mes de antelación.
