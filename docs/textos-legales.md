@@ -11,9 +11,13 @@ Estado a 30 de septiembre de 2026:
 | Enlaces en el pie | los tres, en las once páginas |
 | Tipografías de Google | resuelto: se sirven desde el propio dominio |
 
-> ⚠️ **Los tres borradores están en la rama `pruebas` y no deben pasar a producción.** Un aviso
-> legal sin domicilio incumple el artículo 10.1.a de la LSSI, que es justo lo que viene a
-> resolver esa página.
+> ⚠️ **El aviso legal y las condiciones llevan el marcador `NO-PUBLICAR`**: se ven en la copia de
+> revisión, pero el flujo de producción los retira y les quita el enlace del pie. Un aviso legal
+> sin domicilio incumple el artículo 10.1.a de la LSSI, que es justo lo que viene a resolver esa
+> página. Para publicarlos, borre el comentario de su primera línea.
+>
+> La política de privacidad **sí** está publicada: aunque le falte el domicilio, mejora la que
+> ya estaba viva (encargados identificados, conservación de un año, transferencias corregidas).
 
 > No soy abogado y usted trabaja en un despacho: lo que sigue es el inventario técnico de lo que
 > la web hace de verdad, más la lista de datos que hay que decidir. Los textos finales debería

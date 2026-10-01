@@ -108,6 +108,38 @@ jobs:
               raise SystemExit("No se ha versionado ninguna ruta: revisar el paso.")
           PY
 
+      - name: Retirar las páginas marcadas como borrador
+        run: |
+          cd _publicar
+          retiradas=""
+          for pagina in *.html; do
+            if grep -q 'NO-PUBLICAR' "$pagina"; then
+              retiradas="$retiradas $pagina"
+              rm "$pagina"
+              echo "Retirada de producción: $pagina"
+            fi
+          done
+
+          if [ -z "$retiradas" ]; then
+            echo "Ninguna página marcada como borrador."
+            exit 0
+          fi
+
+          # Si se publica el pie con enlaces a páginas retiradas, el
+          # visitante se encuentra un 404. Se quitan esos enlaces.
+          for pagina in *.html; do
+            for retirada in $retiradas; do
+              sed -i "\|<a href=\"$retirada\">|d" "$pagina"
+            done
+          done
+
+          # Y que no quede ninguna referencia suelta en el resto del sitio.
+          if grep -rl --include='*.html' -E "href=\"($(echo $retiradas | tr ' ' '|'))\"" . ; then
+            echo "Quedan enlaces a páginas retiradas en los archivos de arriba."
+            exit 1
+          fi
+          echo "Borradores retirados y enlaces limpios."
+
       - name: Comprobar que las páginas siguen enteras
         run: |
           cd _publicar
