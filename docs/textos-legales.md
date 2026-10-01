@@ -1,23 +1,34 @@
 # Textos legales: qué falta para completarlos
 
-Estado a 30 de septiembre de 2026:
+Estado a 1 de octubre de 2026:
 
 | Documento | Estado |
 |---|---|
-| Aviso legal | `public/aviso-legal.html`, **borrador: falta el domicilio** |
-| Política de privacidad | `public/privacidad.html`, **borrador: falta el domicilio** |
-| Condiciones de contratación | `public/condiciones.html`, **borrador: falta el fuero** |
+| Aviso legal | **completo**, retenido: contiene el domicilio — ver la decisión de abajo |
+| Condiciones de contratación | **completas**, retenidas: remiten al aviso legal |
+| Política de privacidad | **completa y publicada** en producción |
 | Política de cookies | no existe, y puede que no haga falta: ver la decisión 3 |
-| Enlaces en el pie | los tres, en las once páginas |
 | Tipografías de Google | resuelto: se sirven desde el propio dominio |
 
-> ⚠️ **El aviso legal y las condiciones llevan el marcador `NO-PUBLICAR`**: se ven en la copia de
-> revisión, pero el flujo de producción los retira y les quita el enlace del pie. Un aviso legal
-> sin domicilio incumple el artículo 10.1.a de la LSSI, que es justo lo que viene a resolver esa
-> página. Para publicarlos, borre el comentario de su primera línea.
+> ## ⚠️ La única decisión que queda
 >
-> La política de privacidad **sí** está publicada: aunque le falte el domicilio, mejora la que
-> ya estaba viva (encargados identificados, conservación de un año, transferencias corregidas).
+> El domicilio del prestador es **una vivienda particular**, y se ha pedido no publicarlo. Pero el
+> artículo 10.1.a de la LSSI exige el domicilio en el aviso legal, que es por definición una
+> página pública: no hay manera de cumplir la ley y a la vez mantenerlo fuera de internet.
+>
+> El domicilio está escrito **solo en `aviso-legal.html`**. No aparece en la privacidad —el RGPD
+> se satisface con los datos de contacto—, ni en el pie, ni en la portada, ni en los datos
+> estructurados. El aviso legal y las condiciones llevan el marcador `NO-PUBLICAR` y el flujo de
+> producción las retira.
+>
+> **Dos salidas:**
+>
+> 1. **Publicar el aviso legal con el domicilio particular.** Es lo que hacen la mayoría de los
+>    autónomos que trabajan desde casa, y es lo que la ley pide.
+> 2. **Dar de alta un domicilio profesional** —despacho compartido o centro de negocios— y usar
+>    ese. Cuesta dinero, pero mantiene la vivienda fuera.
+>
+> Hasta que se elija, los dos documentos se quedan en la copia de revisión.
 
 > No soy abogado y usted trabaja en un despacho: lo que sigue es el inventario técnico de lo que
 > la web hace de verdad, más la lista de datos que hay que decidir. Los textos finales debería
@@ -82,8 +93,8 @@ Siete respuestas recibidas el 29 de septiembre de 2026. **Quedan seis preguntas.
 
 1. ✅ **Prestador**: Fabian Okue Kung Mangue, NIF 55626142K, persona física.
 2. ✅ **Nombre comercial**: «Valentramites» a secas.
-3. ❌ **Domicilio a publicar** — ver la decisión ⚠️ del punto 3. **Es lo único que impide
-   publicar el aviso legal y la política de privacidad.**
+3. ✅ **Domicilio facilitado** (1/10/2026) y escrito en el aviso legal, que es el único sitio
+   donde la ley lo exige. Es una vivienda particular: de ahí la decisión de arriba.
 4. ✅ **Contacto legal**: los mismos correo y teléfono que ya figuran en la web.
 
 ### b) Colegio profesional — casi seguro que aplica
@@ -177,13 +188,14 @@ un banner menos es una fricción menos.
 
 | Qué | Bloquea |
 |---|---|
-| **El domicilio** del prestador | aviso legal y política de privacidad |
-| **Fuero** aplicable en caso de controversia | condiciones de contratación |
+| **Decidir si el domicilio se publica** | aviso legal y condiciones |
 | **Contratos de encargado** con Cloudflare, Odoo y Hostinger | nada en la web, pero la privacidad ya los declara |
 
-Lo demás está redactado y enlazado desde el pie de las once páginas, en la rama `pruebas`.
+Los tres documentos están redactados y enlazados desde el pie. La privacidad ya está en
+producción; los otros dos esperan esa única decisión.
 
 **Condiciones ya cerradas** (30/09/2026): sin permanencia; preaviso de 15 días para la baja; el
 mes en que se solicita la baja se factura completo; los trabajos fuera de cuota ya contratados se
 terminan y se facturan según su presupuesto; y las cuotas se revisan una vez al año, avisando con
-un mes de antelación.
+un mes de antelación. **Fuero** (1/10/2026): juzgados y tribunales de València, salvo que
+quien contrate sea consumidor, en cuyo caso prevalece el fuero que le reconozca su normativa.
