@@ -58,7 +58,8 @@ detiene en vez de subir enlaces rotos.
 
 En la copia de revisión sí se ve, que es de lo que se trata. Para publicarla, borre el comentario.
 
-Hoy lo llevan `aviso-legal.html` y `condiciones.html`: ver [textos-legales.md](textos-legales.md).
+Ahora mismo no lo lleva ninguna página. Lo llevaron el aviso legal y las condiciones mientras
+les faltaban datos, hasta el 1 de octubre de 2026.
 
 ## Cambiar un dato de contacto
 

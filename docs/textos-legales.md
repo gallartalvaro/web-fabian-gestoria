@@ -4,31 +4,20 @@ Estado a 1 de octubre de 2026:
 
 | Documento | Estado |
 |---|---|
-| Aviso legal | **completo**, retenido: contiene el domicilio — ver la decisión de abajo |
-| Condiciones de contratación | **completas**, retenidas: remiten al aviso legal |
+| Aviso legal | **completo y publicado** en producción |
+| Condiciones de contratación | **completas y publicadas** en producción |
 | Política de privacidad | **completa y publicada** en producción |
 | Política de cookies | no existe, y puede que no haga falta: ver la decisión 3 |
 | Tipografías de Google | resuelto: se sirven desde el propio dominio |
 
-> ## ⚠️ La única decisión que queda
+> **Decidido el 1 de octubre de 2026:** se publica el aviso legal con el domicilio particular,
+> que es lo que exige el artículo 10.1.a de la LSSI. Se descartó dar de alta un domicilio
+> profesional.
 >
-> El domicilio del prestador es **una vivienda particular**, y se ha pedido no publicarlo. Pero el
-> artículo 10.1.a de la LSSI exige el domicilio en el aviso legal, que es por definición una
-> página pública: no hay manera de cumplir la ley y a la vez mantenerlo fuera de internet.
->
-> El domicilio está escrito **solo en `aviso-legal.html`**. No aparece en la privacidad —el RGPD
-> se satisface con los datos de contacto—, ni en el pie, ni en la portada, ni en los datos
-> estructurados. El aviso legal y las condiciones llevan el marcador `NO-PUBLICAR` y el flujo de
-> producción las retira.
->
-> **Dos salidas:**
->
-> 1. **Publicar el aviso legal con el domicilio particular.** Es lo que hacen la mayoría de los
->    autónomos que trabajan desde casa, y es lo que la ley pide.
-> 2. **Dar de alta un domicilio profesional** —despacho compartido o centro de negocios— y usar
->    ese. Cuesta dinero, pero mantiene la vivienda fuera.
->
-> Hasta que se elija, los dos documentos se quedan en la copia de revisión.
+> El domicilio está escrito **solo en `aviso-legal.html`**: no aparece en la política de
+> privacidad —el RGPD se satisface con los datos de contacto—, ni en el pie, ni en la portada, ni
+> en los datos estructurados. Si algún día se da de alta un domicilio profesional, se cambia en
+> ese único sitio.
 
 > No soy abogado y usted trabaja en un despacho: lo que sigue es el inventario técnico de lo que
 > la web hace de verdad, más la lista de datos que hay que decidir. Los textos finales debería
@@ -188,11 +177,9 @@ un banner menos es una fricción menos.
 
 | Qué | Bloquea |
 |---|---|
-| **Decidir si el domicilio se publica** | aviso legal y condiciones |
 | **Contratos de encargado** con Cloudflare, Odoo y Hostinger | nada en la web, pero la privacidad ya los declara |
 
-Los tres documentos están redactados y enlazados desde el pie. La privacidad ya está en
-producción; los otros dos esperan esa única decisión.
+Los tres documentos están publicados y enlazados desde el pie de las doce páginas.
 
 **Condiciones ya cerradas** (30/09/2026): sin permanencia; preaviso de 15 días para la baja; el
 mes en que se solicita la baja se factura completo; los trabajos fuera de cuota ya contratados se
