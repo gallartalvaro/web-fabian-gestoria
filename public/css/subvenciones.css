@@ -66,10 +66,13 @@
 .estado--abierto { background: #e6f4ec; color: #1a7a48; border-color: #b7e0c9; }
 .estado--proximo { background: var(--color-accent-soft); color: #8a5f1c; border-color: #e5cfa6; }
 .estado--cerrado { background: #eef1f5; color: #5a6a7e; border-color: #d8dfe8; }
+/* Aprobada, pero con el plazo aún sin fecha. */
+.estado--pendiente { background: #eef2fb; color: #3f5590; border-color: #c9d5ef; }
 
 .pagehero .estado--abierto { background: rgba(255, 255, 255, 0.12); color: #9fe3bd; border-color: rgba(159, 227, 189, 0.4); }
 .pagehero .estado--proximo { background: rgba(255, 255, 255, 0.12); color: #f0cf99; border-color: rgba(240, 207, 153, 0.4); }
 .pagehero .estado--cerrado { background: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.7); border-color: rgba(255, 255, 255, 0.25); }
+.pagehero .estado--pendiente { background: rgba(255, 255, 255, 0.12); color: #bcd0ff; border-color: rgba(188, 208, 255, 0.4); }
 
 /* ===== Listado de convocatorias ===== */
 .grants { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }

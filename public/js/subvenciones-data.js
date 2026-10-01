@@ -1190,4 +1190,262 @@ window.SUBVENCIONES = {
       };
     },
   },
+
+  // ============================================================
+  // «Primeros Pasos 2026» — Ayuntamiento de València
+  // Ayuda a autónomos de València que han tenido hijos desde el
+  // 1 de enero de 2024. BDNS 931841. Trámite AE.IE.175.
+  //
+  // El plazo NO tiene fecha: son 20 días naturales desde el día
+  // siguiente a la publicación del extracto en el BOP, y a fecha
+  // de hoy la sede dice «Publicación en BOP: Pendiente». De ahí
+  // que el plazo vaya sin inicio ni fin: ver estadoPlazo().
+  // ============================================================
+  "primeros-pasos-2026": {
+    id: "primeros-pasos-2026",
+    titulo: "Subvención municipal «Primeros Pasos» 2026",
+    nombreCorto: "Primeros Pasos 2026",
+    organismo: "Ayuntamiento de València",
+    importeBase: 1200,
+
+    plazo: {
+      inicio: null,
+      fin: null,
+      nota: "Se abrirá el día siguiente a la publicación del extracto en el BOP y durará 20 días naturales",
+    },
+
+    preguntas: [
+      {
+        id: "perfil",
+        tipo: "unica",
+        titulo: "¿A nombre de quién se pediría la ayuda?",
+        ayuda:
+          "Esta convocatoria es solo para personas físicas dadas de alta como autónomas. " +
+          "De presentar la solicitud nos encargamos nosotros, si así lo desea.",
+        opciones: [
+          { valor: "fisica", etiqueta: "Una persona física dada de alta como autónoma" },
+          {
+            valor: "societaria",
+            etiqueta:
+              "Una sociedad, cooperativa, comunidad de bienes o sociedad civil, o un autónomo que factura a través de ella",
+          },
+          {
+            valor: "colaborador",
+            etiqueta:
+              "Un autónomo colaborador, o un alta en mutualidad profesional en lugar de en el RETA",
+          },
+        ],
+      },
+      {
+        id: "hijos",
+        tipo: "unica",
+        titulo: "¿Ha tenido o adoptado hijos desde el 1 de enero de 2024?",
+        ayuda:
+          "Es el hecho que da derecho a la ayuda. Cuenta cada nacimiento o adopción legal " +
+          "producido desde esa fecha y hasta el día en que se presente la solicitud.",
+        opciones: [
+          { valor: "uno", etiqueta: "Sí, uno" },
+          { valor: "dos", etiqueta: "Sí, dos o más desde esa fecha" },
+          { valor: "antes", etiqueta: "Sí, pero todos nacieron antes del 1 de enero de 2024" },
+          { valor: "no", etiqueta: "No tengo hijos ni hijas" },
+        ],
+      },
+      {
+        id: "orden",
+        tipo: "unica",
+        titulo: "Contando los que ya tenía, ¿cuántos hijos o hijas tiene en total?",
+        ayuda:
+          "La cuantía sube 300 € si el nacimiento es del segundo hijo o hija, otros 300 € si es " +
+          "del tercero, y así sucesivamente. Por eso cuentan también los anteriores.",
+        opciones: [
+          { valor: "1", etiqueta: "Uno: es el primero" },
+          { valor: "2", etiqueta: "Dos" },
+          { valor: "3", etiqueta: "Tres" },
+          { valor: "4", etiqueta: "Cuatro o más" },
+        ],
+      },
+      {
+        id: "altas",
+        tipo: "unica",
+        titulo: "¿Está ya de alta en el IAE y en el RETA?",
+        ayuda:
+          "Las dos altas deben ser anteriores a la fecha en que el Ayuntamiento publique el " +
+          "acuerdo de aprobación de la convocatoria en su Tablón de Edictos Electrónico.",
+        opciones: [
+          { valor: "ambas", etiqueta: "Sí, en las dos" },
+          { valor: "una", etiqueta: "Solo en una de las dos" },
+          { valor: "ninguna", etiqueta: "Todavía en ninguna" },
+        ],
+      },
+      {
+        id: "domicilio",
+        tipo: "unica",
+        titulo: "¿Dónde radica el domicilio fiscal o el local de la actividad?",
+        ayuda: "Debe situarse dentro del término municipal de València.",
+        opciones: [
+          { valor: "valencia", etiqueta: "En València capital" },
+          { valor: "otro", etiqueta: "En otro municipio" },
+        ],
+      },
+      {
+        id: "padron",
+        tipo: "unica",
+        titulo: "¿Lleva al menos cinco años empadronado o empadronada en València?",
+        ayuda:
+          "Hay que estar empadronado en València al presentar la solicitud, con una antigüedad " +
+          "mínima de cinco años. Se acredita con un certificado histórico del padrón.",
+        opciones: [
+          { valor: "si", etiqueta: "Sí, cinco años o más" },
+          { valor: "no", etiqueta: "No, menos de cinco años" },
+          { valor: "nose", etiqueta: "No estoy seguro o segura" },
+        ],
+      },
+      {
+        id: "plantilla",
+        tipo: "unica",
+        titulo: "¿Cuántas personas ha tenido contratadas de media durante el último año?",
+        ayuda:
+          "Plantilla media de los doce meses anteriores a la solicitud, o del tiempo que lleve " +
+          "de alta si es menos.",
+        opciones: [
+          { valor: "menos10", etiqueta: "Ninguna, o menos de 10 personas" },
+          { valor: "diez", etiqueta: "10 personas o más" },
+        ],
+      },
+      {
+        id: "situacion",
+        tipo: "multiple",
+        titulo: "De lo siguiente, ¿qué tiene ya en regla?",
+        ayuda:
+          "Marque únicamente lo que ya cumple. Lo que quede sin marcar no le excluye: " +
+          "en la mayoría de los casos se resuelve antes de presentar la solicitud.",
+        opciones: [
+          { valor: "aeat", etiqueta: "Al corriente con Hacienda y con la Seguridad Social" },
+          { valor: "ayto", etiqueta: "Sin deudas pendientes con el Ayuntamiento de València" },
+          { valor: "justificadas", etiqueta: "Justificadas las subvenciones municipales anteriores" },
+          { valor: "minimis", etiqueta: "No he recibido 300.000 € en ayudas de minimis en tres años" },
+          { valor: "certificado", etiqueta: "Certificado digital de persona física para firmar la solicitud" },
+        ],
+      },
+    ],
+
+    etiquetar: function (r) {
+      var e = ["Autónomo con hijos", "València"];
+      if (r.hijos === "dos") e.push("Dos o más nacimientos desde 2024");
+      if (r.orden === "3" || r.orden === "4") e.push("Familia numerosa");
+      if (r.altas !== "ambas") e.push("Altas pendientes");
+      if ((r.situacion || []).indexOf("certificado") === -1) e.push("Sin certificado digital");
+      return e;
+    },
+
+    evaluar: function (r) {
+      var bloqueos = [];
+      var revisar = [];
+      var favorables = [];
+
+      // --- Motivos de exclusión claros ---
+      if (r.perfil === "societaria") {
+        bloqueos.push(
+          "La convocatoria excluye a quien desarrolla su actividad a través de una sociedad, cooperativa, comunidad de bienes o sociedad civil: solo admite personas físicas autónomas."
+        );
+      }
+      if (r.perfil === "colaborador") {
+        bloqueos.push(
+          "El alta como autónomo colaborador o en una mutualidad profesional no da acceso a esta ayuda, que exige alta propia en el RETA."
+        );
+      }
+      if (r.hijos === "no") {
+        bloqueos.push(
+          "La ayuda se concede por cada nacimiento o adopción producido desde el 1 de enero de 2024."
+        );
+      }
+      if (r.hijos === "antes") {
+        bloqueos.push(
+          "Los nacimientos o adopciones son anteriores al 1 de enero de 2024, que es la fecha desde la que esta convocatoria los admite."
+        );
+      }
+      if (r.domicilio === "otro") {
+        bloqueos.push(
+          "La actividad debe tener su domicilio fiscal o su local dentro del término municipal de València."
+        );
+      }
+      if (r.padron === "no") {
+        bloqueos.push(
+          "Se exige una antigüedad mínima de cinco años de empadronamiento en València."
+        );
+      }
+      if (r.plantilla === "diez") {
+        bloqueos.push("La plantilla media del último año debe ser inferior a 10 personas.");
+      }
+
+      // --- Puntos que conviene comprobar, pero que no excluyen ---
+      if (r.altas === "una" || r.altas === "ninguna") {
+        revisar.push(
+          "Faltan altas. El IAE y el RETA deben constar antes de que el Ayuntamiento publique el acuerdo de aprobación en su Tablón de Edictos, de modo que conviene tramitarlas cuanto antes."
+        );
+      }
+      if (r.padron === "nose") {
+        revisar.push(
+          "Conviene confirmar la antigüedad del empadronamiento con un certificado histórico del padrón."
+        );
+      }
+
+      var situacion = r.situacion || [];
+      if (situacion.indexOf("aeat") === -1) {
+        revisar.push(
+          "Hay que estar al corriente con Hacienda y con la Seguridad Social en el momento de solicitar."
+        );
+      }
+      if (situacion.indexOf("ayto") === -1) {
+        revisar.push(
+          "Hay que comprobar que no existen deudas pendientes con el Ayuntamiento de València."
+        );
+      }
+      if (situacion.indexOf("justificadas") === -1) {
+        revisar.push(
+          "Hay que tener justificada cualquier subvención municipal anterior cuyo plazo de justificación ya haya terminado."
+        );
+      }
+      if (situacion.indexOf("minimis") === -1) {
+        revisar.push(
+          "Hay que aportar el certificado de ayudas de minimis de 2026, incluso si no se ha recibido ninguna, y no superar los 300.000 € en tres años."
+        );
+      }
+      if (situacion.indexOf("certificado") === -1) {
+        revisar.push(
+          "La solicitud solo se admite en la sede electrónica, firmada con certificado de persona física. Podemos presentarla en su nombre."
+        );
+      }
+
+      // --- Importe estimado ---
+      // 1.200 € por cada nacimiento o adopción desde 2024, más 300 €
+      // por cada hijo a partir del segundo del total de la familia.
+      var nacimientos = r.hijos === "dos" ? 2 : 1;
+      var orden = Number(r.orden || 1);
+      var importe = 1200 * nacimientos;
+      if (orden >= 2) {
+        var extra = 300 * (orden - 1);
+        importe += extra;
+        favorables.push("Incremento de " + extra + " € por el orden del nacimiento.");
+      }
+      if (nacimientos > 1) {
+        favorables.push("Se cobra una ayuda por cada nacimiento o adopción desde 2024.");
+      }
+
+      var estado = "apto";
+      if (bloqueos.length) estado = "no-apto";
+      else if (revisar.length) estado = "revisar";
+
+      return {
+        estado: estado,
+        importe: importe,
+        importeTexto: "Desde " + String(importe).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €",
+        importeDetalle:
+          "1.200 € por nacimiento más los incrementos por orden; puede subir hasta 500 € más si sobra crédito",
+        bloqueos: bloqueos,
+        revisar: revisar,
+        favorables: favorables,
+      };
+    },
+  },
 };

@@ -36,7 +36,29 @@ ve en la pestaña *Actions* del repositorio.
 
 Los plazos se calculan solos: no escriba «quedan N días» en ningún texto.
 
+> **Si el plazo todavía no tiene fecha** —típico de las municipales: «20 días desde la
+> publicación en el BOP»— ponga `plazo: { inicio: null, fin: null, nota: "…" }` y en el HTML
+> un `data-plazo` **sin** `data-inicio` ni `data-fin`, con `data-nota`. La convocatoria se
+> anuncia como «Pendiente de apertura» y el test sigue funcionando. No invente una fecha.
+
 Criterio de redacción del test: ver [decisiones.md](decisiones.md#el-test-no-descarta-a-la-ligera).
+
+## Dejar una página fuera de producción
+
+Una página a medias —un texto legal sin validar, una ficha a falta de un dato— puede revisarse
+sin riesgo de que se publique por descuido. Basta un comentario en su primera línea:
+
+```html
+<!-- NO-PUBLICAR -->
+```
+
+El flujo de producción **la retira antes de subir nada** y además **le quita el enlace del pie**
+de las demás páginas, para no dejar un 404. Si queda alguna referencia suelta, la publicación se
+detiene en vez de subir enlaces rotos.
+
+En la copia de revisión sí se ve, que es de lo que se trata. Para publicarla, borre el comentario.
+
+Hoy lo llevan `aviso-legal.html` y `condiciones.html`: ver [textos-legales.md](textos-legales.md).
 
 ## Cambiar un dato de contacto
 

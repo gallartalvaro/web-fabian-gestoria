@@ -1,14 +1,23 @@
 # Textos legales: qué falta para completarlos
 
-Estado a 29 de septiembre de 2026:
+Estado a 30 de septiembre de 2026:
 
 | Documento | Estado |
 |---|---|
-| Política de privacidad | `public/privacidad.html`, **borrador con tres huecos marcados** |
-| Aviso legal | **no existe** |
-| Política de cookies | **no existe** (puede que no haga falta: ver la decisión 3) |
-| Enlaces en el pie | solo apunta a privacidad, en las nueve páginas |
-| Tipografías de Google | **resuelto**: se sirven desde el propio dominio (29/09/2026) |
+| Aviso legal | `public/aviso-legal.html`, **borrador: falta el domicilio** |
+| Política de privacidad | `public/privacidad.html`, **borrador: falta el domicilio** |
+| Condiciones de contratación | `public/condiciones.html`, **borrador: falta el fuero** |
+| Política de cookies | no existe, y puede que no haga falta: ver la decisión 3 |
+| Enlaces en el pie | los tres, en las once páginas |
+| Tipografías de Google | resuelto: se sirven desde el propio dominio |
+
+> ⚠️ **El aviso legal y las condiciones llevan el marcador `NO-PUBLICAR`**: se ven en la copia de
+> revisión, pero el flujo de producción los retira y les quita el enlace del pie. Un aviso legal
+> sin domicilio incumple el artículo 10.1.a de la LSSI, que es justo lo que viene a resolver esa
+> página. Para publicarlos, borre el comentario de su primera línea.
+>
+> La política de privacidad **sí** está publicada: aunque le falte el domicilio, mejora la que
+> ya estaba viva (encargados identificados, conservación de un año, transferencias corregidas).
 
 > No soy abogado y usted trabaja en un despacho: lo que sigue es el inventario técnico de lo que
 > la web hace de verdad, más la lista de datos que hay que decidir. Los textos finales debería
@@ -71,11 +80,10 @@ Siete respuestas recibidas el 29 de septiembre de 2026. **Quedan seis preguntas.
 
 ### a) Identificación — obligatoria en el aviso legal
 
-1. ❌ **¿Confirma que el prestador es usted como persona física**, con el nombre y el NIF que
-   constan en `CLAUDE.md`? (No los repito aquí: este archivo está en el repositorio.)
+1. ✅ **Prestador**: Fabian Okue Kung Mangue, NIF 55626142K, persona física.
 2. ✅ **Nombre comercial**: «Valentramites» a secas.
-3. ❌ **Domicilio a publicar** — ver la decisión ⚠️ del punto 3. Es lo único que impide
-   cerrar el aviso legal.
+3. ❌ **Domicilio a publicar** — ver la decisión ⚠️ del punto 3. **Es lo único que impide
+   publicar el aviso legal y la política de privacidad.**
 4. ✅ **Contacto legal**: los mismos correo y teléfono que ya figuran en la web.
 
 ### b) Colegio profesional — casi seguro que aplica
@@ -84,9 +92,25 @@ La web anuncia «asesor fiscal personal» en el plan de autónomos, y su correo 
 dominio `coev.com`, que es el Col·legi d'Economistes de València. Si ejerce profesión colegiada,
 el aviso legal debe recoger:
 
-5. ❌ **Colegio** y **número de colegiado**.
-6. ❌ **Título académico** y país que lo expidió.
-7. ❌ **Normas profesionales** aplicables y dónde se consultan.
+5. ✅ **Ilustre Colegio de Economistas de Valencia**, colegiado número **3692**.
+6. ✅ **Graduado en Administración y Dirección de Empresas** por la Universitat de València, con
+   estudios de máster en Derecho de la Empresa, especialidad fiscal, por la misma universidad.
+   Títulos expedidos en **España**.
+7. ✅ **Normas profesionales**, verificadas leyendo los propios documentos del Colegio
+   (30/09/2026): la Ley 2/1974 sobre Colegios Profesionales, la Ley de Colegios Profesionales de
+   la Generalitat Valenciana y los [estatutos del COEV](https://www.coev.com/estatuto-del-coev),
+   que son los que recogen los deberes profesionales, las normas deontológicas y el régimen
+   disciplinario de los colegiados. Se enlaza también el
+   [reglamento de colegiación](https://www.coev.com/reglamento-de-colegiacion).
+
+   > **El código de buen gobierno se ha retirado de la cita.** Lo había puesto yo por su título;
+   > al leerlo resulta que regula «la conducta de los miembros de la Junta de Gobierno», no el
+   > ejercicio profesional del colegiado. Citarlo como norma aplicable a la actividad del
+   > despacho habría sido inexacto. Procede volver a incluirlo solo si se forma parte de la Junta.
+
+   > Los estatutos figuran en la web del Colegio como **provisionales**, aprobados por la
+   > Comisión Gestora el 31 de marzo de 2026. Si se aprueban los definitivos, hay que revisar el
+   > enlace y la cita.
 
 ### c) Protección de datos
 
@@ -151,13 +175,15 @@ un banner menos es una fricción menos.
 
 ## 4. Qué falta para cerrar esto
 
-Para el **aviso legal** basta con las preguntas 1, 3, 5, 6 y 7. La 3 —el domicilio— es la única
-que no tiene alternativa técnica.
+| Qué | Bloquea |
+|---|---|
+| **El domicilio** del prestador | aviso legal y política de privacidad |
+| **Fuero** aplicable en caso de controversia | condiciones de contratación |
+| **Contratos de encargado** con Cloudflare, Odoo y Hostinger | nada en la web, pero la privacidad ya los declara |
 
-Para la **política de privacidad** ya está casi todo: con la 1 y la 3 se puede cerrar. La 10 y la
-11 no cambian el texto, pero sí su exposición si alguien reclama.
+Lo demás está redactado y enlazado desde el pie de las once páginas, en la rama `pruebas`.
 
-Para las **condiciones de contratación** no falta nada: se pueden redactar ya.
-
-Cuando me lo diga, redacto los documentos, los enlazo desde el pie de las nueve páginas y los
-dejo en la rama `pruebas` para que los revise su asesoría antes de publicarlos.
+**Condiciones ya cerradas** (30/09/2026): sin permanencia; preaviso de 15 días para la baja; el
+mes en que se solicita la baja se factura completo; los trabajos fuera de cuota ya contratados se
+terminan y se facturan según su presupuesto; y las cuotas se revisan una vez al año, avisando con
+un mes de antelación.

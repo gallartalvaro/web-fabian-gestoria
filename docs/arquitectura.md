@@ -68,10 +68,16 @@ confundirlas:
 
 | | Se puede hacer el test | Se ve en el listado |
 |---|---|---|
+| **Sin fechas todavía** (plazo pendiente de publicarse en el boletín) | sí | sí, como «Pendiente de apertura» |
 | Antes de abrir, o con dos días o más de plazo | sí | sí |
 | Con menos de dos días de plazo | no | sí, atenuada: «Ya no da tiempo» |
 | Cerrada hace dos días o menos | no | sí, atenuada: «Fuera de plazo» |
 | Cerrada hace más de dos días | no | **no: desaparece** |
+
+Una convocatoria con `plazo: { inicio: null, fin: null, nota: "…" }` queda en el estado
+**pendiente**: se anuncia y deja hacer el test —los requisitos ya se conocen y conviene preparar
+los papeles— pero no se finge una fecha que nadie sabe. Es el caso de muchas municipales, cuyo
+plazo son N días desde que el extracto salga en el boletín.
 
 Las dos constantes están en `js/subvenciones.js`: `MARGEN_MINIMO` (días que deben quedar para
 aceptar el encargo) y `DIAS_EN_CARTEL` (días que una convocatoria cerrada sigue a la vista).

@@ -93,7 +93,23 @@
   // aquí, y son distintas:
   //   activa  → se puede hacer el test y aceptar el encargo
   //   visible → la tarjeta se pinta en el listado
-  function estadoPlazo(inicio, fin) {
+  function estadoPlazo(inicio, fin, nota) {
+    // Sin fechas: la convocatoria está aprobada y sus bases publicadas,
+    // pero el plazo no arranca hasta que el extracto sale en el
+    // boletín. Se anuncia y se deja hacer el test —los requisitos ya se
+    // conocen y conviene preparar los papeles—, pero no se finge una
+    // fecha que nadie sabe.
+    if (!inicio || !fin) {
+      return {
+        clave: "pendiente",
+        dias: null,
+        activa: true,
+        visible: true,
+        etiqueta: nota || "Plazo pendiente de publicación en el boletín oficial",
+        breve: "Pendiente de apertura",
+      };
+    }
+
     var h = hoy();
     var ini = fecha(inicio);
     var f = fecha(fin);
@@ -146,7 +162,7 @@
   // <span data-plazo data-inicio="AAAA-MM-DD" data-fin="AAAA-MM-DD">
   function pintarPlazos() {
     document.querySelectorAll("[data-plazo]").forEach(function (nodo) {
-      var e = estadoPlazo(nodo.dataset.inicio, nodo.dataset.fin);
+      var e = estadoPlazo(nodo.dataset.inicio, nodo.dataset.fin, nodo.dataset.nota);
       nodo.classList.add("estado", "estado--" + e.clave);
       nodo.textContent = nodo.dataset.plazo === "breve" ? e.breve : e.etiqueta;
 
@@ -265,7 +281,7 @@
 
   function render() {
     contenedor.innerHTML = "";
-    if (!estadoPlazo(ayuda.plazo.inicio, ayuda.plazo.fin).activa) return pantallaFueraDePlazo();
+    if (!estadoPlazo(ayuda.plazo.inicio, ayuda.plazo.fin, ayuda.plazo.nota).activa) return pantallaFueraDePlazo();
     if (estado.paso === -1) return pantallaIntro();
     if (estado.paso < preguntas.length) return pantallaPregunta(preguntas[estado.paso]);
     return pantallaResultado();
@@ -341,7 +357,7 @@
     });
     caja.appendChild(btn);
 
-    var e = estadoPlazo(ayuda.plazo.inicio, ayuda.plazo.fin);
+    var e = estadoPlazo(ayuda.plazo.inicio, ayuda.plazo.fin, ayuda.plazo.nota);
     if (e.clave === "cerrado") {
       caja.appendChild(
         el(
@@ -483,7 +499,7 @@
     var r = ayuda.evaluar(estado.respuestas);
     estado.resultado = r;
 
-    var plazo = estadoPlazo(ayuda.plazo.inicio, ayuda.plazo.fin);
+    var plazo = estadoPlazo(ayuda.plazo.inicio, ayuda.plazo.fin, ayuda.plazo.nota);
     var caja = el("div", "wiz__screen wiz__screen--resultado res res--" + r.estado);
 
     var titulos = {
@@ -558,6 +574,16 @@
           "p",
           "res__plazo" + (plazo.dias <= 7 ? " res__plazo--urgente" : ""),
           plazo.etiqueta + " — el plazo termina el " + fechaLarga(ayuda.plazo.fin) + "."
+        )
+      );
+    } else if (plazo.clave === "pendiente") {
+      caja.appendChild(
+        el(
+          "p",
+          "res__plazo",
+          "Atención: el plazo todavía no ha empezado. " +
+            (ayuda.plazo.nota || "Se abrirá cuando se publique el extracto en el boletín oficial") +
+            ". Si nos encarga la gestión, preparamos el expediente ahora y lo presentamos el primer día."
         )
       );
     } else if (plazo.clave === "cerrado") {
