@@ -36,6 +36,11 @@ ve en la pestaña *Actions* del repositorio.
 
 Los plazos se calculan solos: no escriba «quedan N días» en ningún texto.
 
+> **Si el plazo todavía no tiene fecha** —típico de las municipales: «20 días desde la
+> publicación en el BOP»— ponga `plazo: { inicio: null, fin: null, nota: "…" }` y en el HTML
+> un `data-plazo` **sin** `data-inicio` ni `data-fin`, con `data-nota`. La convocatoria se
+> anuncia como «Pendiente de apertura» y el test sigue funcionando. No invente una fecha.
+
 Criterio de redacción del test: ver [decisiones.md](decisiones.md#el-test-no-descarta-a-la-ligera).
 
 ## Cambiar un dato de contacto

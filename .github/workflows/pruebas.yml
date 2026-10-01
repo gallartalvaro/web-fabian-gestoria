@@ -39,10 +39,11 @@ jobs:
                         ayuda-hosteleria-equipamiento.html \
                         ayuda-emdana-emprendimiento.html \
                         ayuda-paiporta-emprendedores.html \
-                        ayuda-ivace-eficiencia-energetica.html; do
+                        ayuda-ivace-eficiencia-energetica.html \
+                        ayuda-primeros-pasos.html; do
             test -f "$pagina" || { echo "Falta public/$pagina"; exit 1; }
           done
-          echo "Las once páginas están en su sitio."
+          echo "Las doce páginas están en su sitio."
 
       - name: Probar el receptor de contactos
         run: node backend/test-worker.mjs
