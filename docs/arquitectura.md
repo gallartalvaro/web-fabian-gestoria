@@ -107,7 +107,11 @@ Worker de Cloudflare es la pieza mínima que guarda ese secreto.
 
 Recibe un **perfil de cliente** versionado (`version: 2`) y crea una oportunidad en el CRM con el
 diagnóstico completo, las etiquetas de perfil, la procedencia de la visita y la fecha de cierre
-de la convocatoria como fecha límite. Detalle en [backend/README.md](../backend/README.md).
+de la convocatoria como fecha límite.
+
+**Los tres formularios de la web pasan por aquí**: el test de una convocatoria, el panel «Que me
+llamen» y el formulario largo de la portada. Cada uno manda un `tipo` distinto; el detalle, en
+[backend/README.md](../backend/README.md).
 
 Vive **fuera de Odoo**, así que no factura «Custom Code Maintenance» (regla 1 de `CLAUDE.md`).
 

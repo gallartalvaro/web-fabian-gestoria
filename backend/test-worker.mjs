@@ -182,6 +182,65 @@ comprobar("titulo con el contexto", llamada.name === "Llamar · Plan Profesional
 comprobar("prioridad alta", llamada.priority === "3", llamada.priority);
 comprobar("plazo: hoy", /^\d{4}-\d{2}-\d{2}$/.test(llamada.date_deadline || ""), llamada.date_deadline);
 
+// --- 10. Consulta escrita (formulario de la portada) ----------------
+console.log("\n10. Consulta de la portada");
+llamadas = [];
+res = await pedir({
+  version: 2,
+  tipo: "consulta-web",
+  contacto: { nombre: "Jordi Ramos", telefono: "622 33 44 55", email: "jordi@example.com", momentoPreferido: "" },
+  consentimiento: { aceptado: true, texto: "Acepta.", fecha: "2026-10-06T09:00:00Z" },
+  solicitud: {
+    area: "Fiscal y contable",
+    mensaje: "Tengo dos <sociedades> y quiero\nunificar la contabilidad.",
+  },
+  seguimiento: {
+    prioridad: "media",
+    pagina: "https://valentramites.com/",
+    origen: { canal: "google" },
+    fecha: "2026-10-06T09:00:00Z",
+  },
+  apellido2: "",
+});
+datos = await res.json();
+const consulta = llamadas.find((l) => l.modelo === "crm.lead")?.valores?.[0] || {};
+comprobar("responde 200 con referencia CON-", res.status === 200 && /^CON-/.test(datos.referencia || ""), JSON.stringify(datos));
+comprobar("título con el área", consulta.name === "Consulta · Fiscal y contable", consulta.name);
+comprobar("guarda el email", consulta.email_from === "jordi@example.com", consulta.email_from);
+comprobar("guarda el teléfono", consulta.phone === "622 33 44 55", consulta.phone);
+comprobar("conserva el mensaje", (consulta.description || "").includes("unificar la contabilidad"), "se perdió el mensaje");
+comprobar("escapa el HTML del mensaje", (consulta.description || "").includes("&lt;sociedades&gt;"), "sin escapar");
+comprobar("respeta los saltos de línea", (consulta.description || "").includes("quiero<br>unificar"), "sin <br>");
+comprobar("prioridad alta, no máxima", consulta.priority === "2", consulta.priority);
+comprobar("anota la procedencia de la visita", !!consulta.source_id, consulta.source_id);
+
+// --- 11. Lo que hace útil a una consulta es el texto ---------------
+console.log("\n11. Consulta sin mensaje");
+llamadas = [];
+res = await pedir({
+  version: 2,
+  tipo: "consulta-web",
+  contacto: { nombre: "Sin texto", telefono: "622 33 44 55", email: "x@example.com" },
+  consentimiento: { aceptado: true },
+  solicitud: { area: "Fiscal y contable" },
+  seguimiento: {},
+  apellido2: "",
+});
+comprobar("rechaza con 422", res.status === 422, res.status);
+comprobar("NO crea nada en Odoo", llamadas.length === 0, llamadas.length + " llamadas");
+
+console.log("\n12. Consulta con email inválido");
+res = await pedir({
+  version: 2,
+  tipo: "consulta-web",
+  contacto: { nombre: "Mal email", telefono: "622 33 44 55", email: "no-es-un-email" },
+  consentimiento: { aceptado: true },
+  solicitud: { area: "Fiscal y contable", mensaje: "Hola" },
+  seguimiento: {},
+  apellido2: "",
+});
+comprobar("rechaza con 422", res.status === 422, res.status);
+
 console.log("\n9. Teléfono demasiado corto");
 res = await pedir({
   version: 2, tipo: "solicitud-llamada",

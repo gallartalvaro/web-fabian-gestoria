@@ -69,6 +69,10 @@ export default {
         const id = await crearSolicitudLlamada(perfil, env);
         return json({ ok: true, referencia: "LLA-" + id }, 200, cors);
       }
+      if (perfil.tipo === "consulta-web") {
+        const id = await crearConsulta(perfil, env);
+        return json({ ok: true, referencia: "CON-" + id }, 200, cors);
+      }
       const id = await crearOportunidad(perfil, env);
       return json({ ok: true, referencia: "SUB-" + id }, 200, cors);
     } catch (err) {
@@ -89,10 +93,16 @@ function validar(p) {
   if (!texto(p.contacto.telefono)) return "Falta el teléfono";
   if (!p.consentimiento || p.consentimiento.aceptado !== true) return "Falta el consentimiento";
   if (String(p.contacto.telefono).replace(/\D/g, "").length < 9) return "El teléfono no es válido";
-  if (p.tipo === "solicitud-llamada") return null;
-  if (!p.convocatoria || !texto(p.convocatoria.titulo)) return "Falta la convocatoria";
   if (p.contacto.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(p.contacto.email))
     return "El email no es válido";
+  if (p.tipo === "solicitud-llamada") return null;
+  // La consulta escrita de la portada: lo que la hace útil es el texto,
+  // así que sin él no se registra.
+  if (p.tipo === "consulta-web") {
+    if (!p.solicitud || !texto(p.solicitud.mensaje)) return "Falta el mensaje";
+    return null;
+  }
+  if (!p.convocatoria || !texto(p.convocatoria.titulo)) return "Falta la convocatoria";
   return null;
 }
 
@@ -158,6 +168,62 @@ async function crearOportunidad(p, env) {
   // El cierre de la convocatoria marca la fecha límite en el
   // pipeline: en el kanban se ve solo lo que corre prisa.
   if (/^\d{4}-\d{2}-\d{2}$/.test(conv.cierraEl || "")) valores.date_deadline = conv.cierraEl;
+
+  return llamar(env, uid, "crm.lead", "create", [valores]);
+}
+
+// ------------------------------------------------------------
+// Consulta escrita del formulario de la portada: trae área y un
+// mensaje redactado por la persona, que es lo que de verdad hay que
+// leer. Prioridad alta, pero no máxima: quien escribe un mensaje
+// acepta esperar algo más que quien pide expresamente una llamada.
+// ------------------------------------------------------------
+async function crearConsulta(p, env) {
+  const uid = await autenticar(env);
+  const contacto = p.contacto;
+  const sol = p.solicitud || {};
+  const area = texto(sol.area) ? sol.area : "Consulta general";
+  const seg = p.seguimiento || {};
+  const org = seg.origen || {};
+
+  const partnerId = await buscarContacto(env, uid, contacto);
+  const etiquetas = await idsDe(env, uid, "crm.tag", ["Web · Consulta", area]);
+
+  const valores = {
+    name: "Consulta · " + area,
+    type: "opportunity",
+    contact_name: contacto.nombre,
+    phone: contacto.telefono,
+    priority: "2",
+    description:
+      tabla("Consulta desde la web", [
+        ["Área", area],
+        ["Teléfono", contacto.telefono],
+        ["Email", contacto.email],
+        ["Página", seg.pagina],
+        ["Fecha", seg.fecha],
+      ]) +
+      "<h3>Lo que nos cuenta</h3><p>" +
+      esc(sol.mensaje).replace(/\r?\n/g, "<br>") +
+      "</p>" +
+      "<p><i>Consentimiento aceptado el " +
+      esc((p.consentimiento || {}).fecha || "") +
+      ". " +
+      esc((p.consentimiento || {}).texto || "") +
+      "</i></p>",
+    // Un día para contestar por escrito.
+    date_deadline: new Date(Date.now() + 86400000).toISOString().slice(0, 10),
+  };
+  if (contacto.email) valores.email_from = contacto.email;
+  if (partnerId) valores.partner_id = partnerId;
+  if (etiquetas.length) valores.tag_ids = [[6, 0, etiquetas]];
+
+  const fuente = await unId(env, uid, "utm.source", org.canal || "Web Valentramites");
+  if (fuente) valores.source_id = fuente;
+  if (org.campana) {
+    const campana = await unId(env, uid, "utm.campaign", org.campana);
+    if (campana) valores.campaign_id = campana;
+  }
 
   return llamar(env, uid, "crm.lead", "create", [valores]);
 }
