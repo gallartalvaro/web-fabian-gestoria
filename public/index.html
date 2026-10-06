@@ -768,6 +768,12 @@
             <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
           </div>
 
+          <!-- Campo trampa: los robots lo rellenan, las personas no lo ven.
+               El receptor responde 200 sin crear nada si llega con valor. -->
+          <div class="lead__trampa" aria-hidden="true">
+            <input type="text" name="apellido2" tabindex="-1" autocomplete="off">
+          </div>
+
           <label class="check">
             <input type="checkbox" id="privacidad" name="privacidad" required>
             <span>He leído y acepto el <a href="privacidad.html" target="_blank" rel="noopener">tratamiento de mis datos</a> con la finalidad de atender esta consulta.</span>
@@ -776,7 +782,7 @@
           <button class="btn btn--primary btn--block" type="submit">Enviar consulta</button>
 
           <p class="form__hint" id="form-hint">
-            Al enviar se abrirá su programa de correo con el mensaje ya redactado.
+            Le responderemos por correo o por teléfono, como prefiera.
           </p>
         </form>
       </div>

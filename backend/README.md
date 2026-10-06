@@ -37,6 +37,25 @@ Una oportunidad (`crm.lead`) con:
 
 Así, el pipeline del CRM se ordena solo: lo que cierra antes y tiene más posibilidades sube arriba.
 
+## Los tres tipos de envío
+
+El perfil que llega lleva un campo `tipo`, y de él depende qué se crea:
+
+| `tipo` | De dónde viene | Referencia | Prioridad | Plazo |
+|---|---|---|---|---|
+| (sin `tipo`) o `test-subvencion` | El test de una convocatoria | `SUB-n` | según resultado y días | cierre de la convocatoria |
+| `solicitud-llamada` | Panel «Que me llamen» | `LLA-n` | ⭐⭐⭐ | hoy |
+| `consulta-web` | Formulario largo de la portada | `CON-n` | ⭐⭐ | mañana |
+
+**`consulta-web`** es el único que trae un texto redactado por la persona. Exige `solicitud.mensaje`:
+sin él se rechaza con 422, porque una consulta sin consulta no sirve de nada. El mensaje se guarda
+en la descripción escapado y respetando los saltos de línea, y el área elegida va en el título de
+la oportunidad y como etiqueta.
+
+> Hasta octubre de 2026 el formulario de la portada **no pasaba por aquí**: abría un `mailto:` y no
+> registraba nada. En un equipo sin cliente de correo configurado, no ocurría absolutamente nada y
+> el contacto se perdía sin que nadie se enterara.
+
 ## Puesta en marcha
 
 **1. Crear la clave de API en Odoo**

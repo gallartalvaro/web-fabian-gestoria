@@ -155,6 +155,23 @@ El servidor no resuelve. Debe ser `ftp.valentramites.com`, sin `ftp://` delante 
 
 *Settings → Environments → github-pages → Deployment branches* debe incluir `pruebas`.
 
+### El formulario de contacto no registra nada y abre el correo
+
+Es el camino alternativo, no un fallo del navegador: el receptor ha contestado con error o no se
+ha podido llamar. Mire `npx wrangler tail` mientras envía uno de prueba.
+
+La causa habitual es que el receptor no tenga desplegada la versión que entiende el `tipo` que le
+manda la web. Cada vez que se añade un formulario nuevo hay que desplegar el Worker **antes** de
+pasar la web a producción:
+
+```bash
+cd backend && node test-worker.mjs && npx wrangler deploy
+```
+
+> Ocurrió de verdad: el formulario largo de la portada nunca llamó al receptor desde que se
+> escribió. Abría un `mailto:` y daba por bueno el envío, así que no llegaba ninguna oportunidad
+> al CRM y en los equipos sin cliente de correo no pasaba nada de nada.
+
 ### La vigilancia devuelve acentos rotos o falla con 429
 
 La BDNS mezcla registros en Latin-1 y UTF-8 en la misma respuesta, y limita la frecuencia de

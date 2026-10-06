@@ -13,6 +13,38 @@
   // ----------------------------------------------------------
   const CONTACT_EMAIL = (window.SITE_CONFIG && window.SITE_CONFIG.email) || "";
 
+  // ----------------------------------------------------------
+  // De dónde viene el visitante. Se captura aquí porque main.js es
+  // el primer guión de todas las páginas: el referrer y los parámetros
+  // de campaña se pierden en cuanto navega dentro del sitio, así que
+  // hay que guardarlos en la primera que pisa. contacto.js y
+  // subvenciones.js leen después este mismo valor de sessionStorage.
+  // ----------------------------------------------------------
+  function origenVisita() {
+    const clave = "origen";
+    try {
+      const guardado = sessionStorage.getItem(clave);
+      if (guardado) return JSON.parse(guardado);
+    } catch (err) { /* sin sessionStorage */ }
+
+    const params = new URLSearchParams(window.location.search);
+    const origen = {
+      campana: params.get("utm_campaign") || "",
+      canal: params.get("utm_source") || "",
+      medio: params.get("utm_medium") || "",
+      procedencia:
+        document.referrer && document.referrer.indexOf(window.location.host) === -1
+          ? document.referrer
+          : "",
+      entrada: window.location.pathname,
+    };
+    try {
+      sessionStorage.setItem(clave, JSON.stringify(origen));
+    } catch (err) { /* sin sessionStorage */ }
+    return origen;
+  }
+  origenVisita();
+
   // --- Cabecera y botón de volver arriba ---
   const header = document.getElementById("header");
   const toTop = document.getElementById("to-top");
@@ -230,30 +262,90 @@
         return;
       }
 
-      if (!CONTACT_EMAIL) {
+      // --- Camino alternativo -------------------------------------
+      // Si el receptor no contesta, se ofrece el mismo mensaje ya
+      // redactado por correo. Es el último recurso: abrir un programa
+      // de correo no registra nada en el CRM, y en un equipo sin
+      // cliente configurado no ocurre nada en absoluto.
+      const porCorreo = () => {
+        if (!CONTACT_EMAIL) {
+          setHint(
+            "No hemos podido registrar la consulta. Puede llamarnos por teléfono.",
+            "error"
+          );
+          return;
+        }
+        const asunto = `Consulta web — ${area.value}`;
+        const cuerpo = [
+          `Nombre: ${nombre.value.trim()}`,
+          `Email: ${email.value.trim()}`,
+          `Teléfono: ${telefono.value.trim()}`,
+          `Área: ${area.value}`,
+          "",
+          "Consulta:",
+          mensaje.value.trim(),
+        ].join("\n");
+
         setHint(
-          "El envío por correo electrónico aún no está disponible. Puede contactarnos por teléfono.",
+          "No hemos podido registrar la consulta. Le abrimos el correo con el mensaje ya escrito…",
           "error"
         );
-        return;
-      }
+        window.location.href =
+          `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(asunto)}` +
+          `&body=${encodeURIComponent(cuerpo)}`;
+      };
 
-      const asunto = `Consulta web — ${area.value}`;
-      const cuerpo = [
-        `Nombre: ${nombre.value.trim()}`,
-        `Email: ${email.value.trim()}`,
-        `Teléfono: ${telefono.value.trim()}`,
-        `Área: ${area.value}`,
-        "",
-        "Consulta:",
-        mensaje.value.trim(),
-      ].join("\n");
+      const endpoint = (window.SITE_CONFIG && window.SITE_CONFIG.formEndpoint) || "";
+      if (!endpoint) return porCorreo();
 
-      window.location.href =
-        `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(asunto)}` +
-        `&body=${encodeURIComponent(cuerpo)}`;
+      const boton = form.querySelector('button[type="submit"]');
+      if (boton) boton.disabled = true;
+      setHint("Enviando…", null);
 
-      setHint("Abriendo su programa de correo con el mensaje redactado…", "ok");
+      // Mismo perfil versionado que el resto de la web: lo que cambia
+      // es el tipo, que aquí trae área y mensaje escrito.
+      const perfil = {
+        version: 2,
+        tipo: "consulta-web",
+        contacto: {
+          nombre: nombre.value.trim(),
+          telefono: telefono.value.trim(),
+          email: email.value.trim(),
+          momentoPreferido: "",
+        },
+        consentimiento: {
+          aceptado: true,
+          texto:
+            "Acepta el tratamiento de sus datos con la finalidad de atender su consulta.",
+          fecha: new Date().toISOString(),
+        },
+        solicitud: { area: area.value, mensaje: mensaje.value.trim() },
+        seguimiento: {
+          prioridad: "media",
+          pagina: window.location.origin + window.location.pathname,
+          origen: origenVisita(),
+          fecha: new Date().toISOString(),
+        },
+        apellido2: (form.apellido2 && form.apellido2.value) || "",
+      };
+
+      fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(perfil),
+      })
+        .then((res) => (res.ok ? res.json() : Promise.reject(new Error(res.status))))
+        .then(() => {
+          form.reset();
+          setHint(
+            "Consulta registrada. Le respondemos en cuanto la revisemos; si es urgente, llámenos.",
+            "ok"
+          );
+        })
+        .catch(porCorreo)
+        .finally(() => {
+          if (boton) boton.disabled = false;
+        });
     });
 
     // Limpiar el aviso de error al corregir
