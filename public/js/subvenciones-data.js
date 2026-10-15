@@ -1443,4 +1443,808 @@ window.SUBVENCIONES = {
       };
     },
   },
+
+  // ============================================================
+  // Programa Auto+ — Línea 2 (Ministerio de Industria y Turismo)
+  // Ayudas a la compra de vehículo eléctrico para empresas y
+  // autónomos. Orden de 22/09/2026; bases en el RD 609/2026.
+  // BDNS 931088.
+  //
+  // Ojo: la BDNS da las fechas de esta convocatoria como nulas.
+  // Las de aquí salen del artículo 8 de la Orden, que las fija
+  // expresamente: del 1 de octubre al 31 de diciembre de 2026.
+  // ============================================================
+  "auto-mas-vehiculo-electrico-2026": {
+    id: "auto-mas-vehiculo-electrico-2026",
+    titulo: "Programa Auto+: ayudas a la compra de vehículo eléctrico (Línea 2)",
+    nombreCorto: "Auto+ vehículo eléctrico 2026",
+    organismo: "Ministerio de Industria y Turismo",
+    importeBase: 0,
+    plazo: { inicio: "2026-10-01", fin: "2026-12-31" },
+
+    preguntas: [
+      {
+        id: "perfil",
+        tipo: "unica",
+        titulo: "¿A nombre de quién se compraría el vehículo?",
+        ayuda:
+          "La Línea 2 es la de empresas y autónomos. El tamaño decide el importe: los " +
+          "autónomos y las microempresas cobran más que el resto de empresas.",
+        opciones: [
+          { valor: "autonomo", etiqueta: "Una persona física dada de alta como autónoma" },
+          { valor: "micro", etiqueta: "Una microempresa (menos de 10 personas)" },
+          { valor: "empresa", etiqueta: "Una empresa de 10 personas o más" },
+          { valor: "particular", etiqueta: "Un particular, sin actividad económica" },
+          {
+            valor: "concesionario",
+            etiqueta: "Un concesionario o punto de venta de vehículos (IAE 615.1 o 654.1)",
+          },
+        ],
+      },
+      {
+        id: "vehiculo",
+        tipo: "unica",
+        titulo: "¿Qué tipo de vehículo?",
+        ayuda: "Son las categorías del permiso de circulación. La furgoneta cobra más que el turismo.",
+        opciones: [
+          { valor: "M1", etiqueta: "Turismo (M1), hasta nueve plazas" },
+          { valor: "N1", etiqueta: "Furgoneta o camión ligero (N1)" },
+          { valor: "L3e", etiqueta: "Motocicleta o triciclo (L3e, L4e, L5e)" },
+          { valor: "L6e", etiqueta: "Cuadriciclo ligero o pesado (L6e, L7e)" },
+          { valor: "otro", etiqueta: "Otro tipo de vehículo" },
+        ],
+      },
+      {
+        id: "motor",
+        tipo: "unica",
+        titulo: "¿Qué tipo de motor tiene?",
+        ayuda:
+          "El programa exige etiqueta CERO de la DGT. El eléctrico puro cobra el doble que " +
+          "el híbrido enchufable.",
+        opciones: [
+          { valor: "puro", etiqueta: "Eléctrico puro" },
+          { valor: "extendido", etiqueta: "Híbrido enchufable o eléctrico de autonomía extendida" },
+          { valor: "otro", etiqueta: "Otro: híbrido no enchufable, gasolina, diésel o gas" },
+        ],
+      },
+      {
+        id: "precio",
+        tipo: "unica",
+        titulo: "¿Cuánto cuesta el vehículo?",
+        ayuda:
+          "Precio de factura con todos los extras y servicios, sin impuestos y ya descontados " +
+          "los descuentos comerciales. Marca el porcentaje de ayuda y, en los turismos, hay tope.",
+        opciones: [
+          { valor: "hasta35", etiqueta: "Hasta 35.000 €" },
+          { valor: "de35a45", etiqueta: "Entre 35.000 y 45.000 €" },
+          { valor: "mas45", etiqueta: "Más de 45.000 €" },
+          { valor: "nose", etiqueta: "Todavía no lo sé" },
+        ],
+      },
+      {
+        id: "matricula",
+        tipo: "unica",
+        titulo: "¿Está ya matriculado, y desde cuándo?",
+        ayuda:
+          "La matriculación debe haberse hecho en España. El programa admite vehículos nuevos " +
+          "y también algunos de pocos meses comprados en concesionario.",
+        opciones: [
+          { valor: "nuevo", etiqueta: "Será nuevo, o se matriculó por primera vez desde el 1 de enero de 2026" },
+          {
+            valor: "km0",
+            etiqueta:
+              "Se matriculó por primera vez desde el 1 de enero de 2025 y no han pasado 12 meses hasta la factura",
+          },
+          { valor: "viejo", etiqueta: "Se matriculó antes del 1 de enero de 2025" },
+          { valor: "fuera", etiqueta: "Se matriculó fuera de España" },
+        ],
+      },
+      {
+        id: "forma",
+        tipo: "unica",
+        titulo: "¿Cómo se va a adquirir?",
+        ayuda:
+          "El renting y el leasing financiero valen, pero el contrato debe ser de tres años " +
+          "como mínimo.",
+        opciones: [
+          { valor: "compra", etiqueta: "Compra directa" },
+          { valor: "renting3", etiqueta: "Renting o leasing, con contrato de tres años o más" },
+          { valor: "rentingCorto", etiqueta: "Renting o leasing, con contrato de menos de tres años" },
+        ],
+      },
+      {
+        id: "situacion",
+        tipo: "multiple",
+        titulo: "De lo siguiente, ¿qué tiene ya resuelto?",
+        ayuda:
+          "Marque únicamente lo que ya cumple. Lo que quede sin marcar no le excluye: " +
+          "es lo que hay que resolver antes de presentar.",
+        opciones: [
+          { valor: "corriente", etiqueta: "Al corriente con Hacienda y con la Seguridad Social" },
+          {
+            valor: "descuento",
+            etiqueta: "El concesionario aplicará en factura el descuento de 1.000 € del Programa Auto+",
+          },
+          { valor: "sinEncargar", etiqueta: "Todavía no he firmado el pedido ni pagado nada" },
+          { valor: "certificado", etiqueta: "Certificado digital para firmar la solicitud" },
+        ],
+      },
+    ],
+
+    etiquetar: function (r) {
+      var e = ["Vehículo eléctrico"];
+      if (r.perfil === "autonomo") e.push("Autónomo");
+      if (r.perfil === "micro") e.push("Microempresa");
+      if (r.perfil === "empresa") e.push("Empresa");
+      if (r.vehiculo === "N1") e.push("Furgoneta");
+      if (r.vehiculo === "M1") e.push("Turismo");
+      if (r.forma === "renting3") e.push("Renting o leasing");
+      if ((r.situacion || []).indexOf("certificado") === -1) e.push("Sin certificado digital");
+      return e;
+    },
+
+    evaluar: function (r) {
+      var bloqueos = [];
+      var revisar = [];
+      var favorables = [];
+
+      // --- Motivos de exclusión claros ---
+      if (r.perfil === "particular") {
+        bloqueos.push(
+          "La Línea 2 es la de empresas y autónomos. Un particular sin actividad económica tiene su propia línea en el mismo programa, con otros importes y otro trámite."
+        );
+      }
+      if (r.perfil === "concesionario") {
+        bloqueos.push(
+          "Los concesionarios y puntos de venta cuyo epígrafe del IAE sea el 615.1 o el 654.1 quedan excluidos expresamente."
+        );
+      }
+      if (r.motor === "otro") {
+        bloqueos.push(
+          "El programa se restringe a vehículos con etiqueta CERO de la DGT: eléctricos puros, de autonomía extendida e híbridos enchufables."
+        );
+      }
+      if (r.vehiculo === "otro") {
+        bloqueos.push(
+          "Solo se subvencionan las categorías M1, N1, L3e, L4e, L5e, L6e y L7e. Camiones, autobuses y maquinaria quedan fuera."
+        );
+      }
+      if (r.matricula === "viejo") {
+        bloqueos.push(
+          "La primera matriculación debe ser posterior al 1 de enero de 2026 si el vehículo es nuevo, o posterior al 1 de enero de 2025 si se compra en concesionario con menos de doce meses."
+        );
+      }
+      if (r.matricula === "fuera") {
+        bloqueos.push("La matriculación debe haberse efectuado en España.");
+      }
+      if (r.forma === "rentingCorto") {
+        bloqueos.push(
+          "En renting o leasing financiero, el contrato debe tener una duración de tres años como mínimo."
+        );
+      }
+      if (r.vehiculo === "M1" && r.precio === "mas45") {
+        bloqueos.push(
+          "En los turismos de hasta siete plazas el precio máximo del vehículo es de 45.000 €. Solo se salvan los M1 de ocho y nueve plazas, a los que no se aplica ese tope: si es su caso, dígamelo y lo revisamos."
+        );
+      }
+      if (r.vehiculo === "L3e" && r.precio !== "nose" && r.precio !== "hasta35") {
+        bloqueos.push(
+          "En motocicletas y triciclos (L3e, L4e, L5e) el precio máximo del vehículo es de 10.000 €."
+        );
+      }
+
+      // --- Puntos que conviene comprobar, pero que no excluyen ---
+      if (r.precio === "nose") {
+        revisar.push(
+          "Sin el precio no se puede cerrar el importe: decide el porcentaje de ayuda y, en los turismos, si se supera el tope de 45.000 €."
+        );
+      }
+      if (r.matricula === "km0") {
+        revisar.push(
+          "Al no ser un vehículo nuevo hay que acreditar que se compra en un concesionario o punto de venta del grupo fabricante o importador, y que no han pasado doce meses entre la primera matriculación y la factura."
+        );
+      }
+
+      var s = r.situacion || [];
+      if (s.indexOf("sinEncargar") === -1) {
+        revisar.push(
+          "Conviene confirmar la fecha de la factura: debe ser igual o posterior a la que fija la convocatoria, así que un pedido antiguo puede quedar fuera."
+        );
+      }
+      if (s.indexOf("descuento") === -1 && (r.vehiculo === "M1" || r.vehiculo === "N1") && r.matricula === "nuevo") {
+        revisar.push(
+          "En turismos y furgonetas nuevos, la factura debe acreditar un descuento de al menos 1.000 € identificado como del Programa Auto+. Sin ese descuento la ayuda se cae, y es el concesionario quien lo aplica: hay que pactarlo antes de firmar."
+        );
+      }
+      if (s.indexOf("corriente") === -1) {
+        revisar.push(
+          "Hay que estar al corriente con Hacienda y con la Seguridad Social en el momento de la concesión."
+        );
+      }
+      if (s.indexOf("certificado") === -1) {
+        revisar.push(
+          "La solicitud se presenta en el sistema telemático del Ministerio con firma electrónica avanzada. Podemos presentarla como representantes."
+        );
+      }
+
+      // --- Importe estimado -----------------------------------
+      // Importe máximo por vehículo (anexo II de la Orden), según
+      // tamaño del solicitante y categoría del vehículo.
+      var TOPES = {
+        pequeno: { M1: 6000, N1: 7500, L3e: 1100, L6e: 1500 },
+        grande: { M1: 4500, N1: 5000, L3e: 1100, L6e: 1500 },
+      };
+      var tabla = r.perfil === "empresa" ? TOPES.grande : TOPES.pequeno;
+      var tope = tabla[r.vehiculo] || 0;
+
+      // La ayuda se calcula sumando porcentajes de ese tope.
+      var pct = 0;
+      if (r.motor === "puro") pct += 50;
+      else if (r.motor === "extendido") pct += 25;
+      if (r.vehiculo === "M1") pct += r.precio === "hasta35" ? 25 : r.precio === "nose" ? 0 : 15;
+      else pct += 25;
+
+      if (r.motor === "puro") {
+        favorables.push("El eléctrico puro suma 50 puntos de los 100 posibles; el híbrido enchufable, 25.");
+      }
+      if (r.vehiculo === "N1") {
+        favorables.push("La furgoneta tiene el tope más alto del programa.");
+      }
+      if (r.perfil === "autonomo" || r.perfil === "micro") {
+        favorables.push("Autónomos y microempresas cobran los importes máximos más altos.");
+      }
+
+      var euro = function (n) {
+        return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      };
+      var suelo = Math.round((tope * pct) / 100);
+      var techo = Math.round((tope * Math.min(100, pct + 25)) / 100);
+      var texto = tope
+        ? pct
+          ? "Entre " + euro(suelo) + " y " + euro(techo) + " €"
+          : "Hasta " + euro(tope) + " €"
+        : "Por determinar";
+
+      var estado = "apto";
+      if (bloqueos.length) estado = "no-apto";
+      else if (revisar.length) estado = "revisar";
+
+      return {
+        estado: estado,
+        importe: suelo,
+        importeTexto: texto,
+        importeDetalle:
+          "Tope de " + euro(tope) + " € por vehículo; los 25 puntos de diferencia dependen de que el montaje final y la batería sean europeos",
+        bloqueos: bloqueos,
+        revisar: revisar,
+        favorables: favorables,
+      };
+    },
+  },
+
+  // ============================================================
+  // Cheque Emprendedor/a 2026 — Ayuntamiento de Paterna
+  // Bases: BOP de València núm. 152, de 11/08/2026.
+  // Convocatoria: Decreto 4320, de 28/09/2026. BDNS 932446.
+  // ============================================================
+  "paterna-cheque-emprendedor-2026": {
+    id: "paterna-cheque-emprendedor-2026",
+    titulo: "Cheque Emprendedor/a 2026 del Ayuntamiento de Paterna",
+    nombreCorto: "Cheque Emprendedor Paterna 2026",
+    organismo: "Ayuntamiento de Paterna",
+    importeBase: 1000,
+    plazo: { inicio: "2026-10-15", fin: "2026-11-30" },
+
+    preguntas: [
+      {
+        id: "perfil",
+        tipo: "unica",
+        titulo: "¿A nombre de quién se pediría la ayuda?",
+        ayuda:
+          "La convocatoria es para autónomos y micropymes de nueva creación. En sociedades y " +
+          "comunidades de bienes se cobra una sola ayuda por proyecto, no una por socio.",
+        opciones: [
+          { valor: "fisica", etiqueta: "Una persona física dada de alta como autónoma" },
+          {
+            valor: "societaria",
+            etiqueta: "Una comunidad de bienes, sociedad civil o sociedad mercantil con menos de 10 personas",
+          },
+          {
+            valor: "cooperativa",
+            etiqueta: "Una cooperativa de trabajo asociado o una sociedad limitada laboral",
+          },
+          { valor: "colaborador", etiqueta: "Un autónomo colaborador" },
+          {
+            valor: "excluida",
+            etiqueta: "Una asociación, fundación, administración o sociedad pública",
+          },
+        ],
+      },
+      {
+        id: "alta",
+        tipo: "unica",
+        titulo: "¿Cuándo se dio de alta la nueva actividad?",
+        ayuda:
+          "Cuenta la fecha de alta en el censo de obligados tributarios (modelo 036) o la de la " +
+          "escritura de constitución, según el caso.",
+        opciones: [
+          { valor: "dentro", etiqueta: "Entre el 1 de diciembre de 2025 y el 30 de noviembre de 2026" },
+          { valor: "antes", etiqueta: "Antes del 1 de diciembre de 2025" },
+          { valor: "pendiente", etiqueta: "Todavía no me he dado de alta" },
+        ],
+      },
+      {
+        id: "ubicacion",
+        tipo: "unica",
+        titulo: "¿Dónde está la actividad?",
+        ayuda:
+          "Si hay local, debe estar en Paterna. Si la actividad se ejerce sin local, lo que debe " +
+          "estar en Paterna es el domicilio fiscal.",
+        opciones: [
+          { valor: "local", etiqueta: "Con local o establecimiento en Paterna" },
+          { valor: "sinLocal", etiqueta: "Sin local, pero con el domicilio fiscal en Paterna" },
+          { valor: "otro", etiqueta: "En otro municipio" },
+        ],
+      },
+      {
+        id: "colectivo",
+        tipo: "unica",
+        titulo: "¿Se encuentra en alguna de estas situaciones?",
+        ayuda:
+          "La convocatoria paga más a los colectivos con más dificultades de acceso al empleo. " +
+          "Si encaja en varias, se aplica siempre la más favorable.",
+        opciones: [
+          { valor: "ninguna", etiqueta: "En ninguna de las siguientes" },
+          { valor: "menor35", etiqueta: "Tengo menos de 35 años" },
+          { valor: "mayor45", etiqueta: "Tengo más de 45 años" },
+          {
+            valor: "largaDuracion",
+            etiqueta: "Llevaba más de un año en desempleo (parado de larga duración)",
+          },
+          { valor: "discapacidad", etiqueta: "Tengo reconocida una discapacidad del 33 % o más" },
+          { valor: "violencia", etiqueta: "Soy víctima de violencia de género" },
+          { valor: "exclusion", etiqueta: "Estoy en situación de exclusión social acreditada" },
+        ],
+      },
+      {
+        id: "sexo",
+        tipo: "unica",
+        titulo: "¿La persona que se da de alta es mujer?",
+        ayuda:
+          "La pregunta no es nuestra: la tabla de cuantías del Ayuntamiento fija importes más " +
+          "altos para las mujeres, y sin este dato no se puede calcular lo que le tocaría.",
+        opciones: [
+          { valor: "mujer", etiqueta: "Sí" },
+          { valor: "hombre", etiqueta: "No" },
+          { valor: "nd", etiqueta: "Prefiero no decirlo" },
+        ],
+      },
+      {
+        id: "desempleo",
+        tipo: "unica",
+        titulo: "¿Estaba en situación de desempleo justo antes del alta?",
+        ayuda: "Suma un 10 % a la cuantía que le corresponda.",
+        opciones: [
+          { valor: "si", etiqueta: "Sí" },
+          { valor: "no", etiqueta: "No" },
+          { valor: "nose", etiqueta: "No lo sé con seguridad" },
+        ],
+      },
+      {
+        id: "compromiso",
+        tipo: "unica",
+        titulo: "¿Puede mantener la actividad y el alta en el RETA al menos 12 meses?",
+        ayuda:
+          "Es una obligación de la convocatoria, no una recomendación: si no se cumple, hay que " +
+          "devolver la ayuda.",
+        opciones: [
+          { valor: "si", etiqueta: "Sí, ésa es la intención" },
+          { valor: "nose", etiqueta: "No estoy seguro o segura" },
+          { valor: "no", etiqueta: "No, es una actividad temporal" },
+        ],
+      },
+      {
+        id: "situacion",
+        tipo: "multiple",
+        titulo: "De lo siguiente, ¿qué tiene ya en regla?",
+        ayuda:
+          "Marque únicamente lo que ya cumple. Lo que quede sin marcar no le excluye: " +
+          "en la mayoría de los casos se resuelve antes de presentar la solicitud.",
+        opciones: [
+          {
+            valor: "corriente",
+            etiqueta: "Al corriente con Hacienda, Seguridad Social, Generalitat y Ayuntamiento de Paterna",
+          },
+          {
+            valor: "sinRepetir",
+            etiqueta: "No he cobrado el Cheque Emprendedor en los dos años anteriores",
+          },
+          {
+            valor: "distinta",
+            etiqueta: "Es una actividad distinta de la que ya venía ejerciendo en el local",
+          },
+          { valor: "reta", etiqueta: "Tengo la resolución de alta en el RETA" },
+          { valor: "certificado", etiqueta: "Certificado digital para firmar la solicitud" },
+        ],
+      },
+    ],
+
+    etiquetar: function (r) {
+      var e = ["Nuevo autónomo", "Paterna"];
+      if (r.perfil === "societaria") e.push("Sociedad o CB");
+      if (r.colectivo === "menor35") e.push("Menor de 35");
+      if (r.colectivo === "mayor45") e.push("Mayor de 45");
+      if (r.colectivo === "largaDuracion") e.push("Parado de larga duración");
+      if (r.colectivo === "discapacidad") e.push("Discapacidad reconocida");
+      if (r.desempleo === "si") e.push("Venía del desempleo");
+      if (r.alta === "pendiente") e.push("Alta pendiente");
+      if ((r.situacion || []).indexOf("certificado") === -1) e.push("Sin certificado digital");
+      return e;
+    },
+
+    evaluar: function (r) {
+      var bloqueos = [];
+      var revisar = [];
+      var favorables = [];
+
+      // --- Motivos de exclusión claros ---
+      if (r.perfil === "cooperativa") {
+        bloqueos.push(
+          "Las cooperativas de trabajo asociado y las sociedades limitadas laborales quedan excluidas porque tienen una línea autonómica específica."
+        );
+      }
+      if (r.perfil === "colaborador") {
+        bloqueos.push("El personal autónomo colaborador queda excluido expresamente.");
+      }
+      if (r.perfil === "excluida") {
+        bloqueos.push(
+          "Las asociaciones, fundaciones y entidades sin ánimo de lucro, y las administraciones y sociedades públicas, quedan excluidas."
+        );
+      }
+      if (r.alta === "antes") {
+        bloqueos.push(
+          "El alta de la nueva actividad debe producirse entre el 1 de diciembre de 2025 y el 30 de noviembre de 2026."
+        );
+      }
+      if (r.ubicacion === "otro") {
+        bloqueos.push(
+          "La actividad debe radicar y mantenerse en el término municipal de Paterna: el local si lo hay, y si no, el domicilio fiscal."
+        );
+      }
+      if (r.compromiso === "no") {
+        bloqueos.push(
+          "Hay que mantener la actividad y el alta en el RETA un mínimo de 12 meses. Con una actividad temporal, la ayuda habría que devolverla."
+        );
+      }
+
+      // --- Puntos que conviene comprobar, pero que no excluyen ---
+      if (r.alta === "pendiente") {
+        revisar.push(
+          "Todavía no hay alta. Puede darse hasta el 30 de noviembre de 2026, pero la solicitud se presenta con el alta ya hecha, así que conviene no apurar."
+        );
+      }
+      if (r.compromiso === "nose") {
+        revisar.push(
+          "Conviene tener claro el compromiso de 12 meses antes de solicitar: es la obligación que más reintegros provoca."
+        );
+      }
+      if (r.desempleo === "nose") {
+        revisar.push(
+          "Hay que confirmar con el informe de vida laboral si consta desempleo inmediatamente antes del alta: son un 10 % más de ayuda."
+        );
+      }
+      if (r.colectivo === "largaDuracion") {
+        revisar.push(
+          "El paro de larga duración se acredita con un certificado de LABORA: 360 días como demandante de empleo dentro de los 540 anteriores al alta."
+        );
+      }
+      if (r.colectivo === "discapacidad" || r.colectivo === "violencia" || r.colectivo === "exclusion") {
+        revisar.push(
+          "La situación que da derecho a la cuantía máxima necesita acreditación oficial. Le indicamos qué documento pedir y a quién."
+        );
+      }
+
+      var s = r.situacion || [];
+      if (s.indexOf("corriente") === -1) {
+        revisar.push(
+          "Hay que estar al corriente con Hacienda, la Seguridad Social, la Generalitat y el propio Ayuntamiento de Paterna. Aquí no hay excepción: son cuatro administraciones."
+        );
+      }
+      if (s.indexOf("sinRepetir") === -1) {
+        revisar.push(
+          "Quien ha cobrado el Cheque Emprendedor en alguno de los dos ejercicios anteriores queda excluido. Hay que comprobarlo."
+        );
+      }
+      if (s.indexOf("distinta") === -1) {
+        revisar.push(
+          "No se admiten las altas que solo añadan una actividad complementaria a la que ya se ejercía en el local: debe ser manifiestamente distinta."
+        );
+      }
+      if (s.indexOf("reta") === -1) {
+        revisar.push("Falta la resolución o el certificado de alta en el RETA.");
+      }
+      if (s.indexOf("certificado") === -1) {
+        revisar.push(
+          "La solicitud se presenta exclusivamente por la sede electrónica de Paterna. Podemos presentarla en su nombre."
+        );
+      }
+
+      // --- Importe -------------------------------------------
+      // Tabla literal del artículo 5 de las bases. No se calcula con
+      // porcentajes a propósito: el recargo por desempleo previo no
+      // es uniforme —en los tramos de 1.400 € la tabla salta a 1.650,
+      // no a 1.540—, así que cualquier fórmula miente.
+      //
+      // Las bases dicen que si se encaja en más de un colectivo se
+      // aplica siempre la mejor opción, de modo que se toma el mayor
+      // de los tramos que correspondan.
+      var TRAMOS = {
+        generalHombre: { sin: 1000, con: 1100 },
+        generalMujer: { sin: 1300, con: 1430 },
+        menor35Hombre: { sin: 1200, con: 1320 },
+        menor35Mujer: { sin: 1400, con: 1650 },
+        mayor45: { sin: 1400, con: 1650 },
+      };
+      var desempleado = r.desempleo === "si";
+      var cual = desempleado ? "con" : "sin";
+      var mujer = r.sexo === "mujer";
+      var base;
+
+      if (r.colectivo === "discapacidad" || r.colectivo === "violencia" || r.colectivo === "exclusion") {
+        base = 2200;
+        favorables.push("Su situación da derecho a la cuantía máxima de la convocatoria.");
+      } else if (r.colectivo === "largaDuracion") {
+        base = 1750;
+        favorables.push("El tramo de paro de larga duración está por encima de los generales.");
+      } else {
+        // Candidatos aplicables; se queda el más favorable.
+        var candidatos = [(mujer ? TRAMOS.generalMujer : TRAMOS.generalHombre)[cual]];
+        if (r.colectivo === "menor35") {
+          candidatos.push((mujer ? TRAMOS.menor35Mujer : TRAMOS.menor35Hombre)[cual]);
+        }
+        if (r.colectivo === "mayor45") candidatos.push(TRAMOS.mayor45[cual]);
+        base = Math.max.apply(null, candidatos);
+
+        if (desempleado) favorables.push("El tramo sube por venir de una situación de desempleo.");
+        if (mujer) favorables.push("La tabla del Ayuntamiento fija cuantías más altas para las mujeres.");
+      }
+
+      if (r.perfil === "societaria") {
+        revisar.push(
+          "En comunidades de bienes y sociedades se cobra una sola ayuda por proyecto, sea cual sea el número de socios, y la beneficiaria es la entidad."
+        );
+      }
+      if (r.sexo === "nd") {
+        revisar.push(
+          "Sin ese dato se ha calculado la cuantía menor de la tabla. Si la persona que se da de alta es mujer, el importe sube."
+        );
+      }
+
+      favorables.push("Es compatible con otras ayudas para lo mismo, de cualquier administración.");
+
+      var estado = "apto";
+      if (bloqueos.length) estado = "no-apto";
+      else if (revisar.length) estado = "revisar";
+
+      return {
+        estado: estado,
+        importe: base,
+        importeTexto: String(base).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €",
+        importeDetalle: "Cuantía fija según la tabla del artículo 5 de las bases, en un pago único",
+        bloqueos: bloqueos,
+        revisar: revisar,
+        favorables: favorables,
+      };
+    },
+  },
+
+  // ============================================================
+  // ICEX Next 2026 — iniciación y consolidación de la exportación
+  // Resolución de 8 de octubre de 2026 de ICEX. Bases: Orden
+  // ICT/1063/2019, modificada por la Orden ECM/727/2024.
+  // BDNS 934425.
+  //
+  // El plazo arranca el día siguiente a la publicación del
+  // extracto en el BOE; la BDNS recibió la convocatoria el 8 de
+  // octubre. Lo que manda es el cierre: 30/10/2026 a las 14:00.
+  // ============================================================
+  "icex-next-2026": {
+    id: "icex-next-2026",
+    titulo: "ICEX Next 2026: ayudas para empezar o consolidar la exportación",
+    nombreCorto: "ICEX Next 2026",
+    organismo: "ICEX España Exportación e Inversiones",
+    importeBase: 24000,
+    plazo: { inicio: "2026-10-09", fin: "2026-10-30" },
+
+    preguntas: [
+      {
+        id: "perfil",
+        tipo: "unica",
+        titulo: "¿Qué tipo de empresa es?",
+        ayuda:
+          "El programa es solo para pymes según la definición europea: menos de 250 personas y " +
+          "hasta 50 millones de volumen de negocio.",
+        opciones: [
+          { valor: "pyme", etiqueta: "Una pyme española (menos de 250 personas)" },
+          { valor: "grande", etiqueta: "Una empresa de 250 personas o más" },
+          { valor: "filial", etiqueta: "Una filial comercial o productiva de una empresa extranjera" },
+          { valor: "noLucro", etiqueta: "Una asociación o una fundación" },
+        ],
+      },
+      {
+        id: "producto",
+        tipo: "unica",
+        titulo: "¿Tiene producto o servicio propio, con marca propia?",
+        ayuda:
+          "Es el requisito que más solicitudes deja fuera. Si son servicios, han de poder " +
+          "prestarse en el exterior.",
+        opciones: [
+          { valor: "si", etiqueta: "Sí, producto o servicio propio y marca propia" },
+          { valor: "sinMarca", etiqueta: "Producto propio, pero sin marca propia" },
+          { valor: "distribuidor", etiqueta: "No: distribuimos o revendemos producto de terceros" },
+        ],
+      },
+      {
+        id: "facturacion",
+        tipo: "unica",
+        titulo: "¿Cuánto factura al año?",
+        ayuda:
+          "El umbral es de 300.000 €. Solo lo salvan las empresas de base tecnológica de " +
+          "reciente creación, a las que no se les exige facturación mínima.",
+        opciones: [
+          { valor: "mas300", etiqueta: "Más de 300.000 €" },
+          {
+            valor: "tecnologica",
+            etiqueta: "Menos, pero somos empresa de base tecnológica de menos de cinco años",
+          },
+          { valor: "menos300", etiqueta: "Menos de 300.000 €" },
+        ],
+      },
+      {
+        id: "medios",
+        tipo: "multiple",
+        titulo: "¿Cuenta con estos medios mínimos?",
+        ayuda:
+          "El programa exige una persona que asuma el proyecto internacional y una web propia. " +
+          "No es un trámite: es lo que mide si la empresa puede absorber el programa.",
+        opciones: [
+          {
+            valor: "persona",
+            etiqueta: "Al menos una persona en plantilla que asuma el proyecto internacional",
+          },
+          { valor: "web", etiqueta: "Web propia de la empresa" },
+        ],
+      },
+      {
+        id: "anterior",
+        tipo: "unica",
+        titulo: "¿Han participado antes en un programa de iniciación del ICEX?",
+        ayuda: "Haber pasado por el PIPE o por un ICEX Next anterior excluye de esta convocatoria.",
+        opciones: [
+          { valor: "no", etiqueta: "No, nunca" },
+          { valor: "si", etiqueta: "Sí, en el PIPE o en un ICEX Next anterior" },
+          { valor: "nose", etiqueta: "No lo sé" },
+        ],
+      },
+      {
+        id: "situacion",
+        tipo: "multiple",
+        titulo: "De lo siguiente, ¿qué tiene ya resuelto?",
+        ayuda:
+          "Marque únicamente lo que ya cumple. Quedan pocos días, así que lo que falte conviene " +
+          "resolverlo de inmediato.",
+        opciones: [
+          { valor: "corriente", etiqueta: "Al corriente con Hacienda y con la Seguridad Social" },
+          { valor: "icex", etiqueta: "Sin impagos con el ICEX" },
+          { valor: "plan", etiqueta: "Tenemos claro a qué mercados queremos ir" },
+          { valor: "certificado", etiqueta: "Certificado digital de la empresa" },
+        ],
+      },
+    ],
+
+    etiquetar: function (r) {
+      var e = ["Comercio exterior", "Exportación"];
+      if (r.facturacion === "tecnologica") e.push("Base tecnológica");
+      if (r.perfil === "pyme") e.push("Pyme");
+      if ((r.medios || []).indexOf("persona") === -1) e.push("Sin responsable de internacional");
+      if ((r.situacion || []).indexOf("certificado") === -1) e.push("Sin certificado digital");
+      return e;
+    },
+
+    evaluar: function (r) {
+      var bloqueos = [];
+      var revisar = [];
+      var favorables = [];
+
+      // --- Motivos de exclusión claros ---
+      if (r.perfil === "grande") {
+        bloqueos.push(
+          "El programa es solo para pymes según el anexo I del Reglamento (UE) 651/2014: menos de 250 personas."
+        );
+      }
+      if (r.perfil === "filial") {
+        bloqueos.push(
+          "Las filiales comerciales o productivas de empresas extranjeras quedan excluidas."
+        );
+      }
+      if (r.perfil === "noLucro") {
+        bloqueos.push("Las asociaciones y fundaciones quedan excluidas expresamente.");
+      }
+      if (r.producto === "distribuidor") {
+        bloqueos.push(
+          "Hay que tener producto o servicio propio comercializable en el exterior: la distribución o reventa de producto ajeno no encaja en este programa."
+        );
+      }
+      if (r.facturacion === "menos300") {
+        bloqueos.push(
+          "Se exige una facturación superior a 300.000 €. La excepción son las empresas de base tecnológica de reciente creación, a las que no se les pide mínimo."
+        );
+      }
+      if (r.anterior === "si") {
+        bloqueos.push(
+          "Haber participado en el PIPE o en un ICEX Next anterior excluye de esta convocatoria."
+        );
+      }
+
+      // --- Puntos que conviene comprobar, pero que no excluyen ---
+      if (r.producto === "sinMarca") {
+        revisar.push(
+          "Se exige marca propia además de producto propio. Hay que ver si la marca existe aunque no esté registrada, y si conviene registrarla: el registro internacional de marcas entra entre los gastos subvencionables."
+        );
+      }
+      if (r.facturacion === "tecnologica") {
+        revisar.push(
+          "Hay que acreditar la condición de empresa de base tecnológica y que no han pasado más de cinco años desde la constitución, o siete en sectores estratégicos."
+        );
+      }
+      if (r.anterior === "nose") {
+        revisar.push("Hay que confirmar con el ICEX que la empresa no pasó antes por el PIPE ni por ICEX Next.");
+      }
+
+      var m = r.medios || [];
+      if (m.indexOf("persona") === -1) {
+        revisar.push(
+          "El programa exige al menos una persona en plantilla que asuma el proyecto internacional. No vale encargarlo solo fuera."
+        );
+      }
+      if (m.indexOf("web") === -1) {
+        revisar.push("Hay que disponer de web propia de la empresa.");
+      }
+
+      var s = r.situacion || [];
+      if (s.indexOf("corriente") === -1) {
+        revisar.push("Hay que estar al corriente con Hacienda y con la Seguridad Social.");
+      }
+      if (s.indexOf("icex") === -1) {
+        revisar.push("No se admite a empresas con impagos pendientes con el ICEX.");
+      }
+      if (s.indexOf("plan") === -1) {
+        revisar.push(
+          "La solicitud se valora y se puntúa: hay que llegar a una puntuación mínima. Cuanto más concreto sea el destino y el plan, mejor sale la valoración."
+        );
+      }
+      if (s.indexOf("certificado") === -1) {
+        revisar.push("La solicitud se presenta en la sede del ICEX con certificado digital de la empresa.");
+      }
+
+      if (!bloqueos.length) {
+        favorables.push("Incluye un mínimo de 30 horas de consultoría con consultores homologados por el ICEX.");
+        favorables.push("El 20 % de los gastos se reconoce como coste de personal interno sin tener que justificarlo factura a factura.");
+      }
+
+      var estado = "apto";
+      if (bloqueos.length) estado = "no-apto";
+      else if (revisar.length) estado = "revisar";
+
+      return {
+        estado: estado,
+        importe: 24000,
+        importeTexto: "Hasta 24.000 €",
+        importeDetalle: "El 60 % de los gastos del plan de internacionalización, con ese tope por empresa",
+        bloqueos: bloqueos,
+        revisar: revisar,
+        favorables: favorables,
+      };
+    },
+  },
 };
