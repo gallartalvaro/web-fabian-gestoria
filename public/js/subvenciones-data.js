@@ -1196,10 +1196,6 @@ window.SUBVENCIONES = {
   // Ayuda a autónomos de València que han tenido hijos desde el
   // 1 de enero de 2024. BDNS 931841. Trámite AE.IE.175.
   //
-  // El plazo NO tiene fecha: son 20 días naturales desde el día
-  // siguiente a la publicación del extracto en el BOP, y a fecha
-  // de hoy la sede dice «Publicación en BOP: Pendiente». De ahí
-  // que el plazo vaya sin inicio ni fin: ver estadoPlazo().
   // ============================================================
   "primeros-pasos-2026": {
     id: "primeros-pasos-2026",
@@ -1208,11 +1204,10 @@ window.SUBVENCIONES = {
     organismo: "Ayuntamiento de València",
     importeBase: 1200,
 
-    plazo: {
-      inicio: null,
-      fin: null,
-      nota: "Se abrirá el día siguiente a la publicación del extracto en el BOP y durará 20 días naturales",
-    },
+    // El extracto se publicó en el BOP el 7 de octubre de 2026, así
+    // que el plazo ya tiene fecha: los 20 días naturales van del 8 al
+    // 27 de octubre, ambos inclusive.
+    plazo: { inicio: "2026-10-08", fin: "2026-10-27" },
 
     preguntas: [
       {
