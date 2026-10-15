@@ -43,10 +43,11 @@ jobs:
                         ayuda-primeros-pasos.html \
                         ayuda-auto-mas-vehiculo-electrico.html \
                         ayuda-paterna-cheque-emprendedor.html \
-                        ayuda-icex-next.html; do
+                        ayuda-icex-next.html \
+                        ayuda-madrid-cheque-innovacion.html; do
             test -f "$pagina" || { echo "Falta public/$pagina"; exit 1; }
           done
-          echo "Las quince páginas están en su sitio."
+          echo "Las dieciséis páginas están en su sitio."
 
       - name: Probar el receptor de contactos
         run: node backend/test-worker.mjs

@@ -27,18 +27,24 @@ import path from "node:path";
 // la semana, por si una ejecución falla.
 const DIAS = Number(process.env.DIAS || 10);
 
-// Comunitat Valenciana y sus tres provincias, según la BDNS.
-const REGIONES = [54, 55, 56, 57];
+// Territorios que se vigilan, con los códigos de region de la BDNS.
+// Comunitat Valenciana y sus tres provincias, y Comunidad de Madrid,
+// que desde octubre de 2026 es también mercado objetivo del despacho.
+const REGIONES = [54, 55, 56, 57, 25, 26, 27];
 
 // Convocatorias locales que se tienen en cuenta. Las de pueblos
 // alejados se descartan: son ayudas pequeñas para sus vecinos.
 // Añada o quite municipios según dónde estén sus clientes.
 const MUNICIPIOS = [
+  // València y su área metropolitana
   "VALENCIA",
   "DIPUTACION PROV. DE VALENCIA",
   "PAIPORTA", "CATARROJA", "ALFAFAR", "BENETUSSER", "SEDAVI", "MASSANASSA",
   "PICANYA", "TORRENT", "ALDAIA", "ALAQUAS", "MISLATA", "QUART DE POBLET",
   "BURJASSOT", "PATERNA", "XIRIVELLA", "MANISES", "ALBAL", "SILLA",
+  // Madrid capital. Los municipios del área metropolitana se irán
+  // añadiendo según dónde acaben estando los clientes de allí.
+  "MADRID",
 ];
 
 // Solo interesan las que pueden pedir empresas o autónomos. Esto
@@ -147,8 +153,35 @@ async function main() {
   });
   REGIONES.forEach((r) => parametros.append("regiones", String(r)));
 
+  // Dos consultas, porque con una sola se escapaban convocatorias.
+  // La primera, filtrada por territorio. La segunda, solo del Estado:
+  // muchas convocatorias estatales no van etiquetadas por comunidad y
+  // con el filtro de regiones no salían nunca, aunque se puedan pedir
+  // desde cualquier sitio.
   const busqueda = await pedir(API + "/convocatorias/busqueda?" + parametros);
-  const todas = busqueda.content || [];
+
+  const estatales = new URLSearchParams({
+    vpd: "GE",
+    page: "0",
+    pageSize: "500",
+    order: "fechaRecepcion",
+    direccion: "desc",
+    fechaDesde: fechaBDNS(desde),
+    fechaHasta: fechaBDNS(hasta),
+    tipoAdministracion: "C",
+  });
+  await esperar(600);
+  const busquedaEstatal = await pedir(API + "/convocatorias/busqueda?" + estatales);
+
+  // Una convocatoria estatal etiquetada con nuestras regiones sale en
+  // las dos consultas: se deduplica por número de convocatoria.
+  const repetidas = new Set();
+  const todas = [...(busqueda.content || []), ...(busquedaEstatal.content || [])].filter((c) => {
+    const k = String(c.numeroConvocatoria);
+    if (repetidas.has(k)) return false;
+    repetidas.add(k);
+    return true;
+  });
 
   const rutaVistas = path.join(AQUI, "vistas.json");
   const vistas = fs.existsSync(rutaVistas)
@@ -186,7 +219,7 @@ async function main() {
   fs.writeFileSync(path.join(AQUI, "informe.md"), informe(utiles, todas.length, candidatas.length, DIAS), "utf8");
 
   console.log(
-    `${todas.length} publicadas en la Comunitat · ${candidatas.length} en el ámbito del despacho · ${utiles.length} para empresas y autónomos`
+    `${todas.length} publicadas en los territorios vigilados · ${candidatas.length} en el ámbito del despacho · ${utiles.length} para empresas y autónomos`
   );
   console.log("HAY=" + (utiles.length ? "si" : "no"));
   console.log("CUANTAS=" + utiles.length);
@@ -197,7 +230,7 @@ function informe(utiles, total, candidatas, dias) {
   l.push(`Revisión de los últimos **${dias} días** en la BDNS.`);
   l.push("");
   l.push(
-    `\`${total}\` convocatorias publicadas en la Comunitat Valenciana · ` +
+    `\`${total}\` convocatorias publicadas en la Comunitat Valenciana, Madrid y el Estado · ` +
       `\`${candidatas}\` en el ámbito del despacho · ` +
       `**\`${utiles.length}\` dirigidas a empresas o personas autónomas**.`
   );

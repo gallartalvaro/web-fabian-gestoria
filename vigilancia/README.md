@@ -26,14 +26,31 @@ Están todos juntos al principio de [`buscar-ayudas.mjs`](buscar-ayudas.mjs):
 
 | Criterio | Qué hace | Valor actual |
 |---|---|---|
-| `REGIONES` | Territorio | Comunitat Valenciana y sus tres provincias |
-| `MUNICIPIOS` | Qué convocatorias locales se admiten | València y su área metropolitana |
+| `REGIONES` | Territorio | Comunitat Valenciana y sus tres provincias, y Comunidad de Madrid |
+| `MUNICIPIOS` | Qué convocatorias locales se admiten | València y su área metropolitana, y Madrid capital |
 | `DESTINATARIOS` | A quién debe dirigirse la ayuda | pymes, empresas y personas físicas con actividad económica |
 | `PRESUPUESTO_MINIMO` | Descarta las de importe testimonial | 20.000 € |
 | `DIAS` | Periodo que se revisa en cada pasada | 10 (con margen sobre la semana) |
 
 Lo que conviene ajustar con el tiempo es `MUNICIPIOS` —según dónde estén sus clientes— y
 `PRESUPUESTO_MINIMO`. Si llegan pocas, baje el importe; si llega ruido, súbalo.
+
+## Dos consultas, no una
+
+Desde octubre de 2026 la vigilancia hace **dos búsquedas** y junta los resultados:
+
+1. Filtrada por territorio, con los códigos de región de la Comunitat Valenciana y de Madrid.
+2. Solo del Estado (`tipoAdministracion=C`), **sin filtro de región**.
+
+La segunda hace falta porque muchas convocatorias estatales no van etiquetadas por comunidad: con
+el filtro de regiones no salían nunca, aunque se puedan pedir desde cualquier sitio. Las que
+aparecen en las dos se deduplican por número de convocatoria.
+
+> Antes de ese cambio el filtro buscaba el nivel `ESTATAL`, y la BDNS lo llama `ESTADO`: **ninguna
+> convocatoria del Estado pasó nunca el filtro.** Las dos cosas están corregidas.
+
+El precio de ampliar el alcance es algo más de ruido: el aviso pasa de una o dos por semana a
+cuatro o cinco, con alguna convocatoria estatal de sectores que no son los del despacho.
 
 ## Probarlo a mano
 

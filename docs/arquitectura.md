@@ -38,7 +38,7 @@ nada propio de git.
 
 ## La web
 
-Quince páginas, algo más de 1 MB en total —la mitad son las tipografías—, sin dependencias ni proceso de compilación:
+Dieciséis páginas, algo más de 1 MB en total —la mitad son las tipografías—, sin dependencias ni proceso de compilación:
 
 | Página | Para qué |
 |---|---|
