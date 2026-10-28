@@ -69,7 +69,7 @@ El receptor concreto es `valentramites-leads.gallart-alvaro.workers.dev`, en Clo
 
 ### Datos de contacto publicados
 
-`hola@valentramites.com` · `+34 613 95 02 55` · WhatsApp al mismo número ·
+`hola@valentramites.com` · `613 95 02 55` · WhatsApp al mismo número ·
 atención telefónica de lunes a viernes, de 16:00 a 21:00 (`js/config.js`).
 
 ---
