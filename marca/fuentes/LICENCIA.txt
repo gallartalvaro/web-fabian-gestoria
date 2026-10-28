@@ -1,0 +1,15 @@
+Tipografías del generador de la tarjeta
+=======================================
+
+Inter y Source Serif 4, en TrueType, para convertir el texto de la
+tarjeta en trazados. Son las mismas familias que usa la web.
+
+  Inter — Copyright (c) 2016 The Inter Project Authors
+  Source Serif 4 — Copyright (c) 2014-2023 Adobe
+
+Ambas con SIL Open Font License 1.1, que permite este uso.
+Texto completo: https://openfontlicense.org/
+
+Aquí no se publican: solo las usa el generador para extraer los
+contornos de las letras. Las que sirve la web están en
+public/assets/fonts/.

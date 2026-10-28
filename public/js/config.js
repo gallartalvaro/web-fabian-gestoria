@@ -11,11 +11,11 @@ window.SITE_CONFIG = {
   email: "hola@valentramites.com",
 
   // Teléfono para mostrar.
-  telefono: "+34 615 78 08 36",
+  telefono: "+34 613 95 02 55",
 
   // WhatsApp en formato internacional SIN signos ni espacios.
   // Ej.: "34600000000". Si se deja vacío, no se muestra el botón.
-  whatsapp: "34615780836",
+  whatsapp: "34613950255",
 
   // Dónde se registran los contactos del test de subvenciones.
   // Lo habitual aquí es el receptor que crea la oportunidad en el
