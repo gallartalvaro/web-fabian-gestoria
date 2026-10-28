@@ -11,7 +11,7 @@ window.SITE_CONFIG = {
   email: "hola@valentramites.com",
 
   // Teléfono para mostrar.
-  telefono: "+34 613 95 02 55",
+  telefono: "613 95 02 55",
 
   // WhatsApp en formato internacional SIN signos ni espacios.
   // Ej.: "34600000000". Si se deja vacío, no se muestra el botón.

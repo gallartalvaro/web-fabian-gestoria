@@ -34,7 +34,7 @@ const jsQR = require("jsqr");
 const DATOS = {
   nombre: "Fabian Okue Kung Mangue",
   cargo: "Economista · Colegiado 3692 COEV",
-  telefono: "+34 613 95 02 55",
+  telefono: "613 95 02 55",
   email: "hola@valentramites.com",
   web: "valentramites.com",
   url: "https://valentramites.com",
@@ -111,25 +111,47 @@ function partir(fuente, cadena, tam, maxAncho, tracking = 0) {
   return lineas;
 }
 
-const envoltura = (contenido) =>
-  `<svg xmlns="http://www.w3.org/2000/svg" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}">\n${contenido}\n</svg>\n`;
+// El SVG se emite en dos medidas con el mismo contenido:
+//
+//   mm  — para los archivos .svg, que es como los espera una
+//          imprenta o quien vaya a retocarlos.
+//   pt  — para el PDF, porque svg-to-pdfkit toma las unidades del
+//          SVG por puntos: con milimetros agrandaba el dibujo 2,83
+//          veces y se salia de la pagina.
+const PT = 2.834645; // puntos PostScript por milimetro
+
+// Coloca un dibujo con su propio sistema de coordenadas dentro de
+// la tarjeta. No se usa un <svg> anidado a proposito: svg-to-pdfkit
+// ignora su viewBox y dibuja las coordenadas crudas, de modo que el
+// logotipo se salia de la pagina. Un <g transform> lo entienden
+// igual el rasterizador y el conversor a PDF.
+function encajar(contenido, caja, x, y, ancho) {
+  const [vx, vy, vw] = caja;
+  const k = ancho / vw;
+  return `<g transform="translate(${(x - vx * k).toFixed(4)} ${(y - vy * k).toFixed(4)}) scale(${k.toFixed(6)})">${contenido}</g>`;
+}
+
+const envoltura = (contenido, unidad = "mm") => {
+  const [w, h] = unidad === "pt" ? [W * PT, H * PT] : [W, H];
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}${unidad === "pt" ? "" : "mm"}" height="${h}${unidad === "pt" ? "" : "mm"}" viewBox="0 0 ${W} ${H}">\n${contenido}\n</svg>\n`;
+};
 
 // ----------------------------------------------------------------
 // Anverso: el logotipo y poco más.
 // Es la cara que se mira primero; el minimalismo tipográfico
 // funciona porque no compite con nada.
 // ----------------------------------------------------------------
-function anverso(logo) {
+function anverso(logo, unidad) {
   const cx = W / 2;
   const anchoLogo = 48;
   const altoLogo = anchoLogo * (287 / 1378); // proporción del viewBox del logotipo
 
   return envoltura(`
   <rect width="${W}" height="${H}" fill="${BLANCO}"/>
-  <svg x="${cx - anchoLogo / 2}" y="${H / 2 - altoLogo / 2 - 3}" width="${anchoLogo}" height="${altoLogo}" viewBox="228 183 1378 287">${logo}</svg>
+  ${encajar(logo, [228, 183, 1378], cx - anchoLogo / 2, H / 2 - altoLogo / 2 - 3, anchoLogo)}
   <rect x="${cx - 7}" y="${H / 2 + 5.5}" width="14" height="0.4" fill="${DORADO}"/>
   ${texto(FUENTES.normal, DATOS.reclamo.toUpperCase(), cx, H / 2 + 11.2, 2.35, GRIS, { align: "center", tracking: 0.22 })}
-`);
+`, unidad);
 }
 
 // ----------------------------------------------------------------
@@ -138,7 +160,7 @@ function anverso(logo) {
 // La columna de texto tiene ancho fijo y el texto se parte solo:
 // el nombre es largo y a ojo se colaba por debajo del QR.
 // ----------------------------------------------------------------
-function reverso(qr) {
+function reverso(qr, unidad) {
   const x = SANGRE + MARGEN;
 
   // El QR va sobre un recuadro blanco aunque el fondo sea azul:
@@ -189,7 +211,7 @@ function reverso(qr) {
   // que la norma pide como zona de silencio.
   piezas.push(`<rect x="${panelX}" y="${panelY}" width="${panel}" height="${panel}" rx="1.6" fill="${BLANCO}"/>`);
   piezas.push(
-    `<svg x="${panelX + (panel - ladoQr) / 2}" y="${panelY + (panel - ladoQr) / 2}" width="${ladoQr}" height="${ladoQr}" viewBox="0 0 ${qr.modulos} ${qr.modulos}">${qr.cuerpo}</svg>`
+    encajar(qr.cuerpo, [0, 0, qr.modulos], panelX + (panel - ladoQr) / 2, panelY + (panel - ladoQr) / 2, ladoQr)
   );
   // La direccion va fuera del panel: dentro invadia la zona de
   // silencio del codigo.
@@ -203,15 +225,17 @@ function reverso(qr) {
   return envoltura(`
   <rect width="${W}" height="${H}" fill="${AZUL}"/>
 ${piezas.join("\n")}
-`);
+`, unidad);
 }
 
 // ----------------------------------------------------------------
 // Marcas de corte, para que la guillotina sepa dónde cortar.
 // ----------------------------------------------------------------
 function conMarcas(svg) {
-  const largo = 2.4;
-  const sep = 1.2;
+  // Caben dentro de la pagina: sep + largo no puede pasar de los
+  // 3 mm de sangre, o la marca sale recortada.
+  const largo = 1.8;
+  const sep = 1.0;
   const lineas = [];
   for (const [px, dx] of [[SANGRE, -1], [SANGRE + ANCHO, 1]]) {
     for (const [py, dy] of [[SANGRE, -1], [SANGRE + ALTO, 1]]) {
@@ -245,9 +269,14 @@ async function main() {
     .replace(/fill="#000000"/g, `fill="${AZUL}"`);
 
   const caras = {
-    "tarjeta-anverso.svg": conMarcas(anverso(logo)),
-    "tarjeta-reverso.svg": conMarcas(reverso({ modulos, cuerpo })),
+    "tarjeta-anverso.svg": conMarcas(anverso(logo, "mm")),
+    "tarjeta-reverso.svg": conMarcas(reverso({ modulos, cuerpo }, "mm")),
   };
+  // Las mismas dos caras, medidas en puntos, para el PDF.
+  const enPuntos = [
+    conMarcas(anverso(logo, "pt")),
+    conMarcas(reverso({ modulos, cuerpo }, "pt")),
+  ];
 
   for (const [nombre, svg] of Object.entries(caras)) {
     fs.writeFileSync(path.join(AQUI, nombre), svg, "utf8");
@@ -292,10 +321,9 @@ async function main() {
   const salida = path.join(AQUI, "tarjeta-visita.pdf");
   doc.pipe(fs.createWriteStream(salida));
 
-  const svgs = Object.values(caras);
-  SVGtoPDF(doc, svgs[0], 0, 0, { width: W * pt, height: H * pt, assumePt: true });
+  SVGtoPDF(doc, enPuntos[0], 0, 0, { assumePt: true });
   doc.addPage({ size: [W * pt, H * pt], margin: 0 });
-  SVGtoPDF(doc, svgs[1], 0, 0, { width: W * pt, height: H * pt, assumePt: true });
+  SVGtoPDF(doc, enPuntos[1], 0, 0, { assumePt: true });
   doc.end();
   await new Promise((r) => doc.on("end", r));
 
