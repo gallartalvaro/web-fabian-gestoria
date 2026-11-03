@@ -242,3 +242,44 @@ Para publicarla hay que quitar esa marca, y antes:
 | Resolver el alta de IAE de la actividad informática | el despacho |
 
 Las ilustraciones se generan con `python -I marca/ilustraciones.py`; no se editan a mano.
+
+---
+
+## Demostraciones de los agentes (3 de noviembre de 2026)
+
+Cada ficha de agente lleva una escena que reproduce su flujo. Es lo que mejor explica el
+servicio: enseña el trabajo hecho en lugar de describirlo.
+
+| Agente | Qué se ve |
+|---|---|
+| 01 Atención | La conversación del sábado: pregunta, respuesta con tarifa, dos huecos, confirmación, y las dos fichas que quedan (cita y CRM) |
+| 02 Agenda | La semana con 13 citas, una anulación, el hueco que se libera y se cubre en nueve minutos |
+| 03 Administración | La factura barrida, los seis campos extraídos, el cuadre con el pedido y el reparto 40 → 35 + 5 |
+| 04 Conocimiento | La pregunta, los tres documentos consultados, la respuesta y la fuente citada |
+| 05 Ventas | El presupuesto del día 1 al 16 moviéndose por el embudo, con el recordatorio que se prepara solo |
+
+Arrancan solas al entrar en pantalla y se pueden repetir con el botón. Si el visitante pide
+menos movimiento, se retira el botón y se queda la ilustración.
+
+### Por qué no se han usado Rive, Motion, React Flow ni Lottie
+
+Se valoraron. Quedan descartadas **para esta web**, no en general:
+
+- **React Flow** exige React. Esta web es HTML, CSS y JavaScript sin empaquetador, y se publica
+  por FTP con las rutas versionadas. Meter React para dibujar cinco diagramas obligaría a montar
+  una compilación y a rehacer el despliegue entero.
+- **Rive** tiene runtime para web sin React, pero los archivos `.riv` se dibujan en su editor.
+  No se pueden generar desde aquí, así que haría falta que alguien los diseñara a mano.
+- **Lottie** necesita animaciones ya hechas; las de la biblioteca pública tienen cada una su
+  licencia y ninguna habla de tarifas, plazos ni facturas de esta casa.
+- **Motion** sí vale sin React y es la única que volvería a mirar, pero pesa más que todas las
+  escenas juntas y lo que hace aquí lo hacen cuatro reglas de CSS.
+
+El conjunto de las cinco escenas son unos 11 KB de JavaScript y CSS: menos que el logotipo.
+Y el contenido es nuestro, que es lo que hace que la demostración venda.
+
+### Si en algún momento se quiere Rive
+
+Tendría sentido para una sola cosa: **un asistente animado reaccionando al visitante**. Eso sí
+es difícil de hacer a mano y es lo que esa herramienta hace mejor. Requiere que alguien diseñe
+el personaje en su editor.
