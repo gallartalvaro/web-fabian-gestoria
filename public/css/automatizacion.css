@@ -136,17 +136,17 @@
   box-shadow: 0 24px 55px rgba(5, 16, 30, 0.45);
 }
 .maqueta .chat__hilo { min-height: 200px; }
-.maqueta .chat__fecha { animation: aparecer 0.4s ease 0.55s backwards; }
-.maqueta .chat__msg:nth-of-type(1) { animation-delay: 0.8s; }
-.maqueta .chat__msg:nth-of-type(2) { animation-delay: 1.7s; }
-.maqueta .chat__msg:nth-of-type(3) { animation-delay: 2.6s; }
+.maqueta .chat__fecha { animation: aparecer 0.4s ease 0.6s backwards; }
+.maqueta .chat__msg:nth-of-type(1) { animation-delay: 1s; }
+.maqueta .chat__msg:nth-of-type(2) { animation-delay: 2.2s; }
+.maqueta .chat__msg:nth-of-type(3) { animation-delay: 3.4s; }
 .maqueta .ficha-demo {
   background: #fff;
   border-color: rgba(255, 255, 255, 0.35);
   box-shadow: 0 12px 28px rgba(5, 16, 30, 0.32);
 }
-.maqueta .ficha-demo:nth-child(1) { animation-delay: 3.2s; }
-.maqueta .ficha-demo:nth-child(2) { animation-delay: 3.45s; }
+.maqueta .ficha-demo:nth-child(1) { animation-delay: 4.1s; }
+.maqueta .ficha-demo:nth-child(2) { animation-delay: 4.35s; }
 
 /* ===== Índice de los cinco agentes ===== */
 .section--indice { padding-bottom: 0; }
@@ -1181,9 +1181,10 @@
   .iahero__inner { grid-template-columns: 1fr; gap: 2.5rem; }
   .maqueta { margin-left: 0; max-width: 100%; }
   .agente__cuerpo { grid-template-columns: 1fr; gap: 2rem; margin-top: 2rem; }
-  /* Pegada arriba solo sirve si hay una columna al lado que se
-     desplace; en una sola columna estorbaría. */
-  .demo { position: static; }
+  /* En una sola columna la escena va primero: es lo que explica el
+     servicio de un vistazo. El flujo escrito queda debajo, para quien
+     quiera el detalle. */
+  .demo { position: static; order: -1; }
 }
 
 @media (max-width: 620px) {

@@ -13,6 +13,6 @@
   if (cabecera) {
     setTimeout(function () {
       cabecera.classList.add("entrada-hecha");
-    }, 4500);
+    }, 6000);
   }
 })();

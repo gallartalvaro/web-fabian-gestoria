@@ -112,21 +112,24 @@
 
     d.mensajes.forEach(function (m) {
       if (m.de === "bot") {
-        pasos.push({ ms: 600, hacer: function () {
+        // Los tiempos son los de una conversacion de verdad: se
+        // tarda en leer, en escribir y en contestar. Si va mas
+        // rapido parece un volcado, no una conversacion.
+        pasos.push({ ms: 850, hacer: function () {
           puntos = el("p", "chat__msg chat__msg--sale chat__escribiendo");
           for (var i = 0; i < 3; i++) puntos.appendChild(el("span"));
           hilo.appendChild(puntos);
           hilo.scrollTop = hilo.scrollHeight;
         } });
       }
-      pasos.push({ ms: m.de === "bot" ? 1150 : 900, hacer: function () {
+      pasos.push({ ms: m.de === "bot" ? 1400 : 1150, hacer: function () {
         if (puntos && puntos.parentNode) puntos.parentNode.removeChild(puntos);
         puntos = null;
         burbuja(m);
       } });
     });
 
-    pasos.push({ ms: 900, hacer: function (e) {
+    pasos.push({ ms: 1050, hacer: function (e) {
       rotulo(e, d.cierre);
       var fila = poner(e, el("div", "fichas-demo"));
       d.fichas.forEach(function (par, i) {
@@ -456,6 +459,22 @@
       hacer: hacerAtencion,
       sectores: [
         {
+          nombre: "Clínica dental",
+          barra: "WhatsApp · domingo, 22:10",
+          pie: "Reconoce la urgencia, no diagnostica y avisa a una persona.",
+          datos: {
+            negocio: "Clínica Dental Russafa", iniciales: "CR", canal: "WhatsApp Business",
+            dia: "DOMINGO", cierre: "El lunes la doctora ya sabe lo que le espera.",
+            mensajes: [
+              { de: "ellos", hora: "22:10", texto: "Se me ha partido un trozo de muela y me duele bastante." },
+              { de: "bot", hora: "22:10", firma: "Asistente · respuesta automática", texto: "Siento oír eso. Esto tiene que verlo la doctora: no se lo puedo valorar yo." },
+              { de: "bot", hora: "22:11", texto: "Dejo aviso en el teléfono de guardia y le guardo el primer hueco de mañana, a las 09:30." },
+              { de: "ellos", hora: "22:12", texto: "Gracias, a las 9:30 me va bien." },
+            ],
+            fichas: [["Aviso enviado", "Teléfono de guardia"], ["En la agenda", "Lun 09:30 · urgencia"]],
+          },
+        },
+        {
           nombre: "Taller",
           barra: "WhatsApp · sábado, 21:46",
           pie: "Fuera de horario, con la tarifa delante y la agenda abierta.",
@@ -471,22 +490,6 @@
               { de: "bot", hora: "21:49", texto: "Reservado: martes a las 10:00. Traiga ficha técnica y permiso. El lunes le recuerdo." },
             ],
             fichas: [["En la agenda", "Mar 10:00 · ITV"], ["En el CRM", "1234 LMN · León 2017"]],
-          },
-        },
-        {
-          nombre: "Clínica dental",
-          barra: "WhatsApp · domingo, 22:10",
-          pie: "Reconoce la urgencia, no diagnostica y avisa a una persona.",
-          datos: {
-            negocio: "Clínica Dental Russafa", iniciales: "CR", canal: "WhatsApp Business",
-            dia: "DOMINGO", cierre: "El lunes la doctora ya sabe lo que le espera.",
-            mensajes: [
-              { de: "ellos", hora: "22:10", texto: "Se me ha partido un trozo de muela y me duele bastante." },
-              { de: "bot", hora: "22:10", firma: "Asistente · respuesta automática", texto: "Siento oír eso. Esto tiene que verlo la doctora: no se lo puedo valorar yo." },
-              { de: "bot", hora: "22:11", texto: "Dejo aviso en el teléfono de guardia y le guardo el primer hueco de mañana, a las 09:30." },
-              { de: "ellos", hora: "22:12", texto: "Gracias, a las 9:30 me va bien." },
-            ],
-            fichas: [["Aviso enviado", "Teléfono de guardia"], ["En la agenda", "Lun 09:30 · urgencia"]],
           },
         },
         {
