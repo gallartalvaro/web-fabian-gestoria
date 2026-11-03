@@ -250,16 +250,22 @@ Las ilustraciones se generan con `python -I marca/ilustraciones.py`; no se edita
 Cada ficha de agente lleva una escena que reproduce su flujo. Es lo que mejor explica el
 servicio: enseña el trabajo hecho en lugar de describirlo.
 
-| Agente | Qué se ve |
-|---|---|
-| 01 Atención | La conversación del sábado: pregunta, respuesta con tarifa, dos huecos, confirmación, y las dos fichas que quedan (cita y CRM) |
-| 02 Agenda | La semana con 13 citas, una anulación, el hueco que se libera y se cubre en nueve minutos |
-| 03 Administración | La factura barrida, los seis campos extraídos, el cuadre con el pedido y el reparto 40 → 35 + 5 |
-| 04 Conocimiento | La pregunta, los tres documentos consultados, la respuesta y la fuente citada |
-| 05 Ventas | El presupuesto del día 1 al 16 moviéndose por el embudo, con el recordatorio que se prepara solo |
+**Cada escena tiene tres versiones**, una por sector, con pestañas para cambiar de una a otra.
+El visitante elige la suya y la ve con sus palabras. Quince escenas en total:
 
-Arrancan solas al entrar en pantalla y se pueden repetir con el botón. Si el visitante pide
-menos movimiento, se retira el botón y se queda la ilustración.
+| Agente | Taller / primera | Segunda | Tercera |
+|---|---|---|---|
+| 01 Atención | Taller: la ITV de un sábado a las 21:46 | Clínica dental: una urgencia que no se diagnostica | Academia: precio, horario y plaza reservada |
+| 02 Agenda | Fisioterapia: sesión de 45 min y bono | Peluquería: un color cae y entran dos cortes | Taller: reparto por foso, no por reloj |
+| 03 Administración | Facturas: 40 → 35 registradas + 5 apartadas | Albaranes: faltan 3 cajas, reclamación redactada | Notificaciones: 18 clasificadas, 4 con plazo |
+| 04 Conocimiento | Gestoría: tarifa de un cambio de titularidad | Taller: qué cubre la garantía a los 3 años | Comercio: devolución de web en tienda |
+| 05 Ventas | Instalaciones: presupuesto del día 1 al 16 | Contratos anuales: aviso a 60 días | Mayorista: el cliente que lleva 6 meses sin pedir |
+
+Arrancan solas al entrar en pantalla y se repiten con el botón. Si el visitante pide menos
+movimiento, se retira el botón y se queda la ilustración.
+
+Esto sustituye a la lista de «el mismo agente en otros negocios» que había en texto al lado:
+decía lo mismo y le quitaba sitio a la escena.
 
 ### Por qué no se han usado Rive, Motion, React Flow ni Lottie
 
@@ -285,3 +291,9 @@ nuestras tarifas y nuestros plazos. Eso es lo que hace que una demostración ven
 Tendría sentido para una sola cosa: **un asistente animado reaccionando al visitante**. Eso sí
 es difícil de hacer a mano y es lo que esa herramienta hace mejor. Requiere que alguien diseñe
 el personaje en su editor.
+
+### Retirado el 3 de noviembre de 2026
+
+- **La sección «Prueba»** (las cifras 0, 19 y 38 de la propia casa). Decisión del despacho.
+- **El aviso de que los precios eran orientativos.** Siguen sin confirmar en este documento,
+  pero ya no se avisa en la página.
