@@ -297,3 +297,30 @@ el personaje en su editor.
 - **La sección «Prueba»** (las cifras 0, 19 y 38 de la propia casa). Decisión del despacho.
 - **El aviso de que los precios eran orientativos.** Siguen sin confirmar en este documento,
   pero ya no se avisa en la página.
+
+### Las escenas, rehechas como pantallas reales (3 de noviembre de 2026)
+
+Encargo del despacho: *«las escenas deben ser lo más fiel posible a la realidad para que el
+cliente, cuando las vea, pueda sentir que está viendo una demo de cómo será en su negocio el
+agente funcionando»*.
+
+Se miraron productos reales antes de dibujar nada: la agenda de Odoo Citas, el patrón de
+calendario semanal con franjas y bloques de color, y las bandejas de los capturadores de
+facturas (documento a un lado, campos extraídos al otro).
+
+| Escena | Qué imita ahora |
+|---|---|
+| 01 y 04 | Una conversación: cabecera con avatar y canal, píldora de fecha, burbujas con hora, dobles marcas de entregado, barra de escribir |
+| 02 | Una agenda semanal: navegación de semana, días con número, columna de horas, bloques proporcionales a la duración, colores por servicio y leyenda |
+| 03 | Una bandeja de documentos: contador «12 de 40», el documento con sus líneas y su total a la izquierda, los campos extraídos con su visto a la derecha |
+| 05 | Un embudo de CRM: columnas con el total de cada una, fichas con importe, responsable y fecha de la próxima gestión |
+
+La maqueta de la cabecera usa **las mismas piezas** que la escena del agente 01: lo que se
+promete arriba es exactamente lo que se enseña abajo.
+
+### Pendiente: enlazar con el resto de servicios
+
+Encargo del despacho, para después: relacionar los agentes con la asesoría de siempre
+—contabilidad, fiscal, laboral—. La idea a desarrollar es que el agente administrativo
+alimenta la contabilidad que ya lleva el despacho, de modo que el cliente no compra una
+herramienta suelta sino menos trabajo dentro de un servicio que ya tiene contratado.
