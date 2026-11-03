@@ -348,6 +348,7 @@
       limpiar();
       corriendo = true;
       bloque.classList.add("esta-sonando");
+      bloque.classList.remove("ya-reproducida");
       boton.textContent = "Reproduciendo…";
       if (portada && portada.parentNode) portada.parentNode.removeChild(portada);
       escena.innerHTML = "";
@@ -361,6 +362,9 @@
       relojes.push(setTimeout(function () {
         corriendo = false;
         bloque.classList.remove("esta-sonando");
+        // Igual que en la cabecera: si el navegador no ha ejecutado
+        // las animaciones, la escena acabada se quedaría invisible.
+        bloque.classList.add("ya-reproducida");
         boton.textContent = "Repetir";
       }, t + 600));
     }

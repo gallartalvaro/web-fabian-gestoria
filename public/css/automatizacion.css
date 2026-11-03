@@ -100,6 +100,23 @@
 .btn--claro { color: #fff; border-color: rgba(255, 255, 255, 0.4); }
 .btn--claro:hover { color: #10243d; background: #fff; border-color: #fff; }
 
+/* Red de seguridad. Los elementos de la cabecera empiezan invisibles
+   para poder aparecer; si el navegador no llega a ejecutar la
+   animación —pestaña en segundo plano, ahorro de energía, una
+   extensión—, se quedarían en blanco y la cabecera saldría vacía.
+   Pasado el tiempo que dura la secuencia entera, el guion pone esta
+   clase y se fuerza el estado final. Si la animación corrió, no se
+   nota nada. */
+.iahero.entrada-hecha .iahero__texto > *,
+.iahero.entrada-hecha .maqueta,
+.iahero.entrada-hecha .burbuja,
+.iahero.entrada-hecha .resultado,
+.demo.ya-reproducida .demo__escena > * {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
 /* ===== Maqueta de conversación ===== */
 .maqueta {
   position: relative;
@@ -242,14 +259,14 @@
 .indice.is-visible li:nth-child(5) { animation-delay: 0.37s; }
 
 /* ===== Ficha de cada agente ===== */
-.fichas { padding-top: clamp(2.5rem, 5vw, 4rem); }
+.agentes { padding-top: clamp(2.5rem, 5vw, 4rem); }
 
-.ficha { padding: clamp(2.5rem, 5vw, 4rem) 0; }
-.ficha + .ficha { border-top: 1px solid var(--color-line); }
-.ficha:target { scroll-margin-top: calc(var(--header-h) + 20px); }
+.agente { padding: clamp(2.5rem, 5vw, 4rem) 0; }
+.agente + .agente { border-top: 1px solid var(--color-line); }
+.agente:target { scroll-margin-top: calc(var(--header-h) + 20px); }
 
-.ficha__cabecera { max-width: 62ch; }
-.ficha__num {
+.agente__cabecera { max-width: 62ch; }
+.agente__num {
   font-family: var(--font-display);
   font-size: clamp(2.6rem, 5vw, 3.6rem);
   font-weight: 700;
@@ -259,23 +276,23 @@
   opacity: 0.45;
   margin-bottom: 0.3rem;
 }
-.ficha h3 { font-size: clamp(1.4rem, 2.6vw, 1.95rem); margin-bottom: 0.8rem; }
-.ficha__resumen {
+.agente h3 { font-size: clamp(1.4rem, 2.6vw, 1.95rem); margin-bottom: 0.8rem; }
+.agente__resumen {
   font-size: clamp(1rem, 1.6vw, 1.1rem);
   font-weight: 300;
   color: var(--color-ink-soft);
   max-width: 54ch;
 }
-.ficha__para {
+.agente__para {
   margin-top: 1rem;
   font-size: 0.93rem;
   color: var(--color-ink-soft);
 }
-.ficha__para strong {
+.agente__para strong {
   color: var(--color-ink);
   font-weight: 600;
 }
-.ficha__cuerpo {
+.agente__cuerpo {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
   gap: 2.5rem;
@@ -733,7 +750,7 @@
 }
 .insignia--avisa { background: var(--color-accent); color: #fff; }
 
-.ficha__limite {
+.agente__limite {
   margin-top: 2.2rem;
   padding: 1.1rem 1.3rem;
   border-radius: var(--radius-sm);
@@ -742,7 +759,7 @@
   font-size: 0.94rem;
   line-height: 1.6;
 }
-.ficha__limite strong { color: #5a3f17; }
+.agente__limite strong { color: #5a3f17; }
 
 /* ===== Panel oscuro para la ilustración del núcleo =====
    El dibujo lleva trazos claros, pensados para el fondo azul de la
@@ -937,7 +954,7 @@
 @media (max-width: 980px) {
   .iahero__inner { grid-template-columns: 1fr; gap: 2.5rem; }
   .maqueta { margin-left: 0; max-width: 100%; }
-  .ficha__cuerpo { grid-template-columns: 1fr; gap: 2rem; margin-top: 2rem; }
+  .agente__cuerpo { grid-template-columns: 1fr; gap: 2rem; margin-top: 2rem; }
   /* Pegada arriba solo sirve si hay una columna al lado que se
      desplace; en una sola columna estorbaría. */
   .demo { position: static; }
