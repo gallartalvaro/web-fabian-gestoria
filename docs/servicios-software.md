@@ -275,8 +275,10 @@ Se valoraron. Quedan descartadas **para esta web**, no en general:
 - **Motion** sí vale sin React y es la única que volvería a mirar, pero pesa más que todas las
   escenas juntas y lo que hace aquí lo hacen cuatro reglas de CSS.
 
-El conjunto de las cinco escenas son unos 11 KB de JavaScript y CSS: menos que el logotipo.
-Y el contenido es nuestro, que es lo que hace que la demostración venda.
+Las cinco escenas juntas son **24 KB** sin comprimir: 15 de guion y 9 de estilos. Un runtime
+de animación solo empieza por encima de los 50, y React con React Flow pasa de 200 antes de
+dibujar nada. Y lo que de verdad importa: el contenido de las escenas es nuestro, con
+nuestras tarifas y nuestros plazos. Eso es lo que hace que una demostración venda.
 
 ### Si en algún momento se quiere Rive
 
