@@ -34,6 +34,7 @@ jobs:
         run: |
           cd public
           for pagina in index.html subvenciones.html precios.html \
+                        automatizacion.html \
                         privacidad.html aviso-legal.html condiciones.html \
                         ayuda-emprende-y-concilia.html \
                         ayuda-hosteleria-equipamiento.html \
@@ -47,7 +48,7 @@ jobs:
                         ayuda-madrid-cheque-innovacion.html; do
             test -f "$pagina" || { echo "Falta public/$pagina"; exit 1; }
           done
-          echo "Las dieciséis páginas están en su sitio."
+          echo "Las diecisiete páginas están en su sitio."
 
       - name: Probar el receptor de contactos
         run: node backend/test-worker.mjs

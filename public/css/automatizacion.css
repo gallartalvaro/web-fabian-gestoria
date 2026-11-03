@@ -1,0 +1,528 @@
+/* ============================================================
+   Automatización e IA
+   Misma marca que el resto del sitio —azul de despacho y oro—
+   pero con los recursos que usa este sector: numerales grandes,
+   maquetas de interfaz y franjas oscuras alternadas.
+   ============================================================ */
+
+/* ===== Cabecera con maqueta ===== */
+.iahero {
+  position: relative;
+  padding: calc(var(--header-h) + 3.5rem) 0 4rem;
+  overflow: hidden;
+  color: #fff;
+}
+.iahero__bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(820px 460px at 12% 0%, rgba(192, 138, 62, 0.22), transparent 60%),
+    radial-gradient(700px 520px at 92% 85%, rgba(72, 122, 180, 0.38), transparent 65%),
+    linear-gradient(160deg, #0d2545 0%, #163a63 58%, #1b4778 100%);
+}
+.iahero__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(80% 70% at 30% 30%, #000 10%, transparent 100%);
+  -webkit-mask-image: radial-gradient(80% 70% at 30% 30%, #000 10%, transparent 100%);
+}
+
+.iahero__inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 3rem;
+  align-items: center;
+}
+.iahero h1 {
+  font-size: clamp(2.1rem, 4.6vw, 3.3rem);
+  color: #fff;
+  margin-bottom: 1.1rem;
+  letter-spacing: -0.015em;
+}
+.iahero h1 em { font-style: italic; color: #e8c68d; }
+
+/* Etiquetas de confianza bajo el texto */
+.sellos {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.8rem;
+}
+.sellos li {
+  padding: 0.5rem 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.btn--claro {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+.btn--claro:hover {
+  color: #10243d;
+  background: #fff;
+  border-color: #fff;
+}
+
+/* ===== Maqueta: lo que el agente hace, visto por dentro ===== */
+.maqueta {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  max-width: 420px;
+  margin-left: auto;
+}
+.maqueta__ventana {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 18px;
+  padding: 1rem 1rem 1.15rem;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 22px 50px rgba(5, 16, 30, 0.35);
+}
+.maqueta__barra {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-bottom: 0.8rem;
+  margin-bottom: 0.9rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+.maqueta__punto {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #7fd1a3;
+  box-shadow: 0 0 0 4px rgba(127, 209, 163, 0.18);
+}
+
+.burbuja {
+  max-width: 85%;
+  padding: 0.7rem 0.95rem;
+  border-radius: 14px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+.burbuja + .burbuja { margin-top: 0.6rem; }
+.burbuja--ellos {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.92);
+  border-bottom-left-radius: 4px;
+}
+.burbuja--agente {
+  margin-left: auto;
+  background: #e8c68d;
+  color: #10243d;
+  font-weight: 500;
+  border-bottom-right-radius: 4px;
+}
+.burbuja__firma {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(16, 36, 61, 0.6);
+}
+
+/* Las dos fichas que quedan detrás de la conversación */
+.resultados { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+.resultado {
+  padding: 0.85rem 0.95rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.resultado p {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 0.3rem;
+}
+.resultado strong {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #fff;
+}
+.resultado svg { width: 16px; height: 16px; color: #7fd1a3; flex: none; }
+
+/* ===== Dolores: numerales grandes, como el sector ===== */
+.dolores {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--color-line);
+}
+.dolor {
+  padding: 2rem 1.8rem 2rem 0;
+  border-bottom: 1px solid var(--color-line);
+  counter-increment: dolor;
+}
+.dolor h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  font-size: 1.18rem;
+  margin-bottom: 0.6rem;
+}
+.dolor h3::before {
+  content: "0" counter(dolor);
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  opacity: 0.55;
+  letter-spacing: -0.03em;
+}
+.dolor p { color: var(--color-ink-soft); font-weight: 300; font-size: 0.96rem; }
+.dolores { counter-reset: dolor; }
+
+/* ===== Chatbot frente a agente ===== */
+.comparativa {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+.comparativa__col {
+  padding: 1.9rem 1.8rem;
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+}
+.comparativa__col--bueno {
+  border-color: rgba(192, 138, 62, 0.45);
+  box-shadow: var(--shadow-sm);
+}
+.comparativa__tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 1.1rem;
+  color: var(--color-ink-soft);
+}
+.comparativa__col--bueno .comparativa__tag { color: #8a6224; }
+.comparativa__col ul { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+.comparativa__col li {
+  position: relative;
+  padding-left: 1.7rem;
+  font-size: 0.96rem;
+  font-weight: 300;
+  color: var(--color-ink-soft);
+}
+.comparativa__col li::before {
+  position: absolute;
+  left: 0;
+  top: -0.05em;
+  font-weight: 700;
+}
+.comparativa__col--frio li::before { content: "·"; font-size: 1.6em; line-height: 1; color: #9aa6b6; }
+.comparativa__col--bueno li::before { content: "→"; color: var(--color-accent); }
+.comparativa__col--bueno li { color: var(--color-ink); }
+
+/* ===== Los cinco agentes ===== */
+.grupo__titulo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2.6rem 0 1.5rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+.grupo__titulo::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--color-line);
+}
+.grupo__titulo:first-of-type { margin-top: 0; }
+
+.agentes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: 1.6rem;
+}
+.agente {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.agente:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+  border-color: rgba(192, 138, 62, 0.4);
+}
+.agente__arte {
+  width: 100%;
+  height: auto;
+  background: var(--color-bg-alt);
+  border-bottom: 1px solid var(--color-line);
+}
+.agente__cuerpo { padding: 1.6rem 1.6rem 1.8rem; display: flex; flex-direction: column; flex: 1; }
+.agente__num {
+  font-family: var(--font-display);
+  font-size: 2.1rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--color-accent);
+  opacity: 0.5;
+  margin-bottom: 0.5rem;
+}
+.agente h3 { font-size: 1.28rem; margin-bottom: 0.7rem; }
+.agente__intro { font-size: 0.97rem; color: var(--color-ink-soft); font-weight: 300; }
+
+.agente__lista {
+  list-style: none;
+  margin: 1.2rem 0 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  flex: 1;
+}
+.agente__lista li {
+  position: relative;
+  padding-left: 1.5rem;
+  font-size: 0.93rem;
+  font-weight: 300;
+  color: var(--color-ink-soft);
+  line-height: 1.6;
+}
+.agente__lista li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-accent);
+}
+
+.agente__limite {
+  margin-top: auto;
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-accent-soft);
+  color: #6e4e1d;
+  font-size: 0.89rem;
+  line-height: 1.55;
+}
+.agente__limite strong { color: #5a3f17; }
+
+/* ===== Cumplimiento ===== */
+.duo__texto { max-width: 780px; }
+.duo__texto > p { color: var(--color-ink-soft); font-weight: 300; margin-bottom: 1.6rem; }
+
+.lista-marca { list-style: none; display: flex; flex-direction: column; gap: 1.1rem; }
+.lista-marca li {
+  padding-left: 1.4rem;
+  border-left: 3px solid var(--color-accent);
+  font-size: 0.97rem;
+  font-weight: 300;
+  color: var(--color-ink-soft);
+  line-height: 1.65;
+}
+.lista-marca strong { color: var(--color-ink); font-weight: 600; }
+
+.nota-firma {
+  margin-top: 1.8rem;
+  padding: 1.1rem 1.3rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  font-size: 0.93rem;
+  color: var(--color-ink-soft);
+}
+
+/* ===== Prueba: cifras grandes ===== */
+.pruebas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 2.4rem;
+}
+.prueba { padding-top: 1.4rem; border-top: 2px solid var(--color-accent-soft); }
+.prueba__cifra {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 4.2rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--color-accent);
+  margin-bottom: 0.4rem;
+}
+.prueba h3 {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.7rem;
+  color: var(--color-ink);
+}
+.prueba p { font-size: 0.93rem; font-weight: 300; color: var(--color-ink-soft); }
+
+/* ===== Precio ===== */
+.tarifas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+.tarifa {
+  padding: 1.8rem 1.6rem;
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+}
+.tarifa--destacada {
+  border-color: var(--color-ink);
+  box-shadow: var(--shadow-sm);
+}
+.tarifa__label {
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  margin-bottom: 0.7rem;
+}
+.tarifa h3 { font-size: 1.2rem; margin-bottom: 0.9rem; }
+.tarifa__cifra {
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.8rem;
+}
+.tarifa__cifra span { font-size: 0.85rem; font-weight: 400; color: var(--color-ink-soft); }
+.tarifa__nota { font-size: 0.9rem; font-weight: 300; color: var(--color-ink-soft); line-height: 1.6; }
+
+.aviso-borrador {
+  margin-top: 1.6rem;
+  padding: 0.8rem 1.1rem;
+  border: 1px dashed rgba(192, 138, 62, 0.6);
+  border-radius: var(--radius-sm);
+  font-size: 0.86rem;
+  color: #8a6224;
+  background: rgba(242, 229, 207, 0.4);
+}
+
+/* ===== Preguntas ===== */
+.faq { max-width: 820px; border-top: 1px solid var(--color-line); }
+.faq__item { border-bottom: 1px solid var(--color-line); }
+.faq__item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.3rem 0;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  transition: color 0.2s ease;
+}
+.faq__item summary::-webkit-details-marker { display: none; }
+.faq__item summary::after {
+  content: "+";
+  flex: none;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid var(--color-line);
+  border-radius: 50%;
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--color-ink-soft);
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+}
+.faq__item[open] summary::after {
+  content: "−";
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: #fff;
+}
+.faq__item summary:hover { color: var(--color-primary); }
+.faq__item p {
+  padding: 0 3rem 1.5rem 0;
+  margin-top: -0.3rem;
+  font-size: 0.96rem;
+  font-weight: 300;
+  color: var(--color-ink-soft);
+  max-width: 68ch;
+}
+
+/* ===== Cierre ===== */
+.cierre {
+  text-align: center;
+  max-width: 640px;
+  margin-inline: auto;
+}
+.cierre h2 { font-size: clamp(1.7rem, 3.4vw, 2.3rem); margin-bottom: 0.9rem; }
+.cierre p { color: var(--color-ink-soft); font-weight: 300; }
+.cierre__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: center;
+  margin-top: 1.8rem;
+}
+
+/* ===== Pantallas estrechas ===== */
+@media (max-width: 980px) {
+  .iahero__inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .maqueta { margin-left: 0; max-width: 100%; }
+}
+
+@media (max-width: 620px) {
+  .dolor { padding-right: 0; }
+  .faq__item p { padding-right: 0; }
+  .resultados { grid-template-columns: 1fr; }
+}
+
+/* ===== Panel oscuro para la ilustración del núcleo =====
+   El dibujo está hecho con trazos claros, para el fondo azul del
+   hero. Sobre el fondo claro de la sección no se vería, así que
+   viaja con su propio panel. */
+.integracion {
+  display: grid;
+  place-items: center;
+  margin-bottom: 3rem;
+  padding: clamp(1.2rem, 4vw, 2.6rem);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(600px 320px at 20% 0%, rgba(192, 138, 62, 0.16), transparent 62%),
+    linear-gradient(160deg, #0d2545 0%, #163a63 60%, #1b4778 100%);
+  box-shadow: var(--shadow);
+}
+.integracion__arte { width: min(520px, 100%); height: auto; }
