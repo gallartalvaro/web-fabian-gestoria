@@ -1,11 +1,35 @@
 /* ============================================================
    Automatización e IA
    Misma marca que el resto del sitio —azul de despacho y oro—
-   pero con los recursos que usa este sector: numerales grandes,
-   maquetas de interfaz y franjas oscuras alternadas.
+   con los recursos del sector: numerales grandes, maquetas de
+   interfaz y franjas oscuras alternadas.
+
+   Todo lo que se mueve aquí se apaga solo con
+   prefers-reduced-motion, que styles.css ya recoge al final.
    ============================================================ */
 
-/* ===== Cabecera con maqueta ===== */
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes entrarDerecha {
+  from { opacity: 0; transform: translateX(18px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes entrarIzquierda {
+  from { opacity: 0; transform: translateX(-14px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes latido {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(127, 209, 163, 0.5); }
+  50%      { box-shadow: 0 0 0 8px rgba(127, 209, 163, 0); }
+}
+@keyframes crecerAlto {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+
+/* ===== Cabecera ===== */
 .iahero {
   position: relative;
   padding: calc(var(--header-h) + 3.5rem) 0 4rem;
@@ -24,8 +48,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px);
   background-size: 22px 22px;
   mask-image: radial-gradient(80% 70% at 30% 30%, #000 10%, transparent 100%);
   -webkit-mask-image: radial-gradient(80% 70% at 30% 30%, #000 10%, transparent 100%);
@@ -46,7 +69,15 @@
 }
 .iahero h1 em { font-style: italic; color: #e8c68d; }
 
-/* Etiquetas de confianza bajo el texto */
+/* La cabecera entra sola al cargar: no espera al desplazamiento */
+.iahero__texto > * { animation: aparecer 0.7s ease both; }
+.iahero__texto > *:nth-child(1) { animation-delay: 0.05s; }
+.iahero__texto > *:nth-child(2) { animation-delay: 0.12s; }
+.iahero__texto > *:nth-child(3) { animation-delay: 0.19s; }
+.iahero__texto > *:nth-child(4) { animation-delay: 0.26s; }
+.iahero__texto > *:nth-child(5) { animation-delay: 0.33s; }
+.iahero__texto > *:nth-child(6) { animation-delay: 0.4s; }
+
 .sellos {
   list-style: none;
   display: flex;
@@ -62,19 +93,14 @@
   font-size: 0.84rem;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.88);
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
+.sellos li:hover { background: rgba(255, 255, 255, 0.14); border-color: rgba(232, 198, 141, 0.6); }
 
-.btn--claro {
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.4);
-}
-.btn--claro:hover {
-  color: #10243d;
-  background: #fff;
-  border-color: #fff;
-}
+.btn--claro { color: #fff; border-color: rgba(255, 255, 255, 0.4); }
+.btn--claro:hover { color: #10243d; background: #fff; border-color: #fff; }
 
-/* ===== Maqueta: lo que el agente hace, visto por dentro ===== */
+/* ===== Maqueta de conversación ===== */
 .maqueta {
   position: relative;
   display: flex;
@@ -82,6 +108,7 @@
   gap: 0.9rem;
   max-width: 420px;
   margin-left: auto;
+  animation: entrarDerecha 0.8s ease 0.25s both;
 }
 .maqueta__ventana {
   background: rgba(255, 255, 255, 0.07);
@@ -109,17 +136,22 @@
   height: 8px;
   border-radius: 50%;
   background: #7fd1a3;
-  box-shadow: 0 0 0 4px rgba(127, 209, 163, 0.18);
+  animation: latido 2.6s ease-in-out infinite;
 }
 
+/* Los mensajes aparecen uno detrás de otro, como llegarían */
 .burbuja {
   max-width: 85%;
   padding: 0.7rem 0.95rem;
   border-radius: 14px;
   font-size: 0.88rem;
   line-height: 1.55;
+  animation: aparecer 0.5s ease both;
 }
 .burbuja + .burbuja { margin-top: 0.6rem; }
+.burbuja:nth-of-type(1) { animation-delay: 0.7s; }
+.burbuja:nth-of-type(2) { animation-delay: 1.5s; }
+.burbuja:nth-of-type(3) { animation-delay: 2.3s; }
 .burbuja--ellos {
   background: rgba(255, 255, 255, 0.12);
   color: rgba(255, 255, 255, 0.92);
@@ -142,14 +174,16 @@
   color: rgba(16, 36, 61, 0.6);
 }
 
-/* Las dos fichas que quedan detrás de la conversación */
 .resultados { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
 .resultado {
   padding: 0.85rem 0.95rem;
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.07);
   border: 1px solid rgba(255, 255, 255, 0.18);
+  animation: aparecer 0.6s ease both;
 }
+.resultado:nth-child(1) { animation-delay: 2.9s; }
+.resultado:nth-child(2) { animation-delay: 3.15s; }
 .resultado p {
   font-size: 0.7rem;
   letter-spacing: 0.12em;
@@ -167,179 +201,246 @@
 }
 .resultado svg { width: 16px; height: 16px; color: #7fd1a3; flex: none; }
 
-/* ===== Dolores: numerales grandes, como el sector ===== */
-.dolores {
+/* ===== Índice de los cinco agentes ===== */
+.section--indice { padding-bottom: 0; }
+
+.indice {
+  list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: 0;
   border-top: 1px solid var(--color-line);
 }
-.dolor {
-  padding: 2rem 1.8rem 2rem 0;
-  border-bottom: 1px solid var(--color-line);
-  counter-increment: dolor;
-}
-.dolor h3 {
+.indice li { border-bottom: 1px solid var(--color-line); }
+.indice a {
   display: flex;
   align-items: baseline;
-  gap: 0.9rem;
-  font-size: 1.18rem;
-  margin-bottom: 0.6rem;
+  gap: 0.8rem;
+  padding: 1.3rem 1rem 1.3rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  transition: color 0.25s ease, transform 0.25s ease;
 }
-.dolor h3::before {
-  content: "0" counter(dolor);
-  font-size: 1.9rem;
+.indice a span {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
   font-weight: 700;
   color: var(--color-accent);
   opacity: 0.55;
   letter-spacing: -0.03em;
+  transition: opacity 0.25s ease;
 }
-.dolor p { color: var(--color-ink-soft); font-weight: 300; font-size: 0.96rem; }
-.dolores { counter-reset: dolor; }
+.indice a:hover { color: var(--color-primary); transform: translateX(4px); }
+.indice a:hover span { opacity: 1; }
 
-/* ===== Chatbot frente a agente ===== */
-.comparativa {
+.indice.is-visible li { animation: aparecer 0.5s ease both; }
+.indice.is-visible li:nth-child(1) { animation-delay: 0.05s; }
+.indice.is-visible li:nth-child(2) { animation-delay: 0.13s; }
+.indice.is-visible li:nth-child(3) { animation-delay: 0.21s; }
+.indice.is-visible li:nth-child(4) { animation-delay: 0.29s; }
+.indice.is-visible li:nth-child(5) { animation-delay: 0.37s; }
+
+/* ===== Ficha de cada agente ===== */
+.fichas { padding-top: clamp(2.5rem, 5vw, 4rem); }
+
+.ficha { padding: clamp(2.5rem, 5vw, 4rem) 0; }
+.ficha + .ficha { border-top: 1px solid var(--color-line); }
+.ficha:target { scroll-margin-top: calc(var(--header-h) + 20px); }
+
+.ficha__cabecera {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 320px);
+  gap: 2.5rem;
+  align-items: center;
 }
-.comparativa__col {
-  padding: 1.9rem 1.8rem;
+.ficha__num {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 5vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--color-accent);
+  opacity: 0.45;
+  margin-bottom: 0.3rem;
+}
+.ficha h3 { font-size: clamp(1.4rem, 2.6vw, 1.95rem); margin-bottom: 0.8rem; }
+.ficha__resumen {
+  font-size: clamp(1rem, 1.6vw, 1.1rem);
+  font-weight: 300;
+  color: var(--color-ink-soft);
+  max-width: 54ch;
+}
+.ficha__para {
+  margin-top: 1rem;
+  font-size: 0.93rem;
+  color: var(--color-ink-soft);
+}
+.ficha__para strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+.ficha__arte {
+  width: 100%;
+  height: auto;
   border-radius: var(--radius);
-  background: var(--color-surface);
   border: 1px solid var(--color-line);
+  background: var(--color-bg-alt);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
-.comparativa__col--bueno {
-  border-color: rgba(192, 138, 62, 0.45);
-  box-shadow: var(--shadow-sm);
+.ficha:hover .ficha__arte { transform: translateY(-5px); box-shadow: var(--shadow); }
+
+.ficha__cuerpo {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.85fr);
+  gap: 2.5rem;
+  margin-top: 2.5rem;
 }
-.comparativa__tag {
-  font-size: 0.75rem;
+
+/* --- El flujo, como una línea de tiempo --- */
+.flujo__titulo {
+  font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  margin-bottom: 1.1rem;
   color: var(--color-ink-soft);
+  margin-bottom: 1.4rem;
 }
-.comparativa__col--bueno .comparativa__tag { color: #8a6224; }
-.comparativa__col ul { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
-.comparativa__col li {
+.flujo {
   position: relative;
+  list-style: none;
   padding-left: 1.7rem;
-  font-size: 0.96rem;
+}
+.flujo::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: linear-gradient(var(--color-accent-soft), rgba(192, 138, 62, 0.15));
+  transform-origin: top;
+}
+.reveal.is-visible .flujo::before { animation: crecerAlto 0.9s ease 0.15s both; }
+
+.flujo li {
+  position: relative;
+  padding-bottom: 1.15rem;
+  font-size: 0.97rem;
   font-weight: 300;
   color: var(--color-ink-soft);
+  line-height: 1.65;
 }
-.comparativa__col li::before {
+.flujo li:last-child { padding-bottom: 0; }
+.flujo li::before {
+  content: "";
   position: absolute;
-  left: 0;
-  top: -0.05em;
-  font-weight: 700;
+  left: -1.7rem;
+  top: 0.55em;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-surface);
+  border: 2px solid var(--color-accent);
 }
-.comparativa__col--frio li::before { content: "·"; font-size: 1.6em; line-height: 1; color: #9aa6b6; }
-.comparativa__col--bueno li::before { content: "→"; color: var(--color-accent); }
-.comparativa__col--bueno li { color: var(--color-ink); }
+.flujo li:last-child::before { background: var(--color-accent); }
 
-/* ===== Los cinco agentes ===== */
-.grupo__titulo {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin: 2.6rem 0 1.5rem;
-  font-size: 0.78rem;
+.flujo__marca {
+  display: inline-block;
+  min-width: 4.6em;
+  margin-right: 0.6rem;
+  padding: 0.12rem 0.5rem;
+  border-radius: 5px;
+  background: var(--color-bg-alt);
+  font-size: 0.76rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.04em;
+  text-align: center;
+  color: var(--color-primary);
+  vertical-align: 1px;
+}
+
+.reveal.is-visible .flujo li { animation: entrarIzquierda 0.5s ease both; }
+.reveal.is-visible .flujo li:nth-child(1) { animation-delay: 0.1s; }
+.reveal.is-visible .flujo li:nth-child(2) { animation-delay: 0.2s; }
+.reveal.is-visible .flujo li:nth-child(3) { animation-delay: 0.3s; }
+.reveal.is-visible .flujo li:nth-child(4) { animation-delay: 0.4s; }
+.reveal.is-visible .flujo li:nth-child(5) { animation-delay: 0.5s; }
+.reveal.is-visible .flujo li:nth-child(6) { animation-delay: 0.6s; }
+
+/* --- El mismo agente en otros sectores --- */
+.casos {
+  padding: 1.6rem 1.5rem;
+  border-radius: var(--radius);
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-line);
+  align-self: start;
+}
+.casos__titulo {
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--color-ink-soft);
+  margin-bottom: 1.1rem;
 }
-.grupo__titulo::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: var(--color-line);
-}
-.grupo__titulo:first-of-type { margin-top: 0; }
-
-.agentes {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
-  gap: 1.6rem;
-}
-.agente {
-  display: flex;
-  flex-direction: column;
-  background: var(--color-surface);
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius);
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-}
-.agente:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow);
-  border-color: rgba(192, 138, 62, 0.4);
-}
-.agente__arte {
-  width: 100%;
-  height: auto;
-  background: var(--color-bg-alt);
-  border-bottom: 1px solid var(--color-line);
-}
-.agente__cuerpo { padding: 1.6rem 1.6rem 1.8rem; display: flex; flex-direction: column; flex: 1; }
-.agente__num {
-  font-family: var(--font-display);
-  font-size: 2.1rem;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  color: var(--color-accent);
-  opacity: 0.5;
-  margin-bottom: 0.5rem;
-}
-.agente h3 { font-size: 1.28rem; margin-bottom: 0.7rem; }
-.agente__intro { font-size: 0.97rem; color: var(--color-ink-soft); font-weight: 300; }
-
-.agente__lista {
-  list-style: none;
-  margin: 1.2rem 0 1.4rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
-  flex: 1;
-}
-.agente__lista li {
-  position: relative;
-  padding-left: 1.5rem;
-  font-size: 0.93rem;
+.casos ul { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+.casos li {
+  padding-left: 1rem;
+  border-left: 2px solid var(--color-accent-soft);
+  font-size: 0.92rem;
   font-weight: 300;
   color: var(--color-ink-soft);
   line-height: 1.6;
+  transition: border-color 0.3s ease;
 }
-.agente__lista li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.62em;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  border: 1.5px solid var(--color-accent);
-}
+.casos li:hover { border-left-color: var(--color-accent); }
+.casos strong { color: var(--color-ink); font-weight: 600; }
 
-.agente__limite {
-  margin-top: auto;
-  padding: 0.9rem 1rem;
+.ficha__limite {
+  margin-top: 2.2rem;
+  padding: 1.1rem 1.3rem;
   border-radius: var(--radius-sm);
   background: var(--color-accent-soft);
   color: #6e4e1d;
-  font-size: 0.89rem;
-  line-height: 1.55;
+  font-size: 0.94rem;
+  line-height: 1.6;
 }
-.agente__limite strong { color: #5a3f17; }
+.ficha__limite strong { color: #5a3f17; }
 
-/* ===== Cumplimiento ===== */
-.duo__texto { max-width: 780px; }
-.duo__texto > p { color: var(--color-ink-soft); font-weight: 300; margin-bottom: 1.6rem; }
+/* ===== Panel oscuro para la ilustración del núcleo =====
+   El dibujo lleva trazos claros, pensados para el fondo azul de la
+   cabecera. Sobre fondo claro no se vería, así que viaja con el suyo. */
+.integracion {
+  display: grid;
+  place-items: center;
+  margin-bottom: 3rem;
+  padding: clamp(1.2rem, 4vw, 2.6rem);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(600px 320px at 20% 0%, rgba(192, 138, 62, 0.16), transparent 62%),
+    linear-gradient(160deg, #0d2545 0%, #163a63 60%, #1b4778 100%);
+  box-shadow: var(--shadow);
+}
+.integracion__arte { width: min(520px, 100%); height: auto; }
+
+/* ===== Pasos numerados sobre fondo oscuro ===== */
+.steps.is-visible .step { animation: aparecer 0.55s ease both; }
+.steps.is-visible .step:nth-child(1) { animation-delay: 0.05s; }
+.steps.is-visible .step:nth-child(2) { animation-delay: 0.17s; }
+.steps.is-visible .step:nth-child(3) { animation-delay: 0.29s; }
+.steps.is-visible .step:nth-child(4) { animation-delay: 0.41s; }
+.step { transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease; }
+.step:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(232, 198, 141, 0.45);
+  transform: translateY(-3px);
+}
+
+/* ===== Quién lo hace ===== */
+.duo__texto { max-width: 820px; }
+.duo__texto > p { color: var(--color-ink-soft); font-weight: 300; margin-bottom: 1.1rem; }
+.duo__texto > p:last-of-type { margin-bottom: 1.8rem; }
 
 .lista-marca { list-style: none; display: flex; flex-direction: column; gap: 1.1rem; }
 .lista-marca li {
@@ -352,17 +453,7 @@
 }
 .lista-marca strong { color: var(--color-ink); font-weight: 600; }
 
-.nota-firma {
-  margin-top: 1.8rem;
-  padding: 1.1rem 1.3rem;
-  border-radius: var(--radius-sm);
-  background: var(--color-surface);
-  border: 1px solid var(--color-line);
-  font-size: 0.93rem;
-  color: var(--color-ink-soft);
-}
-
-/* ===== Prueba: cifras grandes ===== */
+/* ===== Prueba ===== */
 .pruebas {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
@@ -377,6 +468,7 @@
   letter-spacing: -0.04em;
   color: var(--color-accent);
   margin-bottom: 0.4rem;
+  font-variant-numeric: tabular-nums;
 }
 .prueba h3 {
   font-family: var(--font-body);
@@ -398,11 +490,19 @@
   border-radius: var(--radius);
   background: var(--color-surface);
   border: 1px solid var(--color-line);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
-.tarifa--destacada {
-  border-color: var(--color-ink);
-  box-shadow: var(--shadow-sm);
+.tarifa:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+  border-color: rgba(192, 138, 62, 0.45);
 }
+.tarifa--destacada { border-color: var(--color-ink); box-shadow: var(--shadow-sm); }
+.tarifas.is-visible .tarifa { animation: aparecer 0.55s ease both; }
+.tarifas.is-visible .tarifa:nth-child(1) { animation-delay: 0.05s; }
+.tarifas.is-visible .tarifa:nth-child(2) { animation-delay: 0.17s; }
+.tarifas.is-visible .tarifa:nth-child(3) { animation-delay: 0.29s; }
+
 .tarifa__label {
   font-size: 0.73rem;
   font-weight: 700;
@@ -464,15 +564,17 @@
   font-size: 1.1rem;
   line-height: 1;
   color: var(--color-ink-soft);
-  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+  transition: transform 0.3s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 .faq__item[open] summary::after {
   content: "−";
   background: var(--color-ink);
   border-color: var(--color-ink);
   color: #fff;
+  transform: rotate(180deg);
 }
 .faq__item summary:hover { color: var(--color-primary); }
+.faq__item summary:hover::after { border-color: var(--color-accent); color: var(--color-accent); }
 .faq__item p {
   padding: 0 3rem 1.5rem 0;
   margin-top: -0.3rem;
@@ -480,14 +582,11 @@
   font-weight: 300;
   color: var(--color-ink-soft);
   max-width: 68ch;
+  animation: aparecer 0.35s ease both;
 }
 
 /* ===== Cierre ===== */
-.cierre {
-  text-align: center;
-  max-width: 640px;
-  margin-inline: auto;
-}
+.cierre { text-align: center; max-width: 640px; margin-inline: auto; }
 .cierre h2 { font-size: clamp(1.7rem, 3.4vw, 2.3rem); margin-bottom: 0.9rem; }
 .cierre p { color: var(--color-ink-soft); font-weight: 300; }
 .cierre__acciones {
@@ -502,27 +601,35 @@
 @media (max-width: 980px) {
   .iahero__inner { grid-template-columns: 1fr; gap: 2.5rem; }
   .maqueta { margin-left: 0; max-width: 100%; }
+  .ficha__cabecera { grid-template-columns: 1fr; gap: 1.8rem; }
+  .ficha__arte { max-width: 340px; }
+  .ficha__cuerpo { grid-template-columns: 1fr; gap: 2rem; margin-top: 2rem; }
 }
 
 @media (max-width: 620px) {
-  .dolor { padding-right: 0; }
   .faq__item p { padding-right: 0; }
   .resultados { grid-template-columns: 1fr; }
+  .flujo__marca { min-width: 0; }
+  .indice a { padding-right: 0; }
 }
 
-/* ===== Panel oscuro para la ilustración del núcleo =====
-   El dibujo está hecho con trazos claros, para el fondo azul del
-   hero. Sobre el fondo claro de la sección no se vería, así que
-   viaja con su propio panel. */
-.integracion {
-  display: grid;
-  place-items: center;
-  margin-bottom: 3rem;
-  padding: clamp(1.2rem, 4vw, 2.6rem);
-  border-radius: var(--radius);
-  background:
-    radial-gradient(600px 320px at 20% 0%, rgba(192, 138, 62, 0.16), transparent 62%),
-    linear-gradient(160deg, #0d2545 0%, #163a63 60%, #1b4778 100%);
-  box-shadow: var(--shadow);
+/* Si el visitante pide menos movimiento, nada de lo de arriba corre.
+   styles.css ya anula duraciones; aquí se devuelve la opacidad para
+   que ningún bloque se quede invisible. */
+@media (prefers-reduced-motion: reduce) {
+  .iahero__texto > *,
+  .maqueta,
+  .burbuja,
+  .resultado,
+  .indice.is-visible li,
+  .reveal.is-visible .flujo li,
+  .steps.is-visible .step,
+  .tarifas.is-visible .tarifa,
+  .faq__item p {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .reveal.is-visible .flujo::before { animation: none; transform: none; }
+  .maqueta__punto { animation: none; }
 }
-.integracion__arte { width: min(520px, 100%); height: auto; }

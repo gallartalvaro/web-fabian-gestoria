@@ -210,9 +210,13 @@ claro y honesto en su lugar.
 ### Dónde va
 
 Mi recomendación: **una quinta área dentro de Valentramites**, no una marca nueva. La
-credibilidad viene del despacho —un economista colegiado que además automatiza es una
-combinación que casi nadie ofrece—, y una marca nueva empieza de cero. Si más adelante crece,
-se separa.
+combinación que casi nadie ofrece es la de las dos manos: **un ingeniero de ciencia de datos
+e inteligencia artificial montándolo y una asesoría detrás** que sabe qué obligaciones genera
+lo que se monta. Una marca nueva empieza de cero. Si más adelante crece, se separa.
+
+> **Corregido el 3 de noviembre de 2026.** La primera versión de este documento y de la
+> página web atribuían el desarrollo al economista colegiado. Es falso: el desarrollo lo
+> lleva el ingeniero. Retirado de los dos sitios.
 
 ### El alta de actividad
 
