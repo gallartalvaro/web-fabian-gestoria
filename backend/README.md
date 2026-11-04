@@ -46,6 +46,7 @@ El perfil que llega lleva un campo `tipo`, y de él depende qué se crea:
 | (sin `tipo`) o `test-subvencion` | El test de una convocatoria | `SUB-n` | según resultado y días | cierre de la convocatoria |
 | `solicitud-llamada` | Panel «Que me llamen» | `LLA-n` | ⭐⭐⭐ | hoy |
 | `consulta-web` | Formulario largo de la portada | `CON-n` | ⭐⭐ | mañana |
+| `aviso-subvenciones` | Alta en el aviso de convocatorias | `AVI-n` | — | — |
 
 **`consulta-web`** es el único que trae un texto redactado por la persona. Exige `solicitud.mensaje`:
 sin él se rechaza con 422, porque una consulta sin consulta no sirve de nada. El mensaje se guarda
@@ -55,6 +56,50 @@ la oportunidad y como etiqueta.
 > Hasta octubre de 2026 el formulario de la portada **no pasaba por aquí**: abría un `mailto:` y no
 > registraba nada. En un equipo sin cliente de correo configurado, no ocurría absolutamente nada y
 > el contacto se perdía sin que nadie se enterara.
+
+## El alta en el aviso es el único que no crea oportunidad
+
+`aviso-subvenciones` es distinto de los otros tres: **no crea nada en el CRM**. Quien pide que le
+avisen de ayudas todavía no es una oportunidad, y meterlo en el embudo lo llena de fichas que
+nadie va a trabajar y que falsean el recuento.
+
+Lo que crea es un **contacto** (`res.partner`) con tres etiquetas:
+
+| Etiqueta | Para qué |
+|---|---|
+| `Aviso de subvenciones` | marca a quién hay que escribir |
+| La actividad | decide a quién le encaja cada convocatoria |
+| La provincia | lo mismo, para las ayudas municipales y autonómicas |
+
+Esas etiquetas **son** la lista de envío: en *Contactos* se filtra por ellas y se escribe solo a
+quien le sirve. Un aviso que no le vale a nadie deja de abrirse a la tercera.
+
+Dos cuidados que el código ya tiene:
+
+- **No duplica.** Si el correo ya está en Contactos —y muchos suscriptores van a ser clientes del
+  despacho— se reutiliza esa ficha.
+- **No pisa nada.** Las etiquetas se añaden con `[4, id]`, que enlaza, en vez de `[6, 0, ids]`,
+  que sustituye y habría borrado las que el cliente ya tuviera. El campo de notas de una ficha
+  existente no se toca: la constancia del consentimiento va al historial con `message_post`.
+
+### Cómo se envía el aviso
+
+Esta parte **todavía es a mano**, y conviene saberlo:
+
+1. Cada lunes la vigilancia abre una incidencia en GitHub con las convocatorias nuevas
+   (ver `vigilancia/README.md`).
+2. En Odoo → *Contactos*, filtrar por la etiqueta `Aviso de subvenciones` y por la actividad a la
+   que le encaje la convocatoria.
+3. Escribir el aviso a esa selección.
+
+**Para que el paso 3 sea un envío de verdad y no una copia manual, hace falta instalar
+*Email Marketing* en Odoo.** Está incluido en el plan contratado, así que no cuesta nada, pero
+no está instalado: por eso el alta crea un contacto etiquetado y no un `mailing.contact`. Cuando
+se instale, basta con crear una lista a partir del filtro de etiquetas.
+
+Mientras tanto, el aviso se puede mandar igual —son pocos suscriptores al principio— pero hay
+que acordarse de poner **el enlace de baja en cada correo**: es lo que se promete en el
+formulario y en la política de privacidad.
 
 ## Puesta en marcha
 

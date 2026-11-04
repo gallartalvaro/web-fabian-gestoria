@@ -73,6 +73,10 @@ export default {
         const id = await crearConsulta(perfil, env);
         return json({ ok: true, referencia: "CON-" + id }, 200, cors);
       }
+      if (perfil.tipo === "aviso-subvenciones") {
+        const id = await crearSuscripcion(perfil, env);
+        return json({ ok: true, referencia: "AVI-" + id }, 200, cors);
+      }
       const id = await crearOportunidad(perfil, env);
       return json({ ok: true, referencia: "SUB-" + id }, 200, cors);
     } catch (err) {
@@ -89,6 +93,21 @@ export default {
 // ------------------------------------------------------------
 function validar(p) {
   if (!p || p.version !== 2) return "Formato de perfil no reconocido";
+
+  // El alta en el aviso de convocatorias no es una solicitud de
+  // contacto: solo pide lo justo para poder escribir y para acertar
+  // con lo que se envía. Exigir aquí nombre y teléfono, como en el
+  // resto de envíos, hundiría las altas: nadie da el teléfono a cambio
+  // de que le avisen de una ayuda.
+  if (p.tipo === "aviso-subvenciones") {
+    const s = p.suscripcion || {};
+    if (!texto(s.email)) return "Falta el correo";
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(s.email)) return "El email no es válido";
+    if (!texto(s.actividad)) return "Falta la actividad";
+    if (!p.consentimiento || p.consentimiento.aceptado !== true) return "Falta el consentimiento";
+    return null;
+  }
+
   if (!p.contacto || !texto(p.contacto.nombre)) return "Falta el nombre";
   if (!texto(p.contacto.telefono)) return "Falta el teléfono";
   if (!p.consentimiento || p.consentimiento.aceptado !== true) return "Falta el consentimiento";
@@ -277,6 +296,93 @@ async function crearSolicitudLlamada(p, env) {
   }
 
   return llamar(env, uid, "crm.lead", "create", [valores]);
+}
+
+// ------------------------------------------------------------
+// Alta en el aviso de convocatorias.
+//
+// No crea oportunidad: quien pide que le avisen de ayudas no es
+// todavía una oportunidad, y meterlo en el embudo lo ensucia. Lo que
+// crea es un CONTACTO etiquetado, que es lo que luego se filtra para
+// enviar el aviso desde Odoo.
+// ------------------------------------------------------------
+const ETIQUETA_AVISO = "Aviso de subvenciones";
+
+async function crearSuscripcion(p, env) {
+  const uid = await autenticar(env);
+  const sus = p.suscripcion;
+  const email = sus.email.trim();
+
+  // Las etiquetas son la lista: "Aviso de subvenciones" marca a quién
+  // hay que escribir, y la actividad y la provincia deciden a quién le
+  // encaja cada convocatoria. Un aviso que no le sirve a nadie deja de
+  // abrirse a la tercera.
+  const etiquetas = await idsDe(env, uid, "res.partner.category", [
+    ETIQUETA_AVISO,
+    sus.actividad,
+    sus.provincia,
+  ]);
+  // [4, id] ENLAZA sin tocar las etiquetas que el contacto ya tuviera.
+  // Con [6, 0, ids] se borrarían, y muchos suscriptores van a ser
+  // clientes del despacho con su ficha ya montada.
+  const enlaces = etiquetas.map((id) => [4, id]);
+
+  const existentes = await llamar(env, uid, "res.partner", "search", [
+    [["email", "=ilike", email]],
+  ], { limit: 1 });
+
+  if (existentes.length) {
+    const id = existentes[0];
+    if (enlaces.length) {
+      await llamar(env, uid, "res.partner", "write", [[id], { category_id: enlaces }]);
+    }
+    // En una ficha que ya existe no se pisa el campo de notas: la
+    // constancia del consentimiento va al historial.
+    try {
+      await llamar(env, uid, "res.partner", "message_post", [[id]], { body: notaDeAlta(p) });
+    } catch (err) {
+      // Si la instancia no admite message_post, el alta no se pierde
+      // por eso: la etiqueta, que es lo que arma la lista, ya está.
+      console.error("message_post:", err && err.message);
+    }
+    return id;
+  }
+
+  const valores = {
+    name: texto(sus.nombre) ? sus.nombre.trim() : email,
+    email,
+    comment: notaDeAlta(p),
+  };
+  if (enlaces.length) valores.category_id = enlaces;
+  return llamar(env, uid, "res.partner", "create", [valores]);
+}
+
+// Deja por escrito qué aceptó, cuándo y desde dónde. Es lo que hay
+// que poder enseñar si alguien pregunta por qué recibe el aviso.
+function notaDeAlta(p) {
+  const sus = p.suscripcion;
+  const seg = p.seguimiento || {};
+  const org = seg.origen || {};
+  const cons = p.consentimiento || {};
+
+  const filas = [
+    ["Alta en", "Aviso de convocatorias"],
+    ["Actividad", sus.actividad],
+    ["Provincia", sus.provincia],
+    ["Página", seg.pagina],
+  ];
+  if (org.campana) filas.push(["Campaña", org.campana]);
+  if (org.canal) filas.push(["Canal", org.canal + (org.medio ? " / " + org.medio : "")]);
+  if (org.procedencia) filas.push(["Llegó desde", org.procedencia]);
+
+  return (
+    tabla(ETIQUETA_AVISO, filas) +
+    "<p><i>Consentimiento aceptado el " +
+    esc(cons.fecha || "") +
+    ". " +
+    esc(cons.texto || "") +
+    "</i></p>"
+  );
 }
 
 async function buscarContacto(env, uid, contacto) {

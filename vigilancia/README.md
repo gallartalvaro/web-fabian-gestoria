@@ -69,6 +69,20 @@ echo '{"codigos": []}' > vigilancia/vistas.json
 También puede lanzarse desde **Actions → Vigilancia de convocatorias → Run workflow**,
 indicando cuántos días revisar.
 
+## A quién se avisa
+
+Desde noviembre de 2026 esta vigilancia no es solo para uso interno del despacho: es **la puerta
+de entrada comercial de la web**. Cualquiera puede darse de alta desde la portada o desde la
+página de subvenciones, y queda en Odoo como contacto con la etiqueta `Aviso de subvenciones`
+más su actividad y su provincia.
+
+El razonamiento es que una pyme no cambia de asesoría porque vea un anuncio; cambia cuando la
+suya le falla. Avisar de una ayuda no le pide que cambie de nada, y el día que el cambio toque,
+el despacho ya no es un desconocido.
+
+El recorrido completo está en [`backend/README.md`](../backend/README.md): el envío todavía se
+hace a mano desde Contactos, y para automatizarlo hace falta instalar *Email Marketing*.
+
 ## Cuando una convocatoria interesa
 
 Dígaselo a Claude con el código BDNS que aparece en el aviso. Redactará la ficha y el test en la

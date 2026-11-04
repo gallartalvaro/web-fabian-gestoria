@@ -487,8 +487,92 @@
     </div>
   </section>
 
+  <!-- ===================== AVISO DE CONVOCATORIAS =====================
+       La puerta de entrada principal: no pide que cambie de asesor,
+       solo el correo. El alta la recoge js/aviso.js y la registra como
+       contacto etiquetado en Odoo (backend/odoo-lead-worker.js). -->
+  <section class="section section--alt" id="aviso">
+    <div class="container">
+      <div class="aviso reveal">
+        <div class="aviso__texto">
+          <p class="section__eyebrow">Aviso de convocatorias</p>
+          <h2 class="section__title">¿No hay ninguna que le encaje hoy?</h2>
+          <p class="section__lead">
+            Las convocatorias abren y cierran durante todo el año. Déjenos el correo y le
+            escribimos cuando se publique una que pueda pedir un autónomo o una pequeña
+            empresa de su actividad, sin que tenga que volver a entrar a mirarlo.
+          </p>
+          <ul class="aviso__puntos">
+            <li>Le escribimos solo cuando hay algo para usted. Si esa semana no sale nada, no recibe nada.</li>
+            <li>No hace falta que cambie de asesoría ni que nos contrate nada.</li>
+            <li>Se da de baja cuando quiera, con un enlace en cada aviso.</li>
+          </ul>
+        </div>
+
+        <form class="aviso__form" id="aviso-form" novalidate>
+          <div class="field">
+            <label for="aviso-nombre">Nombre o empresa <span class="field__opt">(opcional)</span></label>
+            <input type="text" id="aviso-nombre" name="nombre" autocomplete="organization">
+          </div>
+
+          <div class="field">
+            <label for="aviso-email">Correo electrónico</label>
+            <input type="email" id="aviso-email" name="email" autocomplete="email" required>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="aviso-actividad">Actividad</label>
+              <select id="aviso-actividad" name="actividad" required>
+                <option value="">Elija una…</option>
+              <option>Comercio minorista</option>
+              <option>Hostelería y alimentación</option>
+              <option>Construcción y reformas</option>
+              <option>Industria y taller</option>
+              <option>Transporte y logística</option>
+              <option>Servicios profesionales</option>
+              <option>Salud y bienestar</option>
+              <option>Agricultura y ganadería</option>
+              <option>Otra actividad</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="aviso-provincia">Provincia <span class="field__opt">(opcional)</span></label>
+              <select id="aviso-provincia" name="provincia">
+                <option value="">Indiferente</option>
+              <option>Valencia</option>
+              <option>Alicante</option>
+              <option>Castellón</option>
+              <option>Madrid</option>
+              <option>Otra</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Campo trampa: los robots lo rellenan, las personas no lo ven. -->
+          <div class="lead__trampa" aria-hidden="true">
+            <input type="text" name="apellido2" tabindex="-1" autocomplete="off">
+          </div>
+
+          <label class="check">
+            <input type="checkbox" id="aviso-privacidad" name="privacidad" required>
+            <span>Acepto recibir avisos de convocatorias y el
+              <a href="privacidad.html" target="_blank" rel="noopener">tratamiento de mis datos</a>
+              con esa finalidad. Puedo darme de baja cuando quiera.</span>
+          </label>
+
+          <button class="btn btn--primary btn--block" type="submit">Avisarme</button>
+
+          <p class="form__hint" id="aviso-hint">
+            Solo para los avisos. Ni llamadas comerciales ni cesión a terceros.
+          </p>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <!-- ===================== CÓMO TRABAJAMOS ===================== -->
-  <section class="section section--alt" id="como-trabajamos">
+  <section class="section" id="como-trabajamos">
     <div class="container">
       <header class="section__head reveal">
         <p class="section__eyebrow">Nuestro trabajo</p>
@@ -642,5 +726,6 @@
 <script src="js/contacto.js"></script>
 <script src="js/subvenciones-data.js"></script>
 <script src="js/subvenciones.js"></script>
+<script src="js/aviso.js"></script>
 </body>
 </html>

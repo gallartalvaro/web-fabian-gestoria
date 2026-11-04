@@ -106,7 +106,7 @@
   <section class="hero" id="inicio">
     <div class="hero__bg" aria-hidden="true"></div>
     <div class="container hero__inner">
-      <p class="hero__eyebrow">Gestoría · Asesoría · Comercio exterior</p>
+      <p class="hero__eyebrow">Gestoría · Asesoría · Comercio exterior · Automatización e IA</p>
       <h1 class="hero__title">Sus impuestos y su contabilidad,<br><em>al día y con un precio cerrado</em></h1>
       <p class="hero__lead">
         Llevamos la contabilidad y los impuestos de empresas, autónomos y particulares, y
@@ -150,12 +150,156 @@
   </section>
 
 
-  <!-- ===================== AVISO DE SUBVENCION ABIERTA =====================
-       Nace oculto y solo aparece si la ventana de fechas sigue en plazo:
-       el data-convocatoria es lo que hace que js/subvenciones.js lo retire
-       solo, igual que las tarjetas del listado. Las fechas deben cubrir las
-       convocatorias que se citan en el texto.
-       Para cambiarlo de convocatoria basta con editar este bloque. -->
+
+  <!-- ===================== PUERTAS DE ENTRADA =====================
+       Cada visita enseña una de las cuatro. Son los servicios que se
+       pueden contratar sin cambiar de asesoría, que es lo que permite
+       empezar una relación con quien ya tiene despacho.
+       Todas van en el HTML y js/aviso.js descubre una: así la que se
+       ve sin JavaScript es la primera, nunca ninguna. -->
+  <section class="section section--puertas" aria-label="Otros servicios">
+    <div class="container">
+      <div class="puertas">
+        <article class="puerta" data-puerta="exportacion">
+          <div>
+            <p class="puerta__eyebrow">Primera exportación</p>
+            <h2 class="puerta__title">¿Va a vender fuera por primera vez?</h2>
+            <p class="puerta__texto">El primer envío fuera de la Unión Europea se atasca casi siempre en lo mismo: la mercancía mal clasificada y un certificado que nadie pidió a tiempo. Lo preparamos nosotros y sale a la primera.</p>
+          </div>
+          <div class="puerta__accion">
+            <a class="btn btn--primary" href="comercio-exterior.html">Plantear mi operación</a>
+          </div>
+        </article>
+        <article class="puerta" data-puerta="vehiculos">
+          <div>
+            <p class="puerta__eyebrow">Compraventa de vehículos</p>
+            <h2 class="puerta__title">¿Ha comprado o vendido un vehículo?</h2>
+            <p class="puerta__texto">Transferencia, impuesto de transmisiones, bajas y cambio de titularidad, con los plazos contados desde la fecha del contrato. Lo dejamos hecho sin que usted pise la Jefatura de Tráfico.</p>
+          </div>
+          <div class="puerta__accion">
+            <a class="btn btn--primary" href="compraventa-vehiculos.html">Consultar mi caso</a>
+          </div>
+        </article>
+        <article class="puerta" data-puerta="automatizacion">
+          <div>
+            <p class="puerta__eyebrow">Automatización e inteligencia artificial</p>
+            <h2 class="puerta__title">¿Contesta usted los mensajes a las once de la noche?</h2>
+            <p class="puerta__texto">Cinco agentes que atienden los WhatsApp, leen las facturas que llegan, responden a su equipo y llevan la agenda. Dentro de los programas que ya usa, y cada uno con su flujo explicado paso a paso.</p>
+          </div>
+          <div class="puerta__accion">
+            <a class="btn btn--primary" href="automatizacion.html">Ver cómo funcionan</a>
+          </div>
+        </article>
+        <article class="puerta" data-puerta="tramites">
+          <div>
+            <p class="puerta__eyebrow">Trámites con la Administración</p>
+            <h2 class="puerta__title">¿Tiene un trámite parado?</h2>
+            <p class="puerta__texto">Certificados, licencias de actividad, requerimientos y notificaciones electrónicas que no puede dejar de mirar ni un día. Lo llevamos de principio a fin y le avisamos solo cuando hay que decidir algo.</p>
+          </div>
+          <div class="puerta__accion">
+            <a class="btn btn--primary" href="gestion-administrativa.html">Consultar mi trámite</a>
+          </div>
+        </article>
+      </div>
+      <script>
+        // Sorteo de la puerta visible. En línea y aquí mismo para que
+        // ocurra antes del primer pintado: en aviso.js se vería cambiar.
+        (function () {
+          var p = document.querySelectorAll(".puerta");
+          if (p.length) p[Math.floor(Math.random() * p.length)].classList.add("es-visible");
+        })();
+      </script>
+    </div>
+  </section>
+
+  <!-- ===================== AVISO DE CONVOCATORIAS =====================
+       La puerta de entrada principal: no pide que cambie de asesor,
+       solo el correo. El alta la recoge js/aviso.js y la registra como
+       contacto etiquetado en Odoo (backend/odoo-lead-worker.js). -->
+  <section class="section" id="aviso">
+    <div class="container">
+      <div class="aviso reveal">
+        <div class="aviso__texto">
+          <p class="section__eyebrow">Aviso de convocatorias</p>
+          <h2 class="section__title">Le avisamos cuando se abra una ayuda que encaje con su negocio</h2>
+          <p class="section__lead">
+            Cada semana revisamos la Base de Datos Nacional de Subvenciones, donde por ley se
+            publican todas las convocatorias de España, y nos quedamos con las que puede pedir
+            un autónomo o una pequeña empresa de su actividad.
+          </p>
+          <ul class="aviso__puntos">
+            <li>Le escribimos solo cuando hay algo para usted. Si esa semana no sale nada, no recibe nada.</li>
+            <li>No hace falta que cambie de asesoría ni que nos contrate nada.</li>
+            <li>Se da de baja cuando quiera, con un enlace en cada aviso.</li>
+          </ul>
+          <p class="aviso__enlace">
+            <a href="subvenciones.html">Ver las convocatorias que están abiertas ahora</a>
+          </p>
+        </div>
+
+        <form class="aviso__form" id="aviso-form" novalidate>
+          <div class="field">
+            <label for="aviso-nombre">Nombre o empresa <span class="field__opt">(opcional)</span></label>
+            <input type="text" id="aviso-nombre" name="nombre" autocomplete="organization">
+          </div>
+
+          <div class="field">
+            <label for="aviso-email">Correo electrónico</label>
+            <input type="email" id="aviso-email" name="email" autocomplete="email" required>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="aviso-actividad">Actividad</label>
+              <select id="aviso-actividad" name="actividad" required>
+                <option value="">Elija una…</option>
+              <option>Comercio minorista</option>
+              <option>Hostelería y alimentación</option>
+              <option>Construcción y reformas</option>
+              <option>Industria y taller</option>
+              <option>Transporte y logística</option>
+              <option>Servicios profesionales</option>
+              <option>Salud y bienestar</option>
+              <option>Agricultura y ganadería</option>
+              <option>Otra actividad</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="aviso-provincia">Provincia <span class="field__opt">(opcional)</span></label>
+              <select id="aviso-provincia" name="provincia">
+                <option value="">Indiferente</option>
+              <option>Valencia</option>
+              <option>Alicante</option>
+              <option>Castellón</option>
+              <option>Madrid</option>
+              <option>Otra</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Campo trampa: los robots lo rellenan, las personas no lo ven. -->
+          <div class="lead__trampa" aria-hidden="true">
+            <input type="text" name="apellido2" tabindex="-1" autocomplete="off">
+          </div>
+
+          <label class="check">
+            <input type="checkbox" id="aviso-privacidad" name="privacidad" required>
+            <span>Acepto recibir avisos de convocatorias y el
+              <a href="privacidad.html" target="_blank" rel="noopener">tratamiento de mis datos</a>
+              con esa finalidad. Puedo darme de baja cuando quiera.</span>
+          </label>
+
+          <button class="btn btn--primary btn--block" type="submit">Avisarme</button>
+
+          <p class="form__hint" id="aviso-hint">
+            Solo para los avisos. Ni llamadas comerciales ni cesión a terceros.
+          </p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== NUESTRO COMPROMISO ===================== -->
   <section class="section section--alt" id="ventajas">
     <div class="container">
       <header class="section__head reveal">
@@ -180,25 +324,6 @@
           <h3>Control de plazos</h3>
           <p>Supervisamos vencimientos fiscales, renovaciones y notificaciones electrónicas.</p>
         </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" style="padding-top:clamp(2.5rem,5vw,3.5rem);padding-bottom:0">
-    <div class="container">
-      <div class="banner-ayuda reveal">
-        <div>
-          <span class="estado estado--abierto">Revisión semanal</span>
-          <h2>Puede que haya una ayuda esperándole</h2>
-          <p>
-            Cada semana revisamos las convocatorias municipales, autonómicas y estatales que
-            afectan a autónomos y pequeñas empresas. Un test de un minuto le dice si cumple los
-            requisitos de las que están en plazo, sin dejar ningún dato.
-          </p>
-        </div>
-        <div class="pagehero__actions" style="margin:0">
-          <a class="btn btn--primary" href="subvenciones.html">Ver las convocatorias abiertas</a>
-        </div>
       </div>
     </div>
   </section>
@@ -1034,5 +1159,6 @@
 <script src="js/main.js"></script>
 <script src="js/contacto.js"></script>
 <script src="js/subvenciones.js"></script>
+<script src="js/aviso.js"></script>
 </body>
 </html>

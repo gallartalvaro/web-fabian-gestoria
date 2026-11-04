@@ -989,3 +989,121 @@ html:not(.js) .acc__panel { grid-template-rows: 1fr; }
   }
   .reveal { opacity: 1; transform: none; }
 }
+
+/* ===== Puertas de entrada =====
+   Franja rotatoria bajo la cabecera: en cada visita se ve una de las
+   cuatro. Las cuatro están en el HTML y solo una lleva .es-visible,
+   que pone el guion en línea de la portada.
+
+   Sin JavaScript no se añade esa clase y la franja quedaría vacía, así
+   que la regla de :first-child descubre la primera. El sitio marca
+   <html class="js"> en la cabecera, de modo que cuando hay JavaScript
+   esta regla no llega a aplicarse y no hay dos tarjetas a la vez. */
+.section--puertas { padding-top: clamp(2.2rem, 4vw, 3.2rem); padding-bottom: 0; }
+
+.puerta { display: none; }
+.puerta.es-visible { display: grid; }
+html:not(.js) .puerta:first-child { display: grid; }
+
+.puerta {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.4rem;
+  align-items: center;
+  padding: clamp(1.4rem, 3vw, 2.1rem) clamp(1.4rem, 3vw, 2.4rem);
+  border: 1px solid rgba(192, 138, 62, 0.42);
+  border-left: 4px solid var(--color-accent);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, #fffdf8 0%, var(--color-accent-soft) 100%);
+  box-shadow: var(--shadow-sm);
+}
+@media (min-width: 820px) {
+  .puerta { grid-template-columns: minmax(0, 1fr) auto; gap: 2.4rem; }
+}
+
+.puerta__eyebrow {
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8a6225;
+  margin-bottom: 0.5rem;
+}
+.puerta__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+  line-height: 1.25;
+  color: var(--color-ink);
+  margin-bottom: 0.55rem;
+}
+.puerta__texto {
+  font-size: 0.97rem;
+  color: var(--color-ink-soft);
+  max-width: 62ch;
+  overflow-wrap: anywhere;
+}
+.puerta__accion .btn { white-space: nowrap; }
+
+/* ===== Alta en el aviso de convocatorias =====
+   Tarjeta clara: va justo debajo de la cabecera, que es oscura, y dos
+   bloques oscuros seguidos se leen como uno solo. */
+.aviso {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1.8rem, 4vw, 3rem);
+  align-items: start;
+  padding: clamp(1.6rem, 4vw, 2.8rem);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+}
+@media (min-width: 900px) {
+  .aviso { grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr); }
+}
+
+.aviso .section__title { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 0.9rem; }
+.aviso .section__lead { margin: 0; }
+
+.aviso__puntos {
+  list-style: none;
+  margin: 1.3rem 0 0;
+  display: grid;
+  gap: 0.7rem;
+}
+.aviso__puntos li {
+  position: relative;
+  padding-left: 1.6rem;
+  font-size: 0.95rem;
+  color: var(--color-ink-soft);
+  overflow-wrap: anywhere;
+}
+.aviso__puntos li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+.aviso__enlace { margin-top: 1.4rem; font-size: 0.95rem; }
+.aviso__enlace a {
+  color: var(--color-primary);
+  font-weight: 500;
+  border-bottom: 1px solid rgba(22, 58, 99, 0.3);
+}
+.aviso__enlace a:hover { border-bottom-color: var(--color-primary); }
+
+.aviso__form {
+  display: grid;
+  gap: 1.1rem;
+  padding: clamp(1.3rem, 3vw, 1.8rem);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-alt);
+}
+
+/* El desplegable también tiene que poder marcarse en rojo: hasta ahora
+   solo lo hacían input y textarea, y aquí la actividad es obligatoria. */
+.field select.is-invalid { border-color: #c0392b; background: #fdf3f2; }
