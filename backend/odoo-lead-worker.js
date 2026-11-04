@@ -104,6 +104,11 @@ function validar(p) {
     if (!texto(s.email)) return "Falta el correo";
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(s.email)) return "El email no es válido";
     if (!texto(s.actividad)) return "Falta la actividad";
+    if (!ACTIVIDADES.includes(s.actividad.trim())) return "Actividad no reconocida";
+    if (texto(s.provincia) && !PROVINCIAS.includes(s.provincia.trim()))
+      return "Provincia no reconocida";
+    // Un nombre desmesurado no aporta nada y sí puede ensuciar la agenda.
+    if (texto(s.nombre) && s.nombre.trim().length > 120) return "El nombre es demasiado largo";
     if (!p.consentimiento || p.consentimiento.aceptado !== true) return "Falta el consentimiento";
     return null;
   }
@@ -124,6 +129,30 @@ function validar(p) {
   if (!p.convocatoria || !texto(p.convocatoria.titulo)) return "Falta la convocatoria";
   return null;
 }
+
+// Listas cerradas del alta en el aviso.
+//
+// El formulario ya solo ofrece estos valores, pero eso no basta: la
+// cabecera Origin se falsifica desde cualquier cliente que no sea un
+// navegador, así que sin comprobarlo aquí cualquiera podría llenar la
+// agenda del despacho de etiquetas inventadas, y esas etiquetas son
+// justo lo que decide a quién se le envía cada convocatoria.
+//
+// DEBEN COINCIDIR con los <option> de public/index.html. Hay una
+// prueba que lo comprueba (backend/test-worker.mjs) para que no se
+// separen con el tiempo.
+const ACTIVIDADES = [
+  "Comercio minorista",
+  "Hostelería y alimentación",
+  "Construcción y reformas",
+  "Industria y taller",
+  "Transporte y logística",
+  "Servicios profesionales",
+  "Salud y bienestar",
+  "Agricultura y ganadería",
+  "Otra actividad",
+];
+const PROVINCIAS = ["Valencia", "Alicante", "Castellón", "Madrid", "Otra"];
 
 const texto = (v) => typeof v === "string" && v.trim().length > 0;
 

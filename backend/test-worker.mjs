@@ -4,6 +4,7 @@
 //   node backend/test-worker.mjs
 //
 import worker from "./odoo-lead-worker.js";
+import fs from "node:fs";
 
 const env = {
   ODOO_URL: "https://odoo.example.com",
@@ -345,7 +346,7 @@ llamadas = [];
 res = await pedir({
   version: 2,
   tipo: "aviso-subvenciones",
-  suscripcion: { email: "solo@example.com", actividad: "Comercio" },
+  suscripcion: { email: "solo@example.com", actividad: "Comercio minorista" },
   consentimiento: { aceptado: true, texto: "Acepta.", fecha: "2026-11-04T09:00:00Z" },
   seguimiento: {},
   apellido2: "",
@@ -390,6 +391,43 @@ comprobar(
   "sin contacto"
 );
 hayEmailMarketing = true;
+
+// --- 19 y 20. Listas cerradas -------------------------------------
+console.log("\n19. El alta solo admite los valores del formulario");
+llamadas = [];
+contactoExiste = false;
+res = await pedir({ ...alta, suscripcion: { ...alta.suscripcion, actividad: "Lo que yo quiera" } });
+comprobar("actividad inventada, rechaza con 422", res.status === 422, res.status);
+res = await pedir({ ...alta, suscripcion: { ...alta.suscripcion, provincia: "Narnia" } });
+comprobar("provincia inventada, rechaza con 422", res.status === 422, res.status);
+res = await pedir({ ...alta, suscripcion: { ...alta.suscripcion, nombre: "x".repeat(400) } });
+comprobar("nombre desmesurado, rechaza con 422", res.status === 422, res.status);
+comprobar("ninguno llega a crear etiquetas", llamadas.length === 0, llamadas.length + " llamadas");
+
+res = await pedir({ ...alta, suscripcion: { ...alta.suscripcion, provincia: "" } });
+comprobar("la provincia sigue siendo opcional", res.status === 200, res.status);
+
+console.log("\n20. El formulario y el receptor no se han separado");
+const paginaPortada = fs.readFileSync("public/index.html", "utf8");
+const bloque = paginaPortada.slice(paginaPortada.indexOf('id="aviso-actividad"'));
+const opciones = (sel) => {
+  const trozo = bloque.slice(bloque.indexOf(sel));
+  const fin = trozo.indexOf("</select>");
+  // Solo los <option> sin value: los que lo llevan vacío son el
+  // marcador ("Elija una…", "Indiferente") y nunca se envían.
+  return [...trozo.slice(0, fin).matchAll(/<option>([^<]+)<\/option>/g)].map((m) => m[1]);
+};
+const actividadesWeb = opciones('id="aviso-actividad"');
+const provinciasWeb = opciones('id="aviso-provincia"');
+
+for (const a of actividadesWeb) {
+  const r = await pedir({ ...alta, suscripcion: { ...alta.suscripcion, actividad: a } });
+  comprobar('la web ofrece "' + a + '" y el receptor la admite', r.status === 200, r.status);
+}
+for (const pr of provinciasWeb) {
+  const r = await pedir({ ...alta, suscripcion: { ...alta.suscripcion, provincia: pr } });
+  comprobar('la web ofrece "' + pr + '" y el receptor la admite', r.status === 200, r.status);
+}
 
 // --- 7. Preflight ----------------------------------------------------
 console.log("\n7. Preflight CORS");
