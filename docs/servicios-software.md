@@ -227,19 +227,24 @@ pero conviene no descubrirlo con la primera factura emitida.
 
 ---
 
-## Estado de la página web (3 de noviembre de 2026)
+## Estado de la página web (4 de noviembre de 2026)
 
-`public/automatizacion.html` existe como **borrador**, visible solo en la copia de pruebas.
-Lleva la marca `NO-PUBLICAR`: el flujo de producción la retira y borra sus enlaces, así que no
-puede llegar a valentramites.com por accidente.
+**Publicada.** `public/automatizacion.html` está en valentramites.com, y las cuatro franjas de
+la portada —la ficha de la cabecera, la pestaña 05 del explorador, su panel y la banda de
+promoción— también. Se retiraron las marcas `NO-PUBLICAR` y `<!-- BORRADOR -->`.
 
-Para publicarla hay que quitar esa marca, y antes:
+El despacho confirmó las tres cifras de precio tal como estaban propuestas: **290 €** de
+diagnóstico (se descuenta entero del montaje), **desde 690 €** de puesta en marcha por agente
+y **desde 79 €/mes** de cuota. También confirmó que el 613 95 02 55 tiene WhatsApp activo.
+
+Los mecanismos de borrador siguen en el flujo de producción, sin usar, para la próxima vez.
+
+Queda abierto, y no impide vender:
 
 | Qué | Quién decide |
 |---|---|
-| Confirmar o cambiar las tres cifras de precio | el despacho |
 | Confirmar que WhatsApp es viable en la instancia de Odoo | comprobación técnica |
-| Resolver el alta de IAE de la actividad informática | el despacho |
+| Resolver el alta de IAE de la actividad informática | el despacho, antes de facturar el primero |
 
 Las ilustraciones se generan con `python -I marca/ilustraciones.py`; no se editan a mano.
 
