@@ -113,6 +113,28 @@ jobs:
               raise SystemExit("No se ha versionado ninguna ruta: revisar el paso.")
           PY
 
+      - name: Retirar los bloques marcados como borrador
+        run: |
+          cd _publicar
+          # Una página entera se marca con NO-PUBLICAR. Esto es para lo
+          # otro: un trozo de una página que sí se publica —una pestaña
+          # de servicios, una franja de portada— que todavía no está
+          # aprobado. Va entre <!-- BORRADOR --> y <!-- /BORRADOR --> y
+          # desaparece aquí. En la copia de pruebas se ve entero.
+          python3 - <<'PY'
+          import pathlib, re
+          patron = re.compile(r'[ \t]*<!-- BORRADOR.*?/BORRADOR -->\n?', re.S)
+          total = 0
+          for pagina in pathlib.Path(".").glob("*.html"):
+              texto = pagina.read_text(encoding="utf-8")
+              texto, n = patron.subn("", texto)
+              if n:
+                  pagina.write_text(texto, encoding="utf-8", newline="")
+                  print("%-40s %d bloque(s) retirado(s)" % (pagina.name, n))
+              total += n
+          print("Bloques retirados en total:", total)
+          PY
+
       - name: Retirar las páginas marcadas como borrador
         run: |
           cd _publicar
@@ -131,18 +153,31 @@ jobs:
           fi
 
           # Si se publica el pie con enlaces a páginas retiradas, el
-          # visitante se encuentra un 404. Se quitan esos enlaces.
+          # visitante se encuentra un 404. Se quita el enlace entero.
           #
-          # Se borra la línea entera que contenga el enlace, sin exigir
-          # que empiece por <a href=...: un enlace de la navegación
-          # lleva su clase delante y antes se quedaba sin borrar, con
-          # lo que la comprobación de abajo detenía la publicación.
-          # Cada enlace va en su propia línea en todas las páginas.
-          for pagina in *.html; do
-            for retirada in $retiradas; do
-              sed -i "\|href=\"$retirada\"|d" "$pagina"
-            done
-          done
+          # Antes se borraba la línea que contuviera el enlace, lo que
+          # obligaba a escribir cada uno en una sola línea: un enlace
+          # con un icono dentro dejaba el icono suelto y rompía la
+          # página. Ahora se retira el elemento <a> completo, abra y
+          # cierre donde cierre.
+          RETIRADAS="$retiradas" python3 - <<'PY'
+          import os, pathlib, re
+          retiradas = os.environ["RETIRADAS"].split()
+          patron = re.compile(
+              r'<a\b[^>]*href="(?:%s)"[^>]*>.*?</a>'
+              % "|".join(re.escape(p) for p in retiradas),
+              re.S,
+          )
+          total = 0
+          for pagina in pathlib.Path(".").glob("*.html"):
+              texto = pagina.read_text(encoding="utf-8")
+              texto, n = patron.subn("", texto)
+              if n:
+                  pagina.write_text(texto, encoding="utf-8", newline="")
+                  print("%-40s %d enlace(s) retirado(s)" % (pagina.name, n))
+              total += n
+          print("Enlaces retirados en total:", total)
+          PY
 
           # Y que no quede ninguna referencia suelta en el resto del sitio.
           if grep -rl --include='*.html' -E "href=\"($(echo $retiradas | tr ' ' '|'))\"" . ; then

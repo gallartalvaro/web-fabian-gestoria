@@ -324,3 +324,39 @@ Encargo del despacho, para después: relacionar los agentes con la asesoría de 
 —contabilidad, fiscal, laboral—. La idea a desarrollar es que el agente administrativo
 alimenta la contabilidad que ya lleva el despacho, de modo que el cliente no compra una
 herramienta suelta sino menos trabajo dentro de un servicio que ya tiene contratado.
+
+---
+
+## En la portada (4 de noviembre de 2026)
+
+Automatización pasa a ser **la quinta área de servicio** del despacho, no una página suelta.
+`automatizacion.html` se queda como el sitio donde se explica a fondo.
+
+| Dónde | Qué hay |
+|---|---|
+| Selector del hero | Quinta ficha, «Automatización e IA», con distintivo de nuevo |
+| Explorador de servicios | Quinta pestaña, con los cinco agentes en acordeón y enlace a la página |
+| Debajo de los servicios | Franja azul con los cinco agentes y las dos llamadas a la acción |
+| Menú y pie | Enlace a la página |
+
+**El enganche con la asesoría está escrito en dos sitios**, que era lo que faltaba: en el
+acordeón del agente administrativo («alimenta la contabilidad que ya le llevamos desde aquí»)
+y en la franja («si además le llevamos la contabilidad, el trabajo que quitan se nota por los
+dos lados»).
+
+### Cómo se evita que salga a producción antes de tiempo
+
+La página sigue marcada `NO-PUBLICAR`, pero eso solo retira páginas enteras, y la pestaña del
+área es un `<button>`, no un enlace: en producción habría quedado un área sin su página.
+
+Se añaden dos cosas al flujo de producción:
+
+1. **Bloques de borrador.** Lo que va entre `<!-- BORRADOR -->` y `<!-- /BORRADOR -->`
+   desaparece al publicar. Los cuatro trozos de portada van marcados así.
+2. **Los enlaces se retiran enteros.** Antes se borraba la línea que contuviera el enlace, lo
+   que obligaba a escribirlos en una sola línea; un enlace con un icono dentro habría dejado el
+   icono suelto. Ahora se quita el elemento `<a>` completo.
+
+Probado sobre una copia real del sitio: la portada publicada sale con cuatro áreas, cuatro
+fichas y cuatro paneles, sin una sola mención a automatización y con todas las etiquetas
+equilibradas.

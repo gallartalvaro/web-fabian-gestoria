@@ -134,6 +134,12 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 16v2M19 16v2"/><path d="M3 16v-3l2-5a2 2 0 0 1 1.9-1.3h10.2A2 2 0 0 1 19 8l2 5v3H3Z"/><circle cx="7.5" cy="16" r="1.2"/><circle cx="16.5" cy="16" r="1.2"/></svg>
             <span>Vehículos</span>
           </a>
+<!-- BORRADOR -->
+          <a class="chip chip--nuevo" href="#servicios" data-goto-area="automatizacion">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="4" y="7" width="16" height="12" rx="3"/><path d="M12 3v4M9 12h.01M15 12h.01M9.5 16h5"/></svg>
+            <span>Automatización e IA</span>
+          </a>
+<!-- /BORRADOR -->
         </div>
       </div>
     </div>
@@ -218,6 +224,17 @@
                 <span class="etab__desc">Compraventa, tasación y transferencia</span>
               </span>
             </button>
+
+<!-- BORRADOR -->
+            <button class="etab" role="tab" type="button" data-area="automatizacion"
+                    id="tab-automatizacion" aria-controls="panel-automatizacion" aria-selected="false" tabindex="-1">
+              <span class="etab__num">05</span>
+              <span class="etab__body">
+                <span class="etab__title">Automatización e IA <span class="etab__nuevo">Nuevo</span></span>
+                <span class="etab__desc">Agentes que atienden, leen y registran</span>
+              </span>
+            </button>
+<!-- /BORRADOR -->
           </div>
 
           <p class="explorer__aside-note">
@@ -623,11 +640,192 @@
             </a>
           </div>
 
+<!-- BORRADOR -->
+          <!-- 05 · AUTOMATIZACIÓN E IA -->
+          <div class="epanel" role="tabpanel" id="panel-automatizacion"
+               aria-labelledby="tab-automatizacion" data-area="automatizacion"
+               data-label="Automatización e IA">
+            <header class="epanel__head">
+              <h3>Automatización e inteligencia artificial</h3>
+              <p>
+                Agentes que atienden los mensajes que entran fuera de horario, leen las facturas
+                que hoy teclea alguien a mano y mantienen la agenda y la cartera al día. Se
+                montan sobre los programas que usted ya usa.
+              </p>
+            </header>
+
+            <div class="eprecio eprecio--valorar">
+              <div class="eprecio__datos">
+                <p class="eprecio__label">Primero un diagnóstico</p>
+                <p class="eprecio__nota">Dos semanas mirando cómo trabaja de verdad, y después un precio cerrado. Si no le compensa, se lo decimos.</p>
+              </div>
+              <a class="btn btn--ghost btn--sm" href="automatizacion.html">Ver las demostraciones</a>
+            </div>
+
+            <div class="acc">
+              <div class="acc__item is-open">
+                <h4><button class="acc__btn" type="button" aria-expanded="true" aria-controls="acc-ia-1">
+                  <span class="acc__title">Atención y comercial</span>
+                  <span class="acc__count"></span>
+                  <span class="acc__ico" aria-hidden="true"></span>
+                </button></h4>
+                <div class="acc__panel" id="acc-ia-1">
+                  <ul class="acc__list">
+                    <li>Contesta WhatsApp y el chat de la web a cualquier hora</li>
+                    <li>Responde con sus tarifas y sus horarios</li>
+                    <li>Agenda la cita sobre huecos libres de verdad</li>
+                    <li>Deja la ficha en el CRM con la conversación entera</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="acc__item">
+                <h4><button class="acc__btn" type="button" aria-expanded="false" aria-controls="acc-ia-2">
+                  <span class="acc__title">Agenda y reservas</span>
+                  <span class="acc__count"></span>
+                  <span class="acc__ico" aria-hidden="true"></span>
+                </button></h4>
+                <div class="acc__panel" id="acc-ia-2">
+                  <ul class="acc__list">
+                    <li>Da hora según la duración real de cada servicio</li>
+                    <li>Gestiona cambios y cancelaciones sin pasar por usted</li>
+                    <li>Recuerda la cita la víspera</li>
+                    <li>Ofrece el hueco que se libera a quien está en espera</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="acc__item">
+                <h4><button class="acc__btn" type="button" aria-expanded="false" aria-controls="acc-ia-3">
+                  <span class="acc__title">Administración y documentos</span>
+                  <span class="acc__count"></span>
+                  <span class="acc__ico" aria-hidden="true"></span>
+                </button></h4>
+                <div class="acc__panel" id="acc-ia-3">
+                  <ul class="acc__list">
+                    <li>Lee facturas, albaranes, extractos y notificaciones</li>
+                    <li>Saca los datos y los deja donde tienen que estar</li>
+                    <li>Aparta lo que no cuadra, con el motivo escrito</li>
+                    <li>Alimenta la contabilidad que ya le llevamos desde aquí</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="acc__item">
+                <h4><button class="acc__btn" type="button" aria-expanded="false" aria-controls="acc-ia-4">
+                  <span class="acc__title">Conocimiento interno</span>
+                  <span class="acc__count"></span>
+                  <span class="acc__ico" aria-hidden="true"></span>
+                </button></h4>
+                <div class="acc__panel" id="acc-ia-4">
+                  <ul class="acc__list">
+                    <li>Conoce sus tarifas, procedimientos y contratos</li>
+                    <li>Responde a su equipo en lenguaje normal</li>
+                    <li>Dice siempre de qué documento sale la respuesta</li>
+                    <li>Acorta la formación de quien entra nuevo</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="acc__item">
+                <h4><button class="acc__btn" type="button" aria-expanded="false" aria-controls="acc-ia-5">
+                  <span class="acc__title">Ventas y CRM</span>
+                  <span class="acc__count"></span>
+                  <span class="acc__ico" aria-hidden="true"></span>
+                </button></h4>
+                <div class="acc__panel" id="acc-ia-5">
+                  <ul class="acc__list">
+                    <li>Registra cada oportunidad con su origen y su importe</li>
+                    <li>Avisa del seguimiento cuando toca</li>
+                    <li>Prepara el borrador de las comunicaciones comerciales</li>
+                    <li>Cada lunes, lo que está parado y por qué</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <a class="epanel__cta" href="automatizacion.html">
+              Ver los cinco agentes funcionando
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+<!-- /BORRADOR -->
+
         </div>
       </div>
     </div>
   </section>
 
+<!-- BORRADOR -->
+  <!-- ===================== AUTOMATIZACIÓN E IA =====================
+       Promoción en portada. El detalle, las demostraciones y los
+       límites de cada agente están en automatizacion.html. -->
+  <section class="section" id="automatizacion">
+    <div class="container">
+      <div class="ia-banda reveal">
+
+        <div class="ia-banda__texto">
+          <p class="section__eyebrow">Novedad · Automatización e IA</p>
+          <h2 class="section__title">Cinco agentes para el trabajo que se repite</h2>
+          <p class="section__lead">
+            Atienden los mensajes que entran fuera de horario, leen las facturas que hoy teclea
+            alguien a mano, responden a su equipo y mantienen al día la agenda y la cartera.
+            Trabajan dentro de los programas que ya usa.
+          </p>
+          <p class="ia-banda__enlace">
+            Y si además le llevamos la contabilidad, el trabajo que quitan se nota por los dos
+            lados: menos papel que pasar a mano en el despacho y menos horas suyas reuniéndolo.
+          </p>
+
+          <div class="ia-banda__acciones">
+            <a class="btn btn--primary" href="automatizacion.html">Ver cómo funcionan</a>
+            <a class="btn btn--ghost btn--claro" href="#contacto" data-ask="Automatización e IA">Pedir un diagnóstico</a>
+          </div>
+        </div>
+
+        <ol class="ia-lista">
+          <li>
+            <span class="ia-lista__num">01</span>
+            <span class="ia-lista__body">
+              <strong>Atención y comercial</strong>
+              Contesta WhatsApp y la web, agenda y deja la ficha hecha
+            </span>
+          </li>
+          <li>
+            <span class="ia-lista__num">02</span>
+            <span class="ia-lista__body">
+              <strong>Agenda y reservas</strong>
+              Da hora, la cambia, la recuerda y cubre lo que se libera
+            </span>
+          </li>
+          <li>
+            <span class="ia-lista__num">03</span>
+            <span class="ia-lista__body">
+              <strong>Administración</strong>
+              Lee facturas y albaranes y deja los datos registrados
+            </span>
+          </li>
+          <li>
+            <span class="ia-lista__num">04</span>
+            <span class="ia-lista__body">
+              <strong>Conocimiento interno</strong>
+              Responde a su equipo citando el documento del que sale
+            </span>
+          </li>
+          <li>
+            <span class="ia-lista__num">05</span>
+            <span class="ia-lista__body">
+              <strong>Ventas y CRM</strong>
+              Registra, avisa del seguimiento y no pierde un presupuesto
+            </span>
+          </li>
+        </ol>
+
+      </div>
+    </div>
+  </section>
+
+<!-- /BORRADOR -->
   <!-- ===================== CÓMO TRABAJAMOS ===================== -->
   <section class="section section--dark" id="proceso">
     <div class="container">
