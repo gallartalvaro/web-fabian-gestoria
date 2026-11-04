@@ -218,17 +218,37 @@
   };
 
   // "Consultar sobre esta área" llega al formulario con el área ya elegida
+  const fijarArea = (valor) => {
+    if (!form || !valor) return false;
+    const select = form.area;
+    if (![...select.options].some((o) => o.value === valor)) return false;
+    select.value = valor;
+    select.classList.add("is-prefilled");
+    return true;
+  };
+
   document.querySelectorAll("[data-ask]").forEach((link) => {
     link.addEventListener("click", () => {
-      if (!form) return;
-      const select = form.area;
-      const wanted = link.dataset.ask;
-      if ([...select.options].some((o) => o.value === wanted)) {
-        select.value = wanted;
-        select.classList.add("is-prefilled");
+      // Desde otra página el formulario no está delante: se guarda el
+      // área y la recoge el bloque de abajo al llegar a la portada.
+      if (fijarArea(link.dataset.ask)) return;
+      try {
+        sessionStorage.setItem("area", link.dataset.ask);
+      } catch (e) {
+        /* navegación privada: se pierde la preselección, nada más */
       }
     });
   });
+
+  try {
+    const pendiente = sessionStorage.getItem("area");
+    if (pendiente) {
+      sessionStorage.removeItem("area");
+      fijarArea(pendiente);
+    }
+  } catch (e) {
+    /* igual que arriba */
+  }
 
   if (form) {
     form.area.addEventListener("change", () => {

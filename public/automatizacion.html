@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<!-- NO-PUBLICAR · Borrador. El flujo de producción retira esta página y
+     sus enlaces hasta que el despacho apruebe los textos y los precios. -->
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Agentes de IA para su negocio | Valentramites</title>
+<meta name="description" content="Cinco agentes de inteligencia artificial que atienden mensajes, leen facturas, responden al equipo, mantienen el CRM y llevan la agenda. Con el flujo de trabajo explicado paso a paso.">
+<meta name="theme-color" content="#10243d">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/fuentes.css">
+
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/subvenciones.css">
+<link rel="stylesheet" href="css/automatizacion.css">
+
+<script>document.documentElement.classList.add("js");</script>
+</head>
+
+<body data-contexto="Automatización e IA">
+<a class="skip-link" href="#main">Saltar al contenido</a>
+
+<header class="header" id="header">
+  <div class="container header__inner">
+    <a class="brand" href="index.html" aria-label="Valentramites — inicio">
+      <img class="brand__logo" src="assets/logo.svg" alt="" width="192" height="40">
+    </a>
+
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="nav" aria-label="Navegación principal">
+      <a class="nav__link" href="index.html#servicios">Servicios</a>
+      <a class="nav__link is-active" href="automatizacion.html" aria-current="page">Automatización</a>
+      <a class="nav__link" href="subvenciones.html">Subvenciones</a>
+      <a class="nav__link" href="precios.html">Precios</a>
+      <a class="nav__link nav__cta btn btn--primary" href="index.html#contacto" data-ask="Automatización e IA">Contactar</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ===================== CABECERA ===================== -->
+  <section class="iahero">
+    <div class="iahero__bg" aria-hidden="true"></div>
+    <div class="container iahero__inner">
+
+      <div class="iahero__texto">
+        <nav class="breadcrumb" aria-label="Ruta de navegación">
+          <a href="index.html">Inicio</a> <span aria-hidden="true">›</span> <span>Automatización e IA</span>
+        </nav>
+
+        <p class="pagehero__eyebrow">Automatización · Inteligencia artificial</p>
+        <h1>Cinco agentes de IA para el <em>trabajo repetido</em></h1>
+        <p class="pagehero__lead">
+          Atienden mensajes, leen facturas, responden a su equipo, mantienen el CRM y llevan la
+          agenda. Trabajan dentro de los programas que ya usa y cada uno tiene su flujo
+          explicado aquí abajo, paso a paso.
+        </p>
+
+        <ul class="sellos">
+          <li>Precio cerrado antes de empezar</li>
+          <li>Sobre sus programas actuales</li>
+          <li>Sin permanencia</li>
+        </ul>
+
+        <div class="pagehero__actions">
+          <a class="btn btn--primary" href="index.html#contacto" data-ask="Automatización e IA">
+            Pedir un diagnóstico
+          </a>
+          <a class="btn btn--ghost btn--claro" href="#agentes">Ver los cinco agentes</a>
+        </div>
+      </div>
+
+      <!-- Maqueta: la misma conversación que la escena del agente 01,
+           con las mismas piezas. Lo que se promete arriba es lo que se
+           enseña abajo. -->
+      <div class="maqueta" aria-hidden="true">
+        <div class="chat">
+          <div class="chat__cab">
+            <span class="chat__avatar">TB</span>
+            <div class="chat__quien">
+              <strong>Taller Benimaclet</strong>
+              <span>WhatsApp Business</span>
+            </div>
+          </div>
+
+          <div class="chat__hilo">
+            <span class="chat__fecha">SÁBADO</span>
+            <p class="chat__msg chat__msg--entra">
+              ¿Hacéis la ITV? Tengo que pasarla antes del día 15.
+              <span class="chat__meta"><span>21:46</span></span>
+            </p>
+            <p class="chat__msg chat__msg--sale">
+              <span class="chat__firma">Asistente · respuesta automática</span>
+              Sí, 45 € con la gestión incluida. Tengo martes a las 10:00 o miércoles a las 16:30.
+              <span class="chat__meta"><span>21:46</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 13 4 4 9-10M9 17l9-10"/></svg></span>
+            </p>
+            <p class="chat__msg chat__msg--entra">
+              El martes a las 10.
+              <span class="chat__meta"><span>21:49</span></span>
+            </p>
+          </div>
+
+          <div class="chat__barra">
+            <span class="chat__campo">Escribe un mensaje</span>
+            <span class="chat__enviar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </div>
+
+        <div class="fichas-demo">
+          <div class="ficha-demo">
+            <p>En la agenda</p>
+            <strong><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4 10-10"/></svg> Martes 10:00</strong>
+          </div>
+          <div class="ficha-demo">
+            <p>En el CRM</p>
+            <strong><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4 10-10"/></svg> 1234 LMN</strong>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== ÍNDICE DE AGENTES ===================== -->
+  <section class="section section--indice" id="agentes">
+    <div class="container">
+      <header class="section__head reveal">
+        <p class="section__eyebrow">Los cinco agentes</p>
+        <h2 class="section__title">Dos trabajan con sus clientes. Tres, con su equipo.</h2>
+        <p class="section__lead">
+          Se montan por separado. Lo normal es empezar por uno, verlo funcionar un par de meses
+          y añadir el siguiente.
+        </p>
+      </header>
+
+      <ol class="indice reveal">
+        <li><a href="#agente-01"><span>01</span> Atención y comercial</a></li>
+        <li><a href="#agente-02"><span>02</span> Agenda y reservas</a></li>
+        <li><a href="#agente-03"><span>03</span> Administración</a></li>
+        <li><a href="#agente-04"><span>04</span> Conocimiento interno</a></li>
+        <li><a href="#agente-05"><span>05</span> Ventas y CRM</a></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===================== AGENTE 01 ===================== -->
+  <section class="section agentes">
+    <div class="container">
+
+      <article class="agente reveal" id="agente-01">
+        <div class="agente__cabecera">
+          <p class="agente__num">01</p>
+          <h3>Agente de atención y comercial</h3>
+          <p class="agente__resumen">
+              Contesta los mensajes que entran por la web y por WhatsApp, a cualquier hora.
+              Responde lo que se puede responder, agenda si procede y deja la ficha hecha.
+            </p>
+          <p class="agente__para"><strong>Para quien</strong> recibe más mensajes de los que puede contestar.</p>
+        </div>
+
+        <div class="agente__cuerpo">
+<div class="flujo-bloque">
+          <p class="flujo__titulo">Un domingo por la noche, en una clínica dental</p>
+          <ol class="flujo">
+            <li><span class="flujo__marca">22:10</span> Entra un WhatsApp: «se me ha partido un trozo de muela y me duele bastante».</li>
+            <li><span class="flujo__marca">22:10</span> El agente contesta al momento, pero dice lo que no puede decir: esto lo tiene que ver la doctora.</li>
+            <li><span class="flujo__marca">22:11</span> Deja aviso en el teléfono de guardia, para que alguien lo sepa esta misma noche.</li>
+            <li><span class="flujo__marca">22:11</span> Mira la agenda y guarda el primer hueco del lunes, a las 09:30.</li>
+            <li><span class="flujo__marca">22:12</span> Confirma la hora y crea la ficha con la conversación entera.</li>
+            <li><span class="flujo__marca">Lunes</span> La clínica abre con la urgencia ya encajada y el paciente avisado.</li>
+          </ol>
+          </div>
+
+          <div class="demo" data-demo="atencion">
+            <div class="demo__marco">
+              <p class="demo__barra"><span class="demo__luz"></span> WhatsApp · sábado, 21:46</p>
+              <div class="demo__escena" aria-hidden="true">
+                <img class="demo__portada" src="assets/ilustraciones/agente-comercial.svg" alt="" width="320" height="240" loading="lazy">
+              </div>
+            </div>
+            <button class="demo__boton" type="button">Ver la demostración</button>
+          </div>
+        </div>
+
+        <p class="agente__limite">
+          <strong>No cierra precios fuera de tarifa.</strong> Si el caso no está en su lista de
+          precios, redacta el borrador del presupuesto y se lo pasa a usted. La oferta sale con
+          su visto bueno.
+        </p>
+      </article>
+
+      <!-- ===================== AGENTE 02 ===================== -->
+      <article class="agente reveal" id="agente-02">
+        <div class="agente__cabecera">
+          <p class="agente__num">02</p>
+          <h3>Agente de agenda y reservas</h3>
+          <p class="agente__resumen">
+              Da hora, la cambia, la anula y la recuerda. Trabaja sobre su calendario, con sus
+              duraciones y sus reglas.
+            </p>
+          <p class="agente__para"><strong>Para quien</strong> trabaja con cita previa y pierde horas moviendo el calendario.</p>
+        </div>
+
+        <div class="agente__cuerpo">
+<div class="flujo-bloque">
+          <p class="flujo__titulo">Una semana en una clínica de fisioterapia</p>
+          <ol class="flujo">
+            <li><span class="flujo__marca">Lunes</span> Un paciente pide sesión. El agente ofrece huecos de 45 minutos, que es lo que dura ese tratamiento.</li>
+            <li><span class="flujo__marca">Lunes</span> Confirma, bloquea la hora y descuenta una sesión del bono.</li>
+            <li><span class="flujo__marca">Miércoles</span> Manda el recordatorio de la cita del jueves por el mismo canal por el que escribió.</li>
+            <li><span class="flujo__marca">Jueves</span> Otro paciente anula a dos horas vista. El agente libera el hueco.</li>
+            <li><span class="flujo__marca">Jueves</span> Se lo ofrece a quien estaba en lista de espera. Se cubre en nueve minutos.</li>
+            <li><span class="flujo__marca">Viernes</span> Resumen de la semana: horas ocupadas, huecos muertos y dos ausencias sin avisar.</li>
+          </ol>
+          </div>
+
+          <div class="demo" data-demo="agenda">
+            <div class="demo__marco">
+              <p class="demo__barra"><span class="demo__luz"></span> Agenda de la semana</p>
+              <div class="demo__escena" aria-hidden="true">
+                <img class="demo__portada" src="assets/ilustraciones/agente-reservas.svg" alt="" width="320" height="240" loading="lazy">
+              </div>
+            </div>
+            <button class="demo__boton" type="button">Ver la demostración</button>
+          </div>
+        </div>
+
+        <p class="agente__limite">
+          <strong>No cobra.</strong> Reserva, recuerda y libera huecos. El cobro sigue por donde
+          va hoy.
+        </p>
+      </article>
+
+      <!-- ===================== AGENTE 03 ===================== -->
+      <article class="agente reveal" id="agente-03">
+        <div class="agente__cabecera">
+          <p class="agente__num">03</p>
+          <h3>Agente de administración</h3>
+          <p class="agente__resumen">
+              Lee los documentos que entran, saca los datos y los deja registrados. Aparta lo
+              que no cuadra para que lo mire una persona.
+            </p>
+          <p class="agente__para"><strong>Para quien</strong> tiene a alguien tecleando facturas todos los días.</p>
+        </div>
+
+        <div class="agente__cuerpo">
+<div class="flujo-bloque">
+          <p class="flujo__titulo">Un lunes de facturas de proveedor</p>
+          <ol class="flujo">
+            <li><span class="flujo__marca">1</span> Llegan 40 correos al buzón de administración. El agente separa las facturas de lo que no lo es.</li>
+            <li><span class="flujo__marca">2</span> De cada factura saca proveedor, NIF, fecha, número, base, IVA y total.</li>
+            <li><span class="flujo__marca">3</span> Las compara con el pedido y con lo que ese proveedor suele facturar.</li>
+            <li><span class="flujo__marca">4</span> Registra las 35 que cuadran y las archiva con el nombre y la carpeta que usted use.</li>
+            <li><span class="flujo__marca">5</span> Aparta 5 con el motivo escrito: «el IVA no coincide», «proveedor nuevo», «importe muy por encima de lo habitual».</li>
+            <li><span class="flujo__marca">6</span> Una persona revisa esas 5. Las otras 35 ya están hechas.</li>
+          </ol>
+          </div>
+
+          <div class="demo" data-demo="administracion">
+            <div class="demo__marco">
+              <p class="demo__barra"><span class="demo__luz"></span> Buzón de administración</p>
+              <div class="demo__escena" aria-hidden="true">
+                <img class="demo__portada" src="assets/ilustraciones/agente-administrativo.svg" alt="" width="320" height="240" loading="lazy">
+              </div>
+            </div>
+            <button class="demo__boton" type="button">Ver la demostración</button>
+          </div>
+        </div>
+
+        <p class="agente__limite">
+          <strong>Nada se contabiliza sin que lo vea una persona.</strong> Un dato mal leído es
+          un error contable. El agente prepara el trabajo; el visto bueno sigue siendo suyo.
+        </p>
+      </article>
+
+      <!-- ===================== AGENTE 04 ===================== -->
+      <article class="agente reveal" id="agente-04">
+        <div class="agente__cabecera">
+          <p class="agente__num">04</p>
+          <h3>Agente de conocimiento interno</h3>
+          <p class="agente__resumen">
+              Conoce sus tarifas, sus procedimientos y sus contratos, y responde a su equipo
+              diciendo siempre de qué documento ha sacado la respuesta.
+            </p>
+          <p class="agente__para"><strong>Para quien</strong> depende de dos personas que se saben cómo se hacen las cosas.</p>
+        </div>
+
+        <div class="agente__cuerpo">
+<div class="flujo-bloque">
+          <p class="flujo__titulo">Una pregunta de un empleado nuevo</p>
+          <ol class="flujo">
+            <li><span class="flujo__marca">1</span> Pregunta: «¿qué cobramos por un cambio de titularidad de un coche importado?».</li>
+            <li><span class="flujo__marca">2</span> El agente busca en la tarifa, en el manual de procedimientos y en los criterios que el despacho ya ha fijado por correo.</li>
+            <li><span class="flujo__marca">3</span> Contesta el importe, qué incluye y qué tasas van aparte.</li>
+            <li><span class="flujo__marca">4</span> Añade de dónde lo ha sacado: «Tarifa 2026, apartado 4.2».</li>
+            <li><span class="flujo__marca">5</span> Si el documento es de hace dos años, lo advierte en vez de darlo por bueno.</li>
+            <li><span class="flujo__marca">6</span> A fin de mes usted ve lo que más se pregunta. Ahí suele faltar un procedimiento escrito.</li>
+          </ol>
+          </div>
+
+          <div class="demo" data-demo="conocimiento">
+            <div class="demo__marco">
+              <p class="demo__barra"><span class="demo__luz"></span> Consulta del equipo</p>
+              <div class="demo__escena" aria-hidden="true">
+                <img class="demo__portada" src="assets/ilustraciones/agente-conocimiento.svg" alt="" width="320" height="240" loading="lazy">
+              </div>
+            </div>
+            <button class="demo__boton" type="button">Ver la demostración</button>
+          </div>
+        </div>
+
+        <p class="agente__limite">
+          <strong>No contesta lo que no está en sus documentos.</strong> Si no lo tiene, dice que
+          no lo sabe y a quién preguntar. Es preferible a una respuesta inventada.
+        </p>
+      </article>
+
+      <!-- ===================== AGENTE 05 ===================== -->
+      <article class="agente reveal" id="agente-05">
+        <div class="agente__cabecera">
+          <p class="agente__num">05</p>
+          <h3>Agente de ventas y CRM</h3>
+          <p class="agente__resumen">
+              Registra cada oportunidad, avisa de los seguimientos y mantiene las fichas de
+              cliente al día.
+            </p>
+          <p class="agente__para"><strong>Para quien</strong> envía presupuestos y no llega a hacerles seguimiento.</p>
+        </div>
+
+        <div class="agente__cuerpo">
+<div class="flujo-bloque">
+          <p class="flujo__titulo">Un presupuesto de instalación, de principio a fin</p>
+          <ol class="flujo">
+            <li><span class="flujo__marca">Día 1</span> Entra una solicitud por la web. El agente crea la oportunidad con el origen y el importe estimado.</li>
+            <li><span class="flujo__marca">Día 2</span> Usted envía el presupuesto. El agente lo registra y programa el seguimiento a tres días.</li>
+            <li><span class="flujo__marca">Día 5</span> No hay respuesta. Redacta el recordatorio y se lo deja preparado para enviar.</li>
+            <li><span class="flujo__marca">Día 6</span> El cliente contesta que lo está mirando. El agente anota el motivo y aplaza el seguimiento a diez días.</li>
+            <li><span class="flujo__marca">Día 16</span> Vuelve a avisar. Esta vez el cliente acepta y la oportunidad pasa a ganada.</li>
+            <li><span class="flujo__marca">Cada lunes</span> Le da la lista: presupuestos abiertos, los parados más de quince días y los que caducan esta semana.</li>
+          </ol>
+          </div>
+
+          <div class="demo" data-demo="ventas">
+            <div class="demo__marco">
+              <p class="demo__barra"><span class="demo__luz"></span> Cartera de oportunidades</p>
+              <div class="demo__escena" aria-hidden="true">
+                <img class="demo__portada" src="assets/ilustraciones/agente-ventas.svg" alt="" width="320" height="240" loading="lazy">
+              </div>
+            </div>
+            <button class="demo__boton" type="button">Ver la demostración</button>
+          </div>
+        </div>
+
+        <p class="agente__limite">
+          <strong>No envía nada en su nombre sin permiso.</strong> Redacta y deja preparado.
+          Quien pulsa enviar es usted.
+        </p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================== INTEGRACIÓN ===================== -->
+  <section class="section section--alt">
+    <div class="container">
+      <header class="section__head reveal">
+        <p class="section__eyebrow">Integración</p>
+        <h2 class="section__title">Trabajan dentro de sus programas</h2>
+        <p class="section__lead">
+          Un agente que vive aparte obliga a ir a mirarlo, y al mes nadie lo mira. Los nuestros
+          escriben donde usted ya trabaja.
+        </p>
+      </header>
+
+      <div class="integracion reveal">
+        <img class="integracion__arte" src="assets/ilustraciones/nucleo-agentes.svg" alt="" width="520" height="420" loading="lazy">
+      </div>
+
+      <div class="perks reveal">
+        <div class="perk">
+          <h3>Su programa de gestión</h3>
+          <p>
+            Odoo, Holded, A3, Sage o el que tenga. Si no tiene ninguno, se monta: también es
+            parte del trabajo.
+          </p>
+        </div>
+        <div class="perk">
+          <h3>Su calendario</h3>
+          <p>
+            La cita aparece en la agenda que usted mira cada mañana, no en otra pantalla
+            distinta.
+          </p>
+        </div>
+        <div class="perk">
+          <h3>Su web y su correo</h3>
+          <p>
+            El formulario entra como ficha, no como un correo suelto. El buzón de administración
+            se vacía solo.
+          </p>
+        </div>
+        <div class="perk">
+          <h3>WhatsApp</h3>
+          <p>
+            Requiere cuenta de empresa verificada en Meta y tiene un coste por conversación. Se
+            le dice antes de empezar, con la cifra.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== LÍMITES ===================== -->
+  <section class="section section--dark">
+    <div class="container">
+      <header class="section__head reveal">
+        <p class="section__eyebrow">Límites</p>
+        <h2 class="section__title">Lo que no hacen, y va escrito en el contrato</h2>
+        <p class="section__lead">
+          Cada agente lleva sus límites por escrito antes de montarlo. Son estos cuatro, y no se
+          negocian.
+        </p>
+      </header>
+
+      <ol class="steps reveal">
+        <li class="step">
+          <span class="step__num">1</span>
+          <h3>No cierran precios</h3>
+          <p>
+            Lo que el agente dice, lo dice su empresa. Fuera de tarifa prepara el borrador y lo
+            valida una persona.
+          </p>
+        </li>
+        <li class="step">
+          <span class="step__num">2</span>
+          <h3>No asesoran</h3>
+          <p>
+            Ni en materia fiscal, ni laboral, ni jurídica, ni sanitaria. Informan de lo que está
+            escrito y pasan el resto.
+          </p>
+        </li>
+        <li class="step">
+          <span class="step__num">3</span>
+          <h3>No se hacen pasar por una persona</h3>
+          <p>
+            Se identifican como asistente automático en el primer mensaje. Es, además, lo que
+            exige el reglamento europeo de inteligencia artificial.
+          </p>
+        </li>
+        <li class="step">
+          <span class="step__num">4</span>
+          <h3>No improvisan</h3>
+          <p>
+            Si no tienen el dato, paran y avisan a quien corresponda. Queda registrado qué se
+            preguntó y qué se respondió.
+          </p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===================== QUIÉN LO HACE ===================== -->
+  <section class="section">
+    <div class="container">
+      <div class="duo">
+        <div class="duo__texto reveal">
+          <p class="section__eyebrow">Quién lo hace</p>
+          <h2 class="section__title">El desarrollo lo lleva Valentramites de principio a fin</h2>
+          <p>
+            El análisis, el montaje, la conexión con sus programas y el mantenimiento se hacen
+            aquí dentro. <strong>No se subcontrata a terceros ni se revende la herramienta de
+            otro</strong>: usted tiene un solo interlocutor y un solo responsable de que
+            funcione.
+          </p>
+          <p>
+            Y se reúnen las dos mitades que esto necesita. La parte técnica la lleva un
+            ingeniero especializado en ciencia de datos e inteligencia artificial. La otra es el
+            oficio del despacho: estos agentes van a tocar sus facturas, sus clientes y sus
+            plazos, que es lo que aquí se hace todos los días. Por eso el montaje y las
+            obligaciones que genera salen de la misma puerta.
+          </p>
+          <ul class="lista-marca">
+            <li>
+              <strong>Aviso de que es una IA.</strong> El reglamento europeo de inteligencia
+              artificial obliga a decirlo. Va en el primer mensaje de cada conversación.
+            </li>
+            <li>
+              <strong>Las conversaciones son datos personales.</strong> Se declaran en su
+              política de privacidad, con su finalidad y su plazo de conservación.
+            </li>
+            <li>
+              <strong>Contratos con cada proveedor</strong> que toque esos datos, firmados antes
+              de arrancar.
+            </li>
+            <li>
+              <strong>Registro de lo que hace el agente.</strong> Qué se preguntó, qué contestó
+              y cuándo lo pasó a una persona.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== MÉTODO ===================== -->
+  <section class="section section--dark">
+    <div class="container">
+      <header class="section__head reveal">
+        <p class="section__eyebrow">Cómo se hace</p>
+        <h2 class="section__title">Primero mirar, después montar</h2>
+        <p class="section__lead">
+          Si del diagnóstico sale que no le compensa, se lo decimos y se queda con el informe.
+        </p>
+      </header>
+
+      <ol class="steps reveal">
+        <li class="step">
+          <span class="step__num">1</span>
+          <h3>Diagnóstico</h3>
+          <p>
+            Dos semanas. Se mira cómo trabaja de verdad, se cuenta dónde se van las horas y se
+            entrega por escrito qué conviene automatizar y cuánto cuesta cada parte.
+          </p>
+        </li>
+        <li class="step">
+          <span class="step__num">2</span>
+          <h3>Propuesta cerrada</h3>
+          <p>
+            Alcance, límites, plazo y precio, antes de construir nada. Lo que se firma es lo que
+            se paga.
+          </p>
+        </li>
+        <li class="step">
+          <span class="step__num">3</span>
+          <h3>Puesta en marcha</h3>
+          <p>
+            Se monta y se prueba con documentos y mensajes reales suyos. Arranca en paralelo a
+            lo que hace hoy, no en sustitución.
+          </p>
+        </li>
+        <li class="step">
+          <span class="step__num">4</span>
+          <h3>Ajuste</h3>
+          <p>
+            Se revisa qué contesta, se corrige lo que falla y se enseña a su equipo a usarlo. Un
+            agente sin mantenimiento empeora en meses.
+          </p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===================== PRECIO ===================== -->
+  <section class="section">
+    <div class="container">
+      <header class="section__head reveal">
+        <p class="section__eyebrow">Precio</p>
+        <h2 class="section__title">Montarlo una vez y mantenerlo cada mes</h2>
+        <p class="section__lead">
+          La cuota incluye el consumo. No va a recibir una factura distinta cada mes sin saber
+          por qué.
+        </p>
+      </header>
+
+      <!-- BORRADOR: cifras propuestas por referencia de mercado
+           (IONOS cobra 39-99 €/mes por una recepcionista telefónica).
+           Pendientes de confirmar por el despacho antes de publicar. -->
+      <div class="tarifas reveal">
+        <div class="tarifa tarifa--destacada">
+          <p class="tarifa__label">Paso previo</p>
+          <h3>Diagnóstico</h3>
+          <p class="tarifa__cifra">290 € <span>+ IVA</span></p>
+          <p class="tarifa__nota">
+            Dos semanas e informe por escrito. <strong>Se descuenta entero</strong> si después
+            contrata el montaje.
+          </p>
+        </div>
+        <div class="tarifa">
+          <p class="tarifa__label">Un agente</p>
+          <h3>Puesta en marcha</h3>
+          <p class="tarifa__cifra">desde 690 € <span>+ IVA</span></p>
+          <p class="tarifa__nota">
+            Según los programas que haya que conectar. El precio se cierra en la propuesta.
+          </p>
+        </div>
+        <div class="tarifa">
+          <p class="tarifa__label">Después</p>
+          <h3>Cuota mensual</h3>
+          <p class="tarifa__cifra">desde 79 € <span>+ IVA</span></p>
+          <p class="tarifa__nota">
+            Consumo, ajustes, revisión de lo que contesta y soporte. Sin permanencia.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== PREGUNTAS ===================== -->
+  <section class="section section--alt">
+    <div class="container">
+      <header class="section__head reveal">
+        <p class="section__eyebrow">Preguntas</p>
+        <h2 class="section__title">Lo que se pregunta antes de empezar</h2>
+      </header>
+
+      <div class="faq reveal">
+        <details class="faq__item">
+          <summary>¿Esto sustituye a alguien de mi plantilla?</summary>
+          <p>
+            No es para lo que sirve. Quita las horas de teclear datos, buscar en carpetas y
+            perseguir seguimientos. Esas horas vuelven al equipo.
+          </p>
+        </details>
+        <details class="faq__item">
+          <summary>¿Y si el agente se equivoca?</summary>
+          <p>
+            Los límites van escritos antes de montarlo: no cierra precios, no asesora y no
+            improvisa. Lo que toca su contabilidad pasa por una persona, y queda registro de
+            todo lo que responde.
+          </p>
+        </details>
+        <details class="faq__item">
+          <summary>¿Dónde acaban los datos de mis clientes?</summary>
+          <p>
+            En sus programas. Antes de firmar se le dice qué proveedor toca cada dato, con qué
+            contrato y cuánto tiempo se guarda. Si algo no le encaja, se cambia el montaje.
+          </p>
+        </details>
+        <details class="faq__item">
+          <summary>¿Hace falta tener ya un programa de gestión?</summary>
+          <p>
+            No. Si no tiene, se monta. Si tiene, se trabaja sobre el suyo: cambiar de programa
+            cuesta mucho más que conectar el que ya usa.
+          </p>
+        </details>
+        <details class="faq__item">
+          <summary>¿Cuánto tarda en funcionar?</summary>
+          <p>
+            El diagnóstico, dos semanas. Un agente sobre el chat de la web, unas semanas más. Si
+            entra WhatsApp hay que contar con la verificación de la cuenta de empresa en Meta,
+            que no depende de nosotros.
+          </p>
+        </details>
+        <details class="faq__item">
+          <summary>¿Puedo empezar por uno solo?</summary>
+          <p>
+            Es lo recomendable. Se monta uno, se deja funcionar un par de meses y se decide con
+            datos si compensa el siguiente.
+          </p>
+        </details>
+        <details class="faq__item">
+          <summary>¿Tengo que atarme a algo?</summary>
+          <p>
+            No hay permanencia. La cuota es mensual y se da de baja avisando con quince días; el
+            mes empezado se factura completo. Lo montado se queda funcionando en sus programas.
+          </p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CIERRE ===================== -->
+  <section class="section">
+    <div class="container">
+      <div class="cierre reveal">
+        <h2>Cuénteme qué le quita el tiempo</h2>
+        <p>
+          Media hora de conversación y le digo si hay algo aquí que le compense. Si no lo hay,
+          se lo digo igual.
+        </p>
+        <div class="cierre__acciones">
+          <a class="btn btn--primary" href="index.html#contacto" data-ask="Automatización e IA">
+            Pedir un diagnóstico
+          </a>
+          <a class="btn btn--ghost" href="tel:+34613950255">613 95 02 55</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <div>
+        <img class="footer__logo" src="assets/logo-blanco.svg" alt="Valentramites" width="211" height="44">
+        <p class="footer__tag">Asesoría fiscal, contable, laboral y comercio exterior</p>
+      </div>
+    </div>
+
+    <nav class="footer__nav" aria-label="Enlaces del pie">
+      <a href="index.html#servicios">Servicios</a>
+      <a href="automatizacion.html">Automatización e IA</a>
+      <a href="subvenciones.html">Subvenciones</a>
+      <a href="precios.html">Precios</a>
+      <a href="index.html#contacto">Contacto</a>
+      <a href="privacidad.html">Privacidad</a>
+      <a href="aviso-legal.html">Aviso legal</a>
+      <a href="condiciones.html">Condiciones</a>
+    </nav>
+
+    <p class="footer__legal">
+      © <span id="year">2026</span> Valentramites. Todos los derechos reservados.
+    </p>
+  </div>
+</footer>
+
+<a class="to-top" href="#main" id="to-top" aria-label="Volver arriba">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>
+</a>
+
+<script src="js/config.js"></script>
+<script src="js/main.js"></script>
+<script src="js/automatizacion.js"></script>
+<script src="js/demos.js"></script>
+</body>
+</html>

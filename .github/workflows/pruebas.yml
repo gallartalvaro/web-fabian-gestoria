@@ -34,6 +34,11 @@ jobs:
         run: |
           cd public
           for pagina in index.html subvenciones.html precios.html \
+                        automatizacion.html \
+                        asesoria-fiscal-contable.html \
+                        gestion-administrativa.html \
+                        comercio-exterior.html \
+                        compraventa-vehiculos.html \
                         privacidad.html aviso-legal.html condiciones.html \
                         ayuda-emprende-y-concilia.html \
                         ayuda-hosteleria-equipamiento.html \
@@ -43,10 +48,11 @@ jobs:
                         ayuda-primeros-pasos.html \
                         ayuda-auto-mas-vehiculo-electrico.html \
                         ayuda-paterna-cheque-emprendedor.html \
-                        ayuda-icex-next.html; do
+                        ayuda-icex-next.html \
+                        ayuda-madrid-cheque-innovacion.html; do
             test -f "$pagina" || { echo "Falta public/$pagina"; exit 1; }
           done
-          echo "Las quince páginas están en su sitio."
+          echo "Las veintiuna páginas están en su sitio."
 
       - name: Probar el receptor de contactos
         run: node backend/test-worker.mjs
@@ -70,6 +76,29 @@ jobs:
 
           # .htaccess es de Apache: en GitHub Pages no pinta nada.
           rm -f _sitio/.htaccess
+
+      - name: Versionar las rutas de hojas y guiones
+        run: |
+          # Sin esto, quien revisa la copia de pruebas se puede quedar
+          # con la hoja de estilos anterior en la caché del navegador y
+          # dar por malo un diseño que en realidad ya está corregido.
+          # Producción hace exactamente lo mismo.
+          VER="${GITHUB_SHA:0:7}" python3 - <<'PY'
+          import os, re, pathlib
+          ver = os.environ["VER"]
+          patron = re.compile(r'(?P<attr>href|src)="(?P<ruta>(?:css|js)/[^"?]+\.(?:css|js))"')
+          total = 0
+          for pagina in pathlib.Path("_sitio").glob("*.html"):
+              texto = pagina.read_text(encoding="utf-8")
+              texto, n = patron.subn(
+                  lambda m: '%s="%s?v=%s"' % (m.group("attr"), m.group("ruta"), ver), texto
+              )
+              pagina.write_text(texto, encoding="utf-8", newline="")
+              total += n
+          print("Rutas versionadas:", total)
+          if total == 0:
+              raise SystemExit("No se ha versionado ninguna ruta: revisar el paso.")
+          PY
 
       - name: Empaquetar
         uses: actions/upload-pages-artifact@v3

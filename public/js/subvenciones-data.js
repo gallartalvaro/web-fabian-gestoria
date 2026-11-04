@@ -2247,4 +2247,248 @@ window.SUBVENCIONES = {
       };
     },
   },
+
+  // ============================================================
+  // Cheque Innovación 2026 — Comunidad de Madrid
+  // Normas reguladoras: Acuerdo de 9 de octubre de 2018 del Consejo
+  // de Gobierno (BOCM de 17/10/2018). Crédito de 2026 declarado por
+  // la Orden 2604/2026. BDNS 929317.
+  //
+  // Es concesión directa, no una convocatoria con ventana: se puede
+  // pedir mientras quede crédito del ejercicio. De ahí que el cierre
+  // sea el fin del año presupuestario, y que la ficha insista en que
+  // el dinero puede acabarse antes.
+  // ============================================================
+  "madrid-cheque-innovacion-2026": {
+    id: "madrid-cheque-innovacion-2026",
+    titulo: "Cheque Innovación 2026 de la Comunidad de Madrid",
+    nombreCorto: "Cheque Innovación Madrid 2026",
+    organismo: "Comunidad de Madrid",
+    importeBase: 0,
+    plazo: { inicio: "2026-07-04", fin: "2026-12-31" },
+
+    preguntas: [
+      {
+        id: "perfil",
+        tipo: "unica",
+        titulo: "¿Qué tamaño tiene la empresa?",
+        ayuda:
+          "El programa es para pymes: pequeña, menos de 50 personas y menos de 10 millones; " +
+          "mediana, menos de 250 personas y hasta 50 millones de volumen de negocio.",
+        opciones: [
+          { valor: "pequena", etiqueta: "Pequeña empresa (menos de 50 personas)" },
+          { valor: "mediana", etiqueta: "Mediana empresa (menos de 250 personas)" },
+          { valor: "grande", etiqueta: "Empresa de 250 personas o más" },
+          { valor: "autonomo", etiqueta: "Soy autónomo, persona física, sin sociedad" },
+        ],
+      },
+      {
+        id: "centro",
+        tipo: "unica",
+        titulo: "¿Tiene centro de trabajo en la Comunidad de Madrid?",
+        ayuda:
+          "Hace falta al menos un centro de trabajo en Madrid desde el que se vayan a desarrollar " +
+          "las actividades subvencionadas, y ejercer allí actividad económica de forma habitual.",
+        opciones: [
+          { valor: "si", etiqueta: "Sí, al menos uno" },
+          { valor: "abriendo", etiqueta: "Todavía no, pero vamos a abrirlo" },
+          { valor: "no", etiqueta: "No, y no está previsto" },
+        ],
+      },
+      {
+        id: "sector",
+        tipo: "unica",
+        titulo: "¿Diría que su empresa es tecnológica?",
+        ayuda:
+          "El programa está pensado para pymes de sectores tradicionales que quieren incorporar " +
+          "innovación, no para empresas que ya viven de la tecnología.",
+        opciones: [
+          { valor: "tradicional", etiqueta: "No: somos de un sector tradicional" },
+          { valor: "tecnologica", etiqueta: "Sí: nuestro negocio se basa en la tecnología" },
+          { valor: "nose", etiqueta: "No sabría decirlo" },
+        ],
+      },
+      {
+        id: "actuacion",
+        tipo: "unica",
+        titulo: "¿Qué tipo de proyecto quiere hacer?",
+        ayuda:
+          "El tope de la ayuda depende de esto. Si el proyecto incluye varias actuaciones, se " +
+          "puede pedir todo junto siempre que formen un mismo proyecto.",
+        opciones: [
+          {
+            valor: "desarrollo",
+            etiqueta:
+              "Diseño industrial o ingeniería de nuevos productos, o pruebas de concepto y prototipos",
+          },
+          {
+            valor: "producto",
+            etiqueta:
+              "Estudios de viabilidad, nuevos productos y servicios, transformar procesos de fabricación o software a medida",
+          },
+          {
+            valor: "diagnostico",
+            etiqueta:
+              "Diagnóstico o plan de innovación, vigilancia tecnológica, o protección de patentes y modelos de utilidad",
+          },
+          { valor: "nose", etiqueta: "Todavía no lo tengo definido" },
+        ],
+      },
+      {
+        id: "gasto",
+        tipo: "unica",
+        titulo: "¿Cuánto calcula que costará el proyecto?",
+        ayuda: "Sin IVA: el impuesto no es gasto subvencionable.",
+        opciones: [
+          { valor: "hasta15", etiqueta: "Hasta 15.000 €" },
+          { valor: "de15a40", etiqueta: "Entre 15.000 y 40.000 €" },
+          { valor: "mas40", etiqueta: "Más de 40.000 €" },
+          { valor: "nose", etiqueta: "Todavía no lo sé" },
+        ],
+      },
+      {
+        id: "situacion",
+        tipo: "multiple",
+        titulo: "De lo siguiente, ¿qué tiene ya resuelto?",
+        ayuda:
+          "Marque únicamente lo que ya cumple. Lo que quede sin marcar no le excluye: " +
+          "es lo que hay que resolver antes de presentar.",
+        opciones: [
+          { valor: "corriente", etiqueta: "Al corriente con Hacienda y con la Seguridad Social" },
+          { valor: "minimis", etiqueta: "No hemos recibido 200.000 € de minimis en tres ejercicios" },
+          { valor: "sinPedir", etiqueta: "No hemos pedido ya el Cheque Innovación este año" },
+          { valor: "proveedor", etiqueta: "Sabemos quién nos prestaría el servicio de innovación" },
+          { valor: "certificado", etiqueta: "Certificado digital del representante legal" },
+        ],
+      },
+    ],
+
+    etiquetar: function (r) {
+      var e = ["Innovación", "Madrid"];
+      if (r.perfil === "pequena") e.push("Pequeña empresa");
+      if (r.perfil === "mediana") e.push("Mediana empresa");
+      if (r.perfil === "autonomo") e.push("Autónomo");
+      if (r.sector === "tradicional") e.push("Sector tradicional");
+      if (r.centro === "abriendo") e.push("Abriendo centro en Madrid");
+      if ((r.situacion || []).indexOf("certificado") === -1) e.push("Sin certificado digital");
+      return e;
+    },
+
+    evaluar: function (r) {
+      var bloqueos = [];
+      var revisar = [];
+      var favorables = [];
+
+      // --- Motivos de exclusión claros ---
+      if (r.perfil === "grande") {
+        bloqueos.push(
+          "El programa es solo para pymes según el anexo I del Reglamento (UE) 651/2014: menos de 250 personas."
+        );
+      }
+      if (r.centro === "no") {
+        bloqueos.push(
+          "Hace falta al menos un centro de trabajo en la Comunidad de Madrid desde el que desarrollar las actividades subvencionadas."
+        );
+      }
+
+      // --- Puntos que conviene comprobar, pero que no excluyen ---
+      if (r.perfil === "autonomo") {
+        revisar.push(
+          "Las normas hablan de «pequeñas y medianas empresas válidamente constituidas». Hay que confirmar con la Comunidad de Madrid si admiten a la persona física sin sociedad: la ficha de la BDNS sí incluye a las personas físicas con actividad económica."
+        );
+      }
+      if (r.centro === "abriendo") {
+        revisar.push(
+          "El centro de trabajo en Madrid debe existir al presentar la solicitud, no solo estar previsto. Si el plan es abrirlo, conviene ordenar primero esa apertura."
+        );
+      }
+      if (r.sector === "tecnologica") {
+        revisar.push(
+          "El programa se dirige expresamente a pymes no tecnológicas de sectores tradicionales, y ese extremo hay que acreditarlo. Siendo una empresa tecnológica, conviene consultarlo antes de preparar nada."
+        );
+      }
+      if (r.sector === "nose") {
+        revisar.push(
+          "Hay que determinar si la empresa se considera no tecnológica y de sector tradicional, porque es un requisito que se acredita con la solicitud."
+        );
+      }
+      if (r.actuacion === "nose") {
+        revisar.push(
+          "Sin saber qué actuación se pide no se puede fijar el tope: va de 12.000 a 60.000 € según el tipo de proyecto."
+        );
+      }
+
+      var s = r.situacion || [];
+      if (s.indexOf("corriente") === -1) {
+        revisar.push("Hay que estar al corriente con Hacienda y con la Seguridad Social.");
+      }
+      if (s.indexOf("minimis") === -1) {
+        revisar.push(
+          "La ayuda va por el régimen de minimis: el total recibido por la empresa no puede pasar de 200.000 € en tres ejercicios."
+        );
+      }
+      if (s.indexOf("sinPedir") === -1) {
+        revisar.push(
+          "Solo se admite una solicitud por empresa y ejercicio, aunque puede abarcar varias actuaciones si forman un mismo proyecto."
+        );
+      }
+      if (s.indexOf("proveedor") === -1) {
+        revisar.push(
+          "La ayuda financia servicios de innovación prestados por terceros, así que hay que tener identificado al proveedor y su presupuesto."
+        );
+      }
+      if (s.indexOf("certificado") === -1) {
+        revisar.push(
+          "La solicitud la presenta el representante legal por medios electrónicos. Podemos presentarla en su nombre."
+        );
+      }
+
+      // --- Importe estimado -----------------------------------
+      // Tope por actuación (artículo 12 de las normas reguladoras);
+      // sobre el gasto se paga el 80 %, IVA excluido.
+      var TOPES = { desarrollo: 60000, producto: 30000, diagnostico: 12000 };
+      var tope = TOPES[r.actuacion] || 60000;
+      var GASTOS = { hasta15: 15000, de15a40: 40000, mas40: null };
+      var gasto = GASTOS[r.gasto];
+
+      var euro = function (n) {
+        return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      };
+
+      var importe, texto;
+      if (gasto === null) {
+        importe = tope;
+        texto = "Hasta " + euro(tope) + " €";
+        favorables.push("Con ese presupuesto se llega al tope de la actuación.");
+      } else if (gasto === undefined) {
+        importe = tope;
+        texto = "Hasta " + euro(tope) + " €";
+      } else {
+        importe = Math.min(Math.round(gasto * 0.8), tope);
+        texto = "Hasta " + euro(importe) + " €";
+      }
+
+      if (r.actuacion === "desarrollo") {
+        favorables.push("El diseño industrial y las pruebas de concepto tienen el tope más alto: 60.000 €.");
+      }
+      if (r.sector === "tradicional") {
+        favorables.push("El programa prioriza justamente a las pymes de sectores tradicionales.");
+      }
+
+      var estado = "apto";
+      if (bloqueos.length) estado = "no-apto";
+      else if (revisar.length) estado = "revisar";
+
+      return {
+        estado: estado,
+        importe: importe,
+        importeTexto: texto,
+        importeDetalle:
+          "El 80 % del gasto, IVA excluido, con un tope de " + euro(tope) + " € para esta actuación",
+        bloqueos: bloqueos,
+        revisar: revisar,
+        favorables: favorables,
+      };
+    },
+  },
 };
