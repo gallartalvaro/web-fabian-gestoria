@@ -84,22 +84,41 @@ Dos cuidados que el código ya tiene:
 
 ### Cómo se envía el aviso
 
-Esta parte **todavía es a mano**, y conviene saberlo:
+*Marketing por correo electrónico* (`mass_mailing`) está **instalado** desde el 4 de noviembre de
+2026, con la lista **«Aviso de subvenciones»** (`mailing.list` id 2) y una plantilla en borrador.
 
-1. Cada lunes la vigilancia abre una incidencia en GitHub con las convocatorias nuevas
-   (ver `vigilancia/README.md`).
-2. En Odoo → *Contactos*, filtrar por la etiqueta `Aviso de subvenciones` y por la actividad a la
-   que le encaje la convocatoria.
-3. Escribir el aviso a esa selección.
+Por eso el alta hace **dos cosas**, no una:
 
-**Para que el paso 3 sea un envío de verdad y no una copia manual, hace falta instalar
-*Email Marketing* en Odoo.** Está incluido en el plan contratado, así que no cuesta nada, pero
-no está instalado: por eso el alta crea un contacto etiquetado y no un `mailing.contact`. Cuando
-se instale, basta con crear una lista a partir del filtro de etiquetas.
+| Qué crea | Para qué |
+|---|---|
+| `res.partner` etiquetado | la ficha del despacho, que puede acabar siendo un cliente |
+| `mailing.contact` en la lista | el envío, y el **enlace de baja automático** |
 
-Mientras tanto, el aviso se puede mandar igual —son pocos suscriptores al principio— pero hay
-que acordarse de poner **el enlace de baja en cada correo**: es lo que se promete en el
-formulario y en la política de privacidad.
+`mailing.contact.tag_ids` apunta al mismo modelo de etiquetas que `res.partner`
+(`res.partner.category`), así que la actividad y la provincia sirven para filtrar el envío sin
+duplicar nada.
+
+El recorrido semanal queda así:
+
+1. La vigilancia abre la incidencia con las convocatorias nuevas (`vigilancia/README.md`).
+2. En *Marketing por correo electrónico* → *Correos*, **duplicar** la plantilla
+   `PLANTILLA — NO ENVIAR`.
+3. Rellenar los corchetes, apuntar el botón a la ficha de esa convocatoria y, si la ayuda es
+   solo de un sector o un municipio, **añadir la etiqueta al filtro de destinatarios**.
+4. Enviar.
+
+> **El destinatario de la plantilla está fijado a mano.** Al crearla por API no se disparó el
+> cálculo automático que la ata a la lista, y el filtro quedó en «todos los contactos de correo»:
+> el aviso habría salido también a quien solo está en *Newsletter*. Está corregido a
+> `[('list_ids', 'in', [2])]` y comprobado. **Si algún día se crea otra plantilla por API, hay que
+> revisar ese campo**; haciéndolo desde la interfaz, Odoo lo pone solo.
+
+### Dos cosas que quedan por confirmar
+
+- **El límite diario de envío de Odoo Online.** Hay uno, depende del plan, y con la lista
+  pequeña no se va a notar; conviene saberlo antes de que crezca.
+- **Que el correo salga desde el dominio del despacho** y no desde el remitente por defecto de
+  Odoo: si no, acaba en la carpeta de no deseados. Se configura en *Ajustes → Conversaciones*.
 
 ## Puesta en marcha
 

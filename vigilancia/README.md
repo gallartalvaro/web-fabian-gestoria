@@ -80,8 +80,26 @@ El razonamiento es que una pyme no cambia de asesoría porque vea un anuncio; ca
 suya le falla. Avisar de una ayuda no le pide que cambie de nada, y el día que el cambio toque,
 el despacho ya no es un desconocido.
 
-El recorrido completo está en [`backend/README.md`](../backend/README.md): el envío todavía se
-hace a mano desde Contactos, y para automatizarlo hace falta instalar *Email Marketing*.
+El recorrido completo está en [`backend/README.md`](../backend/README.md): el alta entra sola en
+la lista «Aviso de subvenciones» de *Marketing por correo electrónico*, y el envío se hace
+duplicando la plantilla que ya está creada.
+
+### Lo que el aviso NO puede decidir
+
+El alta recoge correo, actividad y provincia. Con eso **no se puede saber si alguien cumple los
+requisitos de una convocatoria**, y conviene no confundirse: de los 42 criterios de exclusión de
+las diez convocatorias publicadas, esos datos cubren **uno**. Lo que deciden de verdad son la
+forma jurídica, el municipio exacto, la antigüedad del alta, la plantilla o el importe de la
+inversión, y eso no se pregunta en un formulario de dos campos.
+
+El reparto de papeles es ese, y está bien así:
+
+- **el aviso** acierta con *a quién le puede interesar* (que no le llegue una ayuda de hostelería
+  a un transportista);
+- **el test de cada convocatoria**, que ya existe y pregunta entre seis y nueve cosas, decide
+  *quién cumple*.
+
+El aviso solo tiene que conseguir que entren al test.
 
 ## Cuando una convocatoria interesa
 

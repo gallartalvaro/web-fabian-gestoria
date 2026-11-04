@@ -345,6 +345,7 @@ async function crearSuscripcion(p, env) {
       // por eso: la etiqueta, que es lo que arma la lista, ya está.
       console.error("message_post:", err && err.message);
     }
+    await apuntarEnLaLista(env, uid, p);
     return id;
   }
 
@@ -354,7 +355,57 @@ async function crearSuscripcion(p, env) {
     comment: notaDeAlta(p),
   };
   if (enlaces.length) valores.category_id = enlaces;
-  return llamar(env, uid, "res.partner", "create", [valores]);
+  const id = await llamar(env, uid, "res.partner", "create", [valores]);
+  await apuntarEnLaLista(env, uid, p);
+  return id;
+}
+
+// Apunta el correo en la lista de *Marketing por correo electrónico*.
+// Es lo que convierte el envío en un clic y, sobre todo, lo que hace
+// que cada aviso lleve su enlace de baja: eso se promete en el
+// formulario y en la política de privacidad, así que tiene que salir
+// solo y no depender de que alguien se acuerde de ponerlo.
+//
+// mailing.contact.tag_ids apunta al mismo modelo de etiquetas que
+// res.partner (res.partner.category), de modo que la actividad y la
+// provincia sirven para filtrar el envío sin duplicar nada.
+//
+// Si el módulo no estuviera instalado, el alta NO se pierde: el
+// contacto etiquetado ya está creado y se puede importar a mano.
+const LISTA_AVISO = "Aviso de subvenciones";
+
+async function apuntarEnLaLista(env, uid, p) {
+  const sus = p.suscripcion;
+  const email = sus.email.trim();
+  try {
+    const lista = await unId(env, uid, "mailing.list", LISTA_AVISO);
+    if (!lista) return null;
+
+    const etiquetas = await idsDe(env, uid, "res.partner.category", [
+      sus.actividad,
+      sus.provincia,
+    ]);
+    const valores = { list_ids: [[4, lista]] };
+    if (etiquetas.length) valores.tag_ids = etiquetas.map((id) => [4, id]);
+
+    const existentes = await llamar(env, uid, "mailing.contact", "search", [
+      [["email", "=ilike", email]],
+    ], { limit: 1 });
+
+    if (existentes.length) {
+      await llamar(env, uid, "mailing.contact", "write", [[existentes[0]], valores]);
+      return existentes[0];
+    }
+
+    valores.email = email;
+    valores.name = texto(sus.nombre) ? sus.nombre.trim() : email;
+    return llamar(env, uid, "mailing.contact", "create", [valores]);
+  } catch (err) {
+    // Que falte el módulo no puede tumbar un alta que el visitante ya
+    // ha dado por hecha.
+    console.error("mailing.contact:", err && err.message);
+    return null;
+  }
 }
 
 // Deja por escrito qué aceptó, cuándo y desde dónde. Es lo que hay

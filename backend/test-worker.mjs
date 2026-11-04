@@ -18,10 +18,17 @@ let llamadas = [];
 // Permite probar los dos caminos del alta: contacto nuevo y contacto
 // que ya estaba en la agenda del despacho.
 let contactoExiste = true;
+// Si el modulo de Marketing por correo no estuviera instalado, Odoo
+// responde con error al tocar esos modelos.
+let hayEmailMarketing = true;
 const fetchSimulado = async (url, opts) => {
   const body = JSON.parse(opts.body);
   const [service, method, args] = [body.params.service, body.params.method, body.params.args];
   llamadas.push({ service, method, modelo: args[3], metodo: args[4], valores: args[5] });
+
+  if (!hayEmailMarketing && String(args[3] || "").startsWith("mailing.")) {
+    return { ok: true, json: async () => ({ jsonrpc: "2.0", error: { message: "Object mailing.list doesn't exist" } }) };
+  }
 
   let result;
   if (service === "common") result = 7; // uid
@@ -29,6 +36,11 @@ const fetchSimulado = async (url, opts) => {
   else if (args[3] === "res.partner" && args[4] === "create") result = 55;
   else if (args[3] === "res.partner" && args[4] === "write") result = true;
   else if (args[3] === "res.partner" && args[4] === "message_post") result = 900;
+  else if (args[3] === "mailing.list" && args[4] === "search") result = hayEmailMarketing ? [2] : [];
+  else if (args[3] === "mailing.list" && args[4] === "create") result = 2;
+  else if (args[3] === "mailing.contact" && args[4] === "search") result = [];
+  else if (args[3] === "mailing.contact" && args[4] === "create") result = 77;
+  else if (args[3] === "mailing.contact" && args[4] === "write") result = true;
   else if (args[4] === "search" && ["crm.tag", "res.partner.category", "utm.source", "utm.medium", "utm.campaign"].includes(args[3]))
     result = [];
   else if (args[4] === "create" && ["crm.tag", "res.partner.category", "utm.source", "utm.medium", "utm.campaign"].includes(args[3]))
@@ -342,6 +354,42 @@ datos = await res.json();
 const minimo = llamadas.find((l) => l.modelo === "res.partner" && l.metodo === "create");
 comprobar("responde 200 solo con correo y actividad", res.status === 200, res.status);
 comprobar("sin nombre, usa el correo", minimo.valores[0].name === "solo@example.com", minimo.valores[0].name);
+
+// --- 17. El alta llega a la lista de correo ------------------------
+console.log("\n17. El alta entra en la lista de Marketing por correo");
+llamadas = [];
+contactoExiste = false;
+hayEmailMarketing = true;
+res = await pedir(alta);
+const enLista = llamadas.find((l) => l.modelo === "mailing.contact" && l.metodo === "create");
+
+comprobar("responde 200", res.status === 200, res.status);
+comprobar("crea el contacto de correo", !!enLista, "no se creó");
+comprobar(
+  "lo apunta en la lista con [4, id]",
+  !!enLista && JSON.stringify(enLista.valores[0].list_ids) === JSON.stringify([[4, 2]]),
+  JSON.stringify(enLista && enLista.valores[0].list_ids)
+);
+comprobar(
+  "le pone actividad y provincia para poder filtrar el envío",
+  !!enLista && enLista.valores[0].tag_ids.length === 2,
+  JSON.stringify(enLista && enLista.valores[0].tag_ids)
+);
+comprobar("guarda el correo", !!enLista && enLista.valores[0].email === "Pan@Example.com", "mal");
+
+console.log("\n18. Si faltara el módulo de Marketing por correo");
+llamadas = [];
+contactoExiste = false;
+hayEmailMarketing = false;
+res = await pedir(alta);
+datos = await res.json();
+comprobar("el alta NO se pierde: sigue respondiendo 200", res.status === 200, res.status);
+comprobar(
+  "y el contacto etiquetado se ha creado igual",
+  llamadas.some((l) => l.modelo === "res.partner" && l.metodo === "create"),
+  "sin contacto"
+);
+hayEmailMarketing = true;
 
 // --- 7. Preflight ----------------------------------------------------
 console.log("\n7. Preflight CORS");
