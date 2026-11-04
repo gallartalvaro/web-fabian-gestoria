@@ -29,6 +29,10 @@ jobs:
           cd public
           for pagina in index.html subvenciones.html precios.html \
                         automatizacion.html \
+                        asesoria-fiscal-contable.html \
+                        gestion-administrativa.html \
+                        comercio-exterior.html \
+                        compraventa-vehiculos.html \
                         privacidad.html aviso-legal.html condiciones.html \
                         ayuda-emprende-y-concilia.html \
                         ayuda-hosteleria-equipamiento.html \
@@ -43,7 +47,7 @@ jobs:
             test -f "$pagina" || { echo "Falta public/$pagina"; exit 1; }
           done
           test -f .htaccess || { echo "Falta public/.htaccess"; exit 1; }
-          echo "Las diecisiete páginas y el .htaccess están en su sitio."
+          echo "Las veintiuna páginas y el .htaccess están en su sitio."
 
       - name: Probar el receptor de contactos
         run: node backend/test-worker.mjs

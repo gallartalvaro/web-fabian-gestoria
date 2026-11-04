@@ -207,3 +207,39 @@ Ordenado por efecto dividido por trabajo:
 
 Los puntos 5 y 6 son los únicos que no puedo hacer yo solo: necesito una fotografía y que usted
 pida las reseñas.
+
+---
+
+## Estado de aplicación (4 de noviembre de 2026)
+
+| # | Qué | Estado |
+|---|---|---|
+| 1 | Los cuatro botones de área | ✅ aplicado |
+| 2 | «Compromiso» antes de servicios | ✅ aplicado, y en fondo gris para que no se funda con lo que sigue |
+| 3 | Los tres sellos en la cabecera | ✅ aplicado |
+| 4 | Titular nuevo (opción A) | ✅ aplicado |
+| 5 | Bloque «Quién le va a atender» | ⏸️ descartado por ahora |
+| 6 | Reseñas y testimonios | ⏸️ descartado por ahora |
+| 7 | El plan «Integral» de autónomos pasa a «Completo» | ✅ aplicado |
+| 8 | Las frases del apartado 3 | ✅ aplicadas |
+| 9 | Cuatro páginas de servicio | ✅ creadas |
+
+### Las cuatro páginas nuevas
+
+`asesoria-fiscal-contable.html` · `gestion-administrativa.html` · `comercio-exterior.html` ·
+`compraventa-vehiculos.html`
+
+Todas con la misma estructura: cabecera con dos llamadas a la acción, tres casos habituales de
+«a quién le sirve», el detalle del trabajo en cuatro bloques, el procedimiento en tres fases,
+el precio y entre tres y cuatro dudas habituales.
+
+Se enlazan desde el explorador de la portada («Todo el detalle de…») y desde el pie. Los títulos
+y las descripciones llevan la localidad dentro, que es por donde busca la gente: *asesoría fiscal
+y contable en València*, *gestoría de trámites y extranjería en València*, *comercio exterior y
+aduanas*, *compraventa y transferencia de vehículos*.
+
+### Un fallo encontrado al revisar
+
+La franja de ayudas de la portada dependía de una convocatoria concreta y **se apagó sola cuando
+venció su plazo, el 29 de octubre**. Desde entonces el mejor activo de la web no se anunciaba en
+ningún sitio de la portada. Ahora es permanente y dice algo que no caduca.
