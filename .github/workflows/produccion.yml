@@ -42,12 +42,13 @@ jobs:
                         ayuda-primeros-pasos.html \
                         ayuda-auto-mas-vehiculo-electrico.html \
                         ayuda-paterna-cheque-emprendedor.html \
+                        ayuda-paterna-escaparatismo.html \
                         ayuda-icex-next.html \
                         ayuda-madrid-cheque-innovacion.html; do
             test -f "$pagina" || { echo "Falta public/$pagina"; exit 1; }
           done
           test -f .htaccess || { echo "Falta public/.htaccess"; exit 1; }
-          echo "Las veintiuna páginas y el .htaccess están en su sitio."
+          echo "Las veintidós páginas y el .htaccess están en su sitio."
 
       - name: Probar el receptor de contactos
         run: node backend/test-worker.mjs

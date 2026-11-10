@@ -54,7 +54,13 @@ const DESTINATARIOS = ["PYME", "EMPRESA", "FISICAS QUE DESARROLLAN"];
 
 // Por debajo de esta cifra rara vez compensa el trabajo de tramitar.
 // Ponga 0 para no descartar ninguna por importe.
-const PRESUPUESTO_MINIMO = Number(process.env.PRESUPUESTO_MINIMO || 20000);
+//
+// Bajado de 20.000 a 5.000 en noviembre de 2026: con el umbral alto se
+// quedaban fuera las convocatorias municipales de Valencia y su area
+// metropolitana, que son pequenas de importe pero las que mas mueven a
+// un comercio de barrio. OJO: a 5.000 siguen sin pasar cosas como los
+// premios de escaparatismo de Paterna (2.400 EUR).
+const PRESUPUESTO_MINIMO = Number(process.env.PRESUPUESTO_MINIMO || 5000);
 
 // --- Fin de los criterios ---------------------------------------
 

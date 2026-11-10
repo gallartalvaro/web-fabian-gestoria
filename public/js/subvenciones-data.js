@@ -2491,4 +2491,181 @@ window.SUBVENCIONES = {
       };
     },
   },
+
+  // ============================================================
+  // Premios de Escaparatismo 2026 — Ayuntamiento de Paterna
+  // Extracto en el BOP de Valencia núm. 215, de 9 de noviembre de
+  // 2026 (CSV BOPV-2026/13513). BDNS 938754.
+  //
+  // OJO: esto NO es una subvención que se cobre por cumplir
+  // requisitos, es un CONCURSO con tres premios que decide un
+  // jurado. El test dice si puede participar, no lo que va a
+  // cobrar, y así está redactado de principio a fin.
+  // ============================================================
+  "paterna-escaparatismo-2026": {
+    id: "paterna-escaparatismo-2026",
+    titulo: "Premios de Escaparatismo 2026 del Ayuntamiento de Paterna",
+    nombreCorto: "Escaparatismo Paterna 2026",
+    organismo: "Ayuntamiento de Paterna",
+    importeBase: 1200,
+    plazo: { inicio: "2026-11-16", fin: "2026-12-04" },
+
+    preguntas: [
+      {
+        id: "municipio",
+        tipo: "unica",
+        titulo: "¿Dónde se desarrolla la actividad del establecimiento?",
+        ayuda:
+          "La base tercera admite a los comerciantes y empresas de servicios «cuya actividad " +
+          "comercial se desarrolle en el término municipal de Paterna».",
+        opciones: [
+          { valor: "paterna", etiqueta: "En el término municipal de Paterna" },
+          { valor: "otro", etiqueta: "En otro municipio" },
+        ],
+      },
+      {
+        id: "actividad",
+        tipo: "unica",
+        titulo: "¿Qué tipo de establecimiento es?",
+        ayuda:
+          "El extracto habla de comerciantes y empresas de servicios. La ordenanza de la que " +
+          "cuelga la convocatoria se titula «de comercio local y hostelería».",
+        opciones: [
+          { valor: "comercio", etiqueta: "Un comercio con escaparate a la calle" },
+          {
+            valor: "servicios",
+            etiqueta: "Una empresa de servicios con local a la calle (peluquería, academia, taller…)",
+          },
+          { valor: "hosteleria", etiqueta: "Un bar, una cafetería o un restaurante" },
+          { valor: "sinEscaparate", etiqueta: "Una actividad sin escaparate ni local a pie de calle" },
+        ],
+      },
+      {
+        id: "fechas",
+        tipo: "unica",
+        titulo: "¿Puede tener la decoración terminada el 10 de diciembre y mantenerla hasta el 6 de enero?",
+        ayuda:
+          "La base octava lo exige: escaparate acabado el 10 de diciembre, y decoración e " +
+          "iluminación mantenidas como mínimo hasta el 6 de enero de 2027. El jurado visita " +
+          "los escaparates después de cerrarse el plazo.",
+        opciones: [
+          { valor: "si", etiqueta: "Sí, sin problema" },
+          { valor: "nose", etiqueta: "Probablemente, pero habría que organizarlo" },
+          { valor: "no", etiqueta: "No; no podría mantenerlo hasta Reyes" },
+        ],
+      },
+      {
+        id: "situacion",
+        tipo: "multiple",
+        titulo: "Marque lo que pueda confirmar hoy",
+        ayuda:
+          "En la solicitud hay que declarar las dos primeras. La tercera no impide participar, " +
+          "pero sí cobrar: la base novena prohíbe pagar el premio a quien tenga deudas con el " +
+          "Ayuntamiento.",
+        opciones: [
+          {
+            valor: "corriente",
+            etiqueta: "Estoy al corriente con Hacienda y con la Seguridad Social",
+          },
+          {
+            valor: "sinProhibicion",
+            etiqueta:
+              "No estoy en ninguna de las prohibiciones del artículo 13 de la Ley General de Subvenciones",
+          },
+          { valor: "sinDeudas", etiqueta: "No tengo deudas pendientes con el Ayuntamiento de Paterna" },
+        ],
+      },
+      {
+        id: "extras",
+        tipo: "multiple",
+        titulo: "¿Cuáles de estas cosas piensa hacer?",
+        ayuda:
+          "No son requisitos: son los criterios con los que el jurado puntúa. Se preguntan " +
+          "porque es donde se gana o se pierde el premio.",
+        opciones: [
+          { valor: "articulos", etiqueta: "Usar artículos del propio establecimiento en el escaparate" },
+          { valor: "reciclaje", etiqueta: "Usar materiales de reciclaje" },
+          { valor: "iluminacion", etiqueta: "Cuidar especialmente la iluminación" },
+          { valor: "redes", etiqueta: "Difundir la campaña en redes sociales" },
+          { valor: "asociacion", etiqueta: "Pertenezco a una asociación de comercio de Paterna" },
+        ],
+      },
+    ],
+
+    evaluar: function (r) {
+      var bloqueos = [];
+      var revisar = [];
+      var favorables = [];
+
+      // --- Exclusiones que están en el texto ---
+      if (r.municipio === "otro") {
+        bloqueos.push(
+          "La actividad tiene que desarrollarse en el término municipal de Paterna."
+        );
+      }
+      if (r.fechas === "no") {
+        bloqueos.push(
+          "La base octava obliga a mantener la decoración y la iluminación hasta el 6 de enero de 2027. Sin eso se queda fuera del concurso."
+        );
+      }
+
+      // --- Puntos a comprobar, que no excluyen ---
+      if (r.actividad === "hosteleria") {
+        revisar.push(
+          "El extracto nombra a «comerciantes y empresas de servicios», pero la ordenanza de la que cuelga se titula «de comercio local y hostelería». Lo confirmamos con el Ayuntamiento antes de presentar."
+        );
+      }
+      if (r.actividad === "sinEscaparate") {
+        revisar.push(
+          "La base octava habla de «escaparates y/o decoración», así que no es un no automático, pero el jurado valora visitando el establecimiento. Hay que preguntarlo antes de inscribirse."
+        );
+      }
+      if (r.fechas === "nose") {
+        revisar.push(
+          "Conviene cerrar el montaje antes de inscribirse: la fecha del 10 de diciembre no admite prórroga y el jurado visita los escaparates sin avisar."
+        );
+      }
+
+      var s = r.situacion || [];
+      if (s.indexOf("corriente") === -1) {
+        revisar.push(
+          "Hay que declarar en la solicitud que se está al corriente con Hacienda y con la Seguridad Social. Lo comprobamos antes de presentar."
+        );
+      }
+      if (s.indexOf("sinProhibicion") === -1) {
+        revisar.push(
+          "La solicitud incluye una declaración de no estar incurso en las prohibiciones del artículo 13 de la Ley General de Subvenciones. Le explicamos qué abarca."
+        );
+      }
+      if (s.indexOf("sinDeudas") === -1) {
+        revisar.push(
+          "Una deuda con el Ayuntamiento de Paterna no impide concursar, pero sí cobrar el premio. Si la hay, se mira antes del fallo del jurado."
+        );
+      }
+
+      // --- Lo que suma puntos ---
+      var e = r.extras || [];
+      if (e.indexOf("articulos") !== -1) favorables.push("Usar artículos del establecimiento suma hasta 5 puntos.");
+      if (e.indexOf("reciclaje") !== -1) favorables.push("Los materiales de reciclaje suman hasta 5 puntos.");
+      if (e.indexOf("iluminacion") !== -1) favorables.push("La iluminación suma hasta 5 puntos.");
+      if (e.indexOf("redes") !== -1) favorables.push("La difusión en redes suma 2 puntos por cada red social.");
+      if (e.indexOf("asociacion") !== -1) favorables.push("Pertenecer a una asociación de comercio de Paterna suma 1 punto.");
+      favorables.push("El premio es compatible con cualquier otro de entidad pública o privada.");
+
+      var estado = "apto";
+      if (bloqueos.length) estado = "no-apto";
+      else if (revisar.length) estado = "revisar";
+
+      return {
+        estado: estado,
+        importe: 1200,
+        importeTexto: "1.200 / 750 / 450 €",
+        importeDetalle:
+          "Tres premios que decide un jurado, no una ayuda que se cobre por cumplir requisitos. Participar no garantiza cobrar nada.",
+        bloqueos: bloqueos,
+        revisar: revisar,
+        favorables: favorables,
+      };
+    },
+  },
 };
