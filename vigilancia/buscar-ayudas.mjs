@@ -62,6 +62,11 @@ const DESTINATARIOS = ["PYME", "EMPRESA", "FISICAS QUE DESARROLLAN"];
 // premios de escaparatismo de Paterna (2.400 EUR).
 const PRESUPUESTO_MINIMO = Number(process.env.PRESUPUESTO_MINIMO || 5000);
 
+// Cuánto tiempo se sigue vigilando una convocatoria que se anunció
+// sin extracto en el diario oficial. Pasado ese plazo se deja de
+// mirar: o se publicó y no nos enteramos, o se quedó en nada.
+const DIAS_PENDIENTE = Number(process.env.DIAS_PENDIENTE || 120);
+
 // --- Fin de los criterios ---------------------------------------
 
 const API = "https://www.infosubvenciones.es/bdnstrans/api";
@@ -144,6 +149,35 @@ const interesaPorDestinatario = (tipos) => {
 };
 
 // ------------------------------------------------------------
+// Una convocatoria no es válida hasta que su extracto sale en el
+// diario oficial, y hasta entonces las fechas que trae la BDNS pueden
+// ser de relleno. Esto distingue un caso del otro.
+const tieneExtracto = (d) => Array.isArray(d.anuncios) && d.anuncios.length > 0;
+
+// Revisa las que quedaron esperando extracto. Devuelve las que ya lo
+// tienen, para avisar de ellas, y la lista de las que siguen sin él.
+async function revisarPendientes(pendientes) {
+  const publicadas = [];
+  const siguen = [];
+  const limite = Date.now() - DIAS_PENDIENTE * 86400000;
+
+  for (const p of pendientes) {
+    if (Date.parse(p.desde) < limite) continue; // caducada, se olvida
+    let d;
+    try {
+      d = await pedir(API + "/convocatorias?vpd=GE&numConv=" + p.codigo);
+    } catch (err) {
+      console.error("No se pudo revisar la pendiente " + p.codigo + ": " + err.message);
+      siguen.push(p);
+      continue;
+    }
+    await esperar(400);
+    if (tieneExtracto(d)) publicadas.push({ ...d, numeroConvocatoria: p.codigo });
+    else siguen.push(p);
+  }
+  return { publicadas, siguen };
+}
+
 async function main() {
   const hasta = new Date();
   const desde = new Date(hasta.getTime() - DIAS * 86400000);
@@ -195,6 +229,9 @@ async function main() {
     : { codigos: [] };
   const yaVistas = new Set(vistas.codigos);
 
+  // Antes que nada, las que quedaron esperando su extracto.
+  const { publicadas, siguen } = await revisarPendientes(vistas.pendientes || []);
+
   const candidatas = todas.filter(
     (c) => interesaPorTerritorio(c) && !yaVistas.has(String(c.numeroConvocatoria))
   );
@@ -211,6 +248,11 @@ async function main() {
     if (!interesaPorDestinatario(d.tiposBeneficiarios)) continue;
     if (PRESUPUESTO_MINIMO && (d.presupuestoTotal || 0) < PRESUPUESTO_MINIMO) continue;
     utiles.push({ ...c, ...d });
+    // Si todavía no tiene extracto, su plazo no es de fiar: se apunta
+    // para volver a mirarla, en vez de darla por avisada y olvidarla.
+    if (!tieneExtracto(d)) {
+      siguen.push({ codigo: String(c.numeroConvocatoria), desde: new Date().toISOString().slice(0, 10) });
+    }
     await esperar(400);
   }
 
@@ -219,19 +261,30 @@ async function main() {
   vistas.codigos = [
     ...new Set([...vistas.codigos, ...candidatas.map((c) => String(c.numeroConvocatoria))]),
   ].slice(-3000);
+  // Sin duplicados y sin las que ya se han publicado.
+  const yaPublicadas = new Set(publicadas.map((p) => String(p.numeroConvocatoria)));
+  const porCodigo = new Map();
+  for (const p of siguen) if (!yaPublicadas.has(p.codigo)) porCodigo.set(p.codigo, p);
+  vistas.pendientes = [...porCodigo.values()];
   vistas.ultimaRevision = new Date().toISOString();
   fs.writeFileSync(rutaVistas, JSON.stringify(vistas, null, 2) + "\n", "utf8");
 
-  fs.writeFileSync(path.join(AQUI, "informe.md"), informe(utiles, todas.length, candidatas.length, DIAS), "utf8");
-
-  console.log(
-    `${todas.length} publicadas en los territorios vigilados · ${candidatas.length} en el ámbito del despacho · ${utiles.length} para empresas y autónomos`
+  fs.writeFileSync(
+    path.join(AQUI, "informe.md"),
+    informe(utiles, todas.length, candidatas.length, DIAS, publicadas),
+    "utf8"
   );
-  console.log("HAY=" + (utiles.length ? "si" : "no"));
-  console.log("CUANTAS=" + utiles.length);
+
+  const cuantas = utiles.length + publicadas.length;
+  console.log(
+    `${todas.length} publicadas en los territorios vigilados · ${candidatas.length} en el ámbito del despacho · ${utiles.length} para empresas y autónomos · ${publicadas.length} que ya han salido en el boletín · ${vistas.pendientes.length} esperando extracto`
+  );
+  console.log("HAY=" + (cuantas ? "si" : "no"));
+  console.log("CUANTAS=" + cuantas);
 }
 
-function informe(utiles, total, candidatas, dias) {
+function informe(utiles, total, candidatas, dias, publicadas) {
+  publicadas = publicadas || [];
   const l = [];
   l.push(`Revisión de los últimos **${dias} días** en la BDNS.`);
   l.push("");
@@ -242,8 +295,28 @@ function informe(utiles, total, candidatas, dias) {
   );
   l.push("");
 
+  if (publicadas.length) {
+    l.push("## Ya han salido en el diario oficial");
+    l.push("");
+    l.push(
+      "De estas ya se avisó cuando se anunciaron en la BDNS, pero entonces **no tenían extracto " +
+        "publicado y su plazo no era de fiar**. Ahora sí lo tienen: este es el momento de mirarlas."
+    );
+    for (const c of publicadas) {
+      const fin = c.fechaFinSolicitud
+        ? "cierra el " + c.fechaFinSolicitud.split("-").reverse().join("/")
+        : (c.textFin || "sin fecha de cierre").slice(0, 90);
+      l.push("");
+      l.push(`- **${c.descripcion}** — ${c.organo?.nivel2 || ""} · ${euros(c.presupuestoTotal)} · ${fin}`);
+      l.push(`  [Ficha en la BDNS](${FICHA}${c.codigoBDNS})`);
+    }
+    l.push("");
+    l.push("---");
+    l.push("");
+  }
+
   if (!utiles.length) {
-    l.push("Esta semana no ha salido nada que encaje con los criterios.");
+    if (!publicadas.length) l.push("Esta semana no ha salido nada que encaje con los criterios.");
     return l.join("\n");
   }
 
