@@ -33,4 +33,9 @@ window.SITE_CONFIG = {
   horario: { dias: [1, 2, 3, 4, 5], desde: 16, hasta: 21 },
 
   formEndpoint: "https://valentramites-leads.gallart-alvaro.workers.dev",
+
+  // Contador de visitas propio: sin cookies, sin terceros y sin
+  // guardar ningún identificador. Ver backend/visitas/README.md.
+  // Vacío = no se mide nada.
+  visitasEndpoint: "https://valentramites-visitas.gallart-alvaro.workers.dev",
 };

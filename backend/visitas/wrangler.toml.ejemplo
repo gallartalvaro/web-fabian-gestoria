@@ -1,0 +1,17 @@
+# Copie este archivo a wrangler.toml y ajuste el database_id que
+# devuelva "wrangler d1 create". wrangler.toml NO se sube al
+# repositorio: lo ignora .gitignore.
+name = "valentramites-visitas"
+main = "worker.js"
+compatibility_date = "2026-11-16"
+
+[vars]
+ORIGENES = "https://valentramites.com,https://www.valentramites.com,https://gallartalvaro.github.io"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "valentramites-visitas"
+database_id = "PONER-AQUI-EL-ID-QUE-DEVUELVA-D1-CREATE"
+
+# La clave del cuadro de mando NO va aquí: es un secreto.
+#   wrangler secret put CLAVE_PANEL

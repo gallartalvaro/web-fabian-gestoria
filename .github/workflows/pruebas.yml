@@ -58,6 +58,9 @@ jobs:
       - name: Probar el receptor de contactos
         run: node backend/test-worker.mjs
 
+      - name: Probar el contador de visitas
+        run: node backend/visitas/test-visitas.mjs
+
       - name: Preparar la copia de pruebas
         run: |
           cp -r public _sitio
