@@ -101,6 +101,23 @@ El reparto de papeles es ese, y está bien así:
 
 El aviso solo tiene que conseguir que entren al test.
 
+## Las que se anuncian antes de salir en el boletín
+
+Una convocatoria **no es válida hasta que su extracto se publica en el diario oficial**, y la BDNS
+suele conocerla antes. En ese hueco las fechas que muestra pueden ser de relleno: las dos ayudas de
+Torrent de noviembre de 2026 aparecían con plazo «hasta octubre de 2027» cuando sus bases decían
+«15 días hábiles desde la publicación del extracto en el BOP», que no había salido.
+
+Avisar de una así y darla por vista es perderla: cuando por fin se publica, ya nadie la mira.
+
+Por eso la vigilancia **las apunta aparte**, en `pendientes` dentro de `vistas.json`, y las vuelve a
+consultar en cada pasada. El día que aparece el extracto salen en el aviso bajo el epígrafe
+**«Ya han salido en el diario oficial»**, con su fecha de cierre real, que es el momento de
+redactar la ficha.
+
+Se dejan de mirar a los **120 días** (`DIAS_PENDIENTE`): o se publicaron sin que nos enterásemos, o
+se quedaron en nada.
+
 ## Cuando una convocatoria interesa
 
 Dígaselo a Claude con el código BDNS que aparece en el aviso. Redactará la ficha y el test en la
