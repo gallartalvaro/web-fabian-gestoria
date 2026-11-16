@@ -22,8 +22,11 @@ CLAUDE.md
 credenciales*
 
 # Receptor de contactos (Cloudflare Worker)
-# NUNCA subir: contienen la clave de API de Odoo.
+# NUNCA subir: contienen claves y los identificadores de los
+# recursos de Cloudflare. El repositorio es publico.
 backend/wrangler.toml
+backend/*/wrangler.toml
+backend/visitas/CLAVE-DEL-PANEL.txt
 .dev.vars
 *.dev.vars
 .wrangler/
