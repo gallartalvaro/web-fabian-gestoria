@@ -2668,4 +2668,177 @@ window.SUBVENCIONES = {
       };
     },
   },
+
+  // ============================================================
+  // Bonos Comercio 2026 — Ayuntamiento de Xirivella (2ª convocatoria)
+  // Resolución de Alcaldía nº 3646, de 10 de noviembre de 2026.
+  // BDNS 941487. Crédito 25.000 € (aplicación 430.48000).
+  //
+  // Particularidad: la cuantía NO es fija. Los 25.000 € se
+  // prorratean a partes iguales entre todos los admitidos, en
+  // múltiplos de 10 €. Cuantos más comercios entren, menos toca a
+  // cada uno, así que no se puede prometer un importe y el test no
+  // lo hace.
+  // ============================================================
+  "xirivella-bonos-2026": {
+    id: "xirivella-bonos-2026",
+    titulo: "Bonos Comercio 2026 del Ayuntamiento de Xirivella",
+    nombreCorto: "Bonos Comercio Xirivella 2026",
+    organismo: "Ayuntamiento de Xirivella",
+    importeBase: 0,
+    plazo: { inicio: "2026-11-12", fin: "2026-11-26" },
+
+    preguntas: [
+      {
+        id: "local",
+        tipo: "unica",
+        titulo: "¿La actividad se desarrolla de forma permanente en un local de Xirivella?",
+        ayuda:
+          "El requisito 2 del artículo 3 exige que la actividad se desarrolle «con carácter " +
+          "permanente, en un establecimiento, instalación o local del municipio de Xirivella».",
+        opciones: [
+          { valor: "si", etiqueta: "Sí, con local permanente en Xirivella" },
+          { valor: "ambulante", etiqueta: "Trabajo en Xirivella pero sin local permanente" },
+          { valor: "no", etiqueta: "No, el local está en otro municipio" },
+        ],
+      },
+      {
+        id: "epigrafe",
+        tipo: "unica",
+        titulo: "¿A cuál de estos grupos pertenece su epígrafe del IAE?",
+        ayuda:
+          "La convocatoria lista los epígrafes admitidos en el requisito 9. Si no está en la " +
+          "lista, la actividad queda fuera por mucho que tenga local en Xirivella.",
+        opciones: [
+          { valor: "alimentacion", etiqueta: "Alimentación: fruta, carne, pescado, panadería, bebidas, ultramarinos (641 a 647)" },
+          { valor: "textil", etiqueta: "Textil, confección, calzado y artículos de piel (651)" },
+          { valor: "farmacia", etiqueta: "Farmacia, droguería, perfumería o herbolario (652)" },
+          { valor: "hogar", etiqueta: "Equipamiento del hogar y la construcción (653)" },
+          { valor: "vehiculos", etiqueta: "Vehículos, accesorios y recambios (654), o reparaciones (691)" },
+          { valor: "otroComercio", etiqueta: "Otro comercio al por menor: usados, música, estanco, varios (646.8, 656, 657, 659)" },
+          { valor: "salud", etiqueta: "Fisioterapia, óptica, podología, dietética, dental, veterinaria (836 a 945)" },
+          { valor: "personales", etiqueta: "Peluquería, estética, gimnasio, tintorería, fotografía, enmarcación (967.1 a 975)" },
+          { valor: "fuera", etiqueta: "Ninguno de estos: hostelería, oficina, industria, otra actividad" },
+        ],
+      },
+      {
+        id: "licencia",
+        tipo: "unica",
+        titulo: "¿Tiene la licencia de apertura, o presentó la declaración responsable?",
+        ayuda:
+          "Vale cualquiera de las dos: la licencia, o la declaración responsable o comunicación " +
+          "previa presentada en el Ayuntamiento que le habilita para ejercer la actividad.",
+        opciones: [
+          { valor: "si", etiqueta: "Sí, una de las dos está en regla" },
+          { valor: "nose", etiqueta: "No estoy seguro de qué consta en el Ayuntamiento" },
+          { valor: "no", etiqueta: "No tengo ninguna de las dos" },
+        ],
+      },
+      {
+        id: "situacion",
+        tipo: "multiple",
+        titulo: "Marque lo que pueda confirmar hoy",
+        ayuda:
+          "Son requisitos del artículo 3, y tienen que cumplirse desde la solicitud hasta que " +
+          "termine la campaña, no solo el día de presentarla.",
+        opciones: [
+          { valor: "censo", etiqueta: "Estoy dado de alta en el censo de obligados tributarios" },
+          { valor: "seguridadSocial", etiqueta: "Estoy de alta y al corriente de pago en la Seguridad Social" },
+          { valor: "hacienda", etiqueta: "No tengo ninguna deuda con la hacienda municipal de Xirivella" },
+          { valor: "art13", etiqueta: "No estoy en ninguna de las prohibiciones del artículo 13 de la Ley General de Subvenciones" },
+        ],
+      },
+      {
+        id: "repetida",
+        tipo: "unica",
+        titulo: "¿Ha presentado ya una solicitud a esta misma convocatoria?",
+        ayuda:
+          "Solo se admite una solicitud por persona o entidad. Si hay más de una, vale la " +
+          "primera por fecha y hora de registro.",
+        opciones: [
+          { valor: "no", etiqueta: "No, sería la primera" },
+          { valor: "si", etiqueta: "Sí, ya presenté una" },
+          { valor: "nose", etiqueta: "No lo sé con seguridad" },
+        ],
+      },
+    ],
+
+    evaluar: function (r) {
+      var bloqueos = [];
+      var revisar = [];
+      var favorables = [];
+
+      if (r.local === "no") {
+        bloqueos.push(
+          "La actividad debe desarrollarse en un establecimiento o local del municipio de Xirivella."
+        );
+      }
+      if (r.local === "ambulante") {
+        bloqueos.push(
+          "La convocatoria exige local permanente en Xirivella: un establecimiento, instalación o local. La venta ambulante no encaja."
+        );
+      }
+      if (r.epigrafe === "fuera") {
+        bloqueos.push(
+          "El epígrafe del IAE no está entre los que admite el requisito 9 de la convocatoria. La hostelería, por ejemplo, queda fuera de esta campaña."
+        );
+      }
+      if (r.licencia === "no") {
+        bloqueos.push(
+          "Hace falta la licencia de apertura o, en su defecto, la declaración responsable presentada en el Ayuntamiento."
+        );
+      }
+      if (r.repetida === "si") {
+        bloqueos.push(
+          "Solo se admite una solicitud por persona o entidad. La que vale es la primera presentada."
+        );
+      }
+
+      if (r.licencia === "nose") {
+        revisar.push(
+          "Hay que comprobar qué consta en el Ayuntamiento: licencia de apertura o declaración responsable. Lo miramos nosotros antes de presentar."
+        );
+      }
+      if (r.repetida === "nose") {
+        revisar.push(
+          "Conviene confirmar que no hay otra solicitud presentada: la segunda no se tiene en cuenta."
+        );
+      }
+
+      var s = r.situacion || [];
+      if (s.indexOf("censo") === -1) {
+        revisar.push("Hay que estar dado de alta en el censo de obligados tributarios mediante la declaración censal.");
+      }
+      if (s.indexOf("seguridadSocial") === -1) {
+        revisar.push("Hay que estar de alta y al corriente de cotizaciones en el régimen de la Seguridad Social que corresponda.");
+      }
+      if (s.indexOf("hacienda") === -1) {
+        revisar.push("Una deuda con la hacienda municipal de Xirivella deja fuera. Si la hay, se mira antes de presentar.");
+      }
+      if (s.indexOf("art13") === -1) {
+        revisar.push("La solicitud incluye declarar que no se está en las prohibiciones del artículo 13 de la Ley General de Subvenciones.");
+      }
+
+      if (r.epigrafe === "alimentacion" || r.epigrafe === "personales") {
+        favorables.push("Es de los sectores donde el bono se usa más: compra frecuente y de importe medio bajo.");
+      }
+      favorables.push("Los bonos son compatibles con las promociones y descuentos que ya aplique el comercio.");
+      favorables.push("El Ayuntamiento publica la lista de comercios participantes, que es publicidad gratis.");
+
+      var estado = "apto";
+      if (bloqueos.length) estado = "no-apto";
+      else if (revisar.length) estado = "revisar";
+
+      return {
+        estado: estado,
+        importe: 0,
+        importeTexto: "25.000 € a repartir",
+        importeDetalle:
+          "No hay cuantía fija: los 25.000 € se prorratean a partes iguales entre todos los comercios admitidos, en múltiplos de 10 €. Cuantos más entren, menos toca a cada uno.",
+        bloqueos: bloqueos,
+        revisar: revisar,
+        favorables: favorables,
+      };
+    },
+  },
 };
