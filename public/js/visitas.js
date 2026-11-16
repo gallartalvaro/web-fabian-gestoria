@@ -45,12 +45,22 @@
     primera = true;
   }
 
+  // OJO con el tipo de contenido: tiene que ser text/plain.
+  //
+  // sendBeacon envía siempre en modo credentials:"include", y con
+  // application/json el navegador exige una comprobación previa
+  // (preflight) que entonces pide una cabecera de credenciales. La
+  // salida fácil sería permitirlas en el servidor, pero eso es
+  // abrirle la puerta a las cookies justo en la pieza que presume
+  // de no usarlas. text/plain es uno de los tipos seguros: no hay
+  // comprobación previa y no hay nada que permitir. El Worker lee
+  // el cuerpo como texto y lo interpreta igual.
   function enviar(ruta, cuerpo) {
     var texto = JSON.stringify(cuerpo);
     try {
       // sendBeacon sobrevive a que la persona cambie de página.
       if (nav.sendBeacon) {
-        var blob = new Blob([texto], { type: "application/json" });
+        var blob = new Blob([texto], { type: "text/plain;charset=UTF-8" });
         if (nav.sendBeacon(destino + ruta, blob)) return;
       }
     } catch (e) {
@@ -59,7 +69,7 @@
     try {
       fetch(destino + ruta, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "text/plain;charset=UTF-8" },
         body: texto,
         keepalive: true,
         mode: "cors",

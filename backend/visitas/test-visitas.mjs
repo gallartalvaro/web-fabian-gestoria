@@ -4,6 +4,7 @@
 //   node backend/visitas/test-visitas.mjs
 //
 import worker from "./worker.js";
+import fs from "node:fs";
 
 // --- D1 simulada ---------------------------------------------------
 // Guarda las sentencias y aplica el UPSERT a mano, que es justo lo
@@ -220,6 +221,34 @@ res = await worker.fetch(
 comprobar("envío gigante, 413", res.status === 413, res.status);
 res = await pedir(null, { metodo: "GET", ruta: "/" });
 comprobar("GET a la raíz, 405", res.status === 405, res.status);
+
+// --- 11 ------------------------------------------------------------
+// Esta no comprueba el Worker, comprueba el guion del navegador, y
+// esta aqui porque el fallo que evita NO DA ERROR VISIBLE: la web
+// sigue funcionando y simplemente deja de medirse.
+//
+// sendBeacon envia en modo credentials:"include". Con un tipo de
+// contenido que no sea seguro (application/json, por ejemplo) el
+// navegador exige comprobacion previa y la bloquea. Paso en la copia
+// de pruebas el 16 de noviembre de 2026.
+console.log("\n11. El guion no provoca comprobacion previa de CORS");
+const guion = fs.readFileSync("public/js/visitas.js", "utf8");
+comprobar(
+  "el beacon se envia como text/plain",
+  /new Blob\(\[texto\], \{ type: "text\/plain/.test(guion),
+  "usa un tipo que dispara preflight"
+);
+// Se miran solo las lineas de codigo: el comentario que explica todo
+// esto menciona application/json a proposito.
+const codigo = guion
+  .split(String.fromCharCode(10))
+  .filter((l) => !l.trim().startsWith("//"))
+  .join(String.fromCharCode(10));
+comprobar(
+  "ninguna cabecera ni blob usa application/json",
+  !codigo.includes("application/json"),
+  "hay un application/json que bloqueara el envio"
+);
 
 console.log("\n" + (fallos ? fallos + " COMPROBACIONES FALLIDAS" : "Todas las comprobaciones correctas"));
 process.exit(fallos ? 1 : 0);
