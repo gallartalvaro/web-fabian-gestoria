@@ -165,10 +165,13 @@
       if (el.closest(SIN_MEDIR)) return;
 
       var etiqueta = el.getAttribute("href") || "";
+      // El rol manda sobre la etiqueta: las pestañas del explorador
+      // de áreas son <button role="tab">, y mirarlo al revés las
+      // metía todas en el saco de los botones.
       var tipo = "enlace";
-      if (el.tagName === "BUTTON") tipo = "boton";
+      if (el.getAttribute("role") === "tab") tipo = "pestana";
+      else if (el.tagName === "BUTTON") tipo = "boton";
       else if (el.tagName === "SUMMARY") tipo = "detalle";
-      else if (el.getAttribute("role") === "tab") tipo = "pestana";
 
       enviar("/clic", {
         ruta: ruta,

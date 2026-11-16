@@ -319,6 +319,11 @@ comprobar(
 comprobar("los formularios tampoco se miden al pulsar", /SIN_MEDIR = "[^"]*form/.test(codigo), "falta form en la exclusion");
 comprobar("respeta No rastrear", codigo.includes("doNotTrack"), "ignora la senal del navegador");
 comprobar("no mide en localhost", codigo.includes('"localhost"'), "ensuciaria las cifras");
+comprobar(
+  "el rol manda sobre la etiqueta al clasificar un clic",
+  codigo.indexOf('role") === "tab"') < codigo.indexOf('tagName === "BUTTON"'),
+  "las pestanas del explorador se contarian como botones"
+);
 
 console.log("\n" + (fallos ? fallos + " COMPROBACIONES FALLIDAS" : "Todas las comprobaciones correctas"));
 process.exit(fallos ? 1 : 0);
