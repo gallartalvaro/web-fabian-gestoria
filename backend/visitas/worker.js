@@ -60,7 +60,13 @@ export default {
       "Access-Control-Allow-Origin": permitidos.includes(origen) ? origen : permitidos[0] || "",
       "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
-      "Access-Control-Max-Age": "86400",
+      // Corto a proposito. Aqui no deberia haber nunca comprobacion
+      // previa (el beacon va en text/plain), pero si un dia se cuela
+      // un despliegue que si la provoque, el navegador se queda con
+      // la respuesta cacheada y sigue sin medir aunque ya este
+      // arreglado. Con 86400 eso duraba un dia entero; paso el 16 de
+      // noviembre de 2026 y costo encontrarlo.
+      "Access-Control-Max-Age": "600",
       Vary: "Origin",
     };
 
