@@ -55,12 +55,17 @@
   // de no usarlas. text/plain es uno de los tipos seguros: no hay
   // comprobación previa y no hay nada que permitir. El Worker lee
   // el cuerpo como texto y lo interpreta igual.
+  //
+  // Y tiene que ser "text/plain" A SECAS. Con "text/plain;charset=UTF-8"
+  // Chrome deja de considerarlo seguro, vuelve a pedir comprobación
+  // previa y todo se bloquea otra vez. Comprobado en la copia de
+  // pruebas: el mismo envío pasa sin el charset y falla con él.
   function enviar(ruta, cuerpo) {
     var texto = JSON.stringify(cuerpo);
     try {
       // sendBeacon sobrevive a que la persona cambie de página.
       if (nav.sendBeacon) {
-        var blob = new Blob([texto], { type: "text/plain;charset=UTF-8" });
+        var blob = new Blob([texto], { type: "text/plain" });
         if (nav.sendBeacon(destino + ruta, blob)) return;
       }
     } catch (e) {
@@ -69,7 +74,7 @@
     try {
       fetch(destino + ruta, {
         method: "POST",
-        headers: { "Content-Type": "text/plain;charset=UTF-8" },
+        headers: { "Content-Type": "text/plain" },
         body: texto,
         keepalive: true,
         mode: "cors",

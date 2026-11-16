@@ -233,22 +233,29 @@ comprobar("GET a la raíz, 405", res.status === 405, res.status);
 // de pruebas el 16 de noviembre de 2026.
 console.log("\n11. El guion no provoca comprobacion previa de CORS");
 const guion = fs.readFileSync("public/js/visitas.js", "utf8");
-comprobar(
-  "el beacon se envia como text/plain",
-  /new Blob\(\[texto\], \{ type: "text\/plain/.test(guion),
-  "usa un tipo que dispara preflight"
-);
-// Se miran solo las lineas de codigo: el comentario que explica todo
-// esto menciona application/json a proposito.
+// Solo las lineas de codigo: los comentarios del guion mencionan a
+// proposito los tipos que NO hay que usar.
 const codigo = guion
   .split(String.fromCharCode(10))
   .filter((l) => !l.trim().startsWith("//"))
   .join(String.fromCharCode(10));
+
+comprobar(
+  "el beacon se envia como text/plain, sin parametros",
+  codigo.includes('new Blob([texto], { type: "text/plain" })'),
+  "usa un tipo que dispara comprobacion previa"
+);
+comprobar(
+  "ningun charset pegado al tipo",
+  !codigo.includes("text/plain;"),
+  "con charset Chrome vuelve a exigir comprobacion previa"
+);
 comprobar(
   "ninguna cabecera ni blob usa application/json",
   !codigo.includes("application/json"),
   "hay un application/json que bloqueara el envio"
 );
+
 
 console.log("\n" + (fallos ? fallos + " COMPROBACIONES FALLIDAS" : "Todas las comprobaciones correctas"));
 process.exit(fallos ? 1 : 0);
