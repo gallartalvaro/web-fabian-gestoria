@@ -2841,4 +2841,375 @@ window.SUBVENCIONES = {
       };
     },
   },
+
+  // ============================================================
+  // Accesibilidad y fachadas 2026 — Ayuntamiento de Torrent
+  // Bases descargadas de la BDNS (940941). Extracto en el BOP de
+  // Valencia núm. 222, de 18/11/2026 (anuncio 2026/14096).
+  //
+  // El plazo son 15 días hábiles desde el 19 de noviembre. La BDNS
+  // muestra "21/10/2027", que es relleno del formulario y NO el
+  // plazo real: lo dicen las bases y lo repite el extracto.
+  // ============================================================
+  "torrent-accesibilidad-2026": {
+    id: "torrent-accesibilidad-2026",
+    titulo: "Ayudas a la accesibilidad y la restauración de fachadas de Torrent",
+    nombreCorto: "Accesibilidad y fachadas Torrent 2026",
+    organismo: "Ayuntamiento de Torrent",
+    importeBase: 4000,
+    plazo: { inicio: "2026-11-19", fin: "2026-12-10" },
+
+    preguntas: [
+      {
+        id: "obra",
+        tipo: "unica",
+        titulo: "¿Qué obra se ha hecho?",
+        ayuda:
+          "Las obras de accesibilidad solo entran en edificios plurifamiliares y sobre elementos " +
+          "comunes. La restauración de fachada entra también en viviendas unifamiliares.",
+        opciones: [
+          { valor: "ascensor", etiqueta: "Primera instalación de ascensor en un edificio de varias viviendas" },
+          { valor: "accesibilidad", etiqueta: "Otra mejora de accesibilidad en elementos comunes (rampas, cota cero, rellanos)" },
+          { valor: "fachada", etiqueta: "Restauración de la fachada exterior" },
+          { valor: "ambas", etiqueta: "Accesibilidad y fachada, en la misma actuación" },
+          { valor: "interior", etiqueta: "Obras dentro de una vivienda, o en un edificio que no es residencial" },
+        ],
+      },
+      {
+        id: "terminada",
+        tipo: "unica",
+        titulo: "¿Están las obras terminadas?",
+        ayuda:
+          "Esta ayuda se pide con la obra ya hecha. Tienen que haber concluido entre el 16 de " +
+          "noviembre de 2024 y el final del plazo de solicitud, y se acredita con el certificado " +
+          "final de obra del técnico o, en su defecto, de la empresa contratista.",
+        opciones: [
+          { valor: "si", etiqueta: "Sí, terminadas del 16 de noviembre de 2024 en adelante" },
+          { valor: "antes", etiqueta: "Sí, pero terminaron antes del 16 de noviembre de 2024" },
+          { valor: "enCurso", etiqueta: "No, todavía están en marcha o sin empezar" },
+        ],
+      },
+      {
+        id: "antiguedad",
+        tipo: "unica",
+        titulo: "Si es restauración de fachada, ¿de qué año es el edificio?",
+        ayuda:
+          "Para fachadas, el edificio debe ser anterior a 1998 según el año de construcción que " +
+          "conste en catastro. Para accesibilidad no se exige antigüedad.",
+        opciones: [
+          { valor: "anterior", etiqueta: "Anterior a 1998" },
+          { valor: "posterior", etiqueta: "De 1998 en adelante" },
+          { valor: "noAplica", etiqueta: "No es una obra de fachada" },
+        ],
+      },
+      {
+        id: "licencia",
+        tipo: "unica",
+        titulo: "¿Había licencia de obras o declaración responsable antes de publicarse la convocatoria?",
+        ayuda:
+          "El requisito 5 de la base primera lo exige: la licencia o la declaración responsable " +
+          "tenían que estar presentadas antes del 18 de noviembre de 2026, salvo que la obra " +
+          "viniera impuesta por una orden de ejecución.",
+        opciones: [
+          { valor: "si", etiqueta: "Sí, una de las dos estaba presentada" },
+          { valor: "orden", etiqueta: "La obra vino por una orden de ejecución del Ayuntamiento" },
+          { valor: "nose", etiqueta: "No estoy seguro" },
+          { valor: "no", etiqueta: "No había ninguna de las dos" },
+        ],
+      },
+      {
+        id: "ayudaPrevia",
+        tipo: "unica",
+        titulo: "¿Ha recibido alguna ayuda del Ayuntamiento de Torrent en años anteriores para esto?",
+        ayuda:
+          "Es compatible con ayudas de otras administraciones y de entidades privadas, pero NO " +
+          "con ayudas concedidas por el propio Ayuntamiento de Torrent en años anteriores.",
+        opciones: [
+          { valor: "no", etiqueta: "No" },
+          { valor: "si", etiqueta: "Sí, el Ayuntamiento ya me ayudó antes" },
+          { valor: "otras", etiqueta: "He recibido ayudas, pero de otros organismos" },
+        ],
+      },
+
+      {
+        id: "propiedad",
+        tipo: "unica",
+        titulo: "¿A nombre de quién se pediría la ayuda?",
+        ayuda:
+          "La base cuarta admite a las personas físicas o jurídicas propietarias del edificio o " +
+          "de las viviendas, y a la comunidad de propietarios cuando la obra afecta a elementos " +
+          "comunes.",
+        opciones: [
+          { valor: "propietario", etiqueta: "El propietario del inmueble o de la vivienda" },
+          { valor: "comunidad", etiqueta: "La comunidad de propietarios" },
+          { valor: "inquilino", etiqueta: "El inquilino, que es quien pagó la obra" },
+        ],
+      },
+      {
+        id: "situacion",
+        tipo: "multiple",
+        titulo: "Marque lo que pueda confirmar hoy",
+        ayuda:
+          "Son requisitos de la base cuarta. Aquí se miran tres administraciones, no dos: " +
+          "Hacienda, Seguridad Social y el propio Ayuntamiento de Torrent.",
+        opciones: [
+          { valor: "aeat", etiqueta: "Estoy al corriente con la Agencia Tributaria" },
+          { valor: "tgss", etiqueta: "Estoy al corriente con la Seguridad Social" },
+          { valor: "torrent", etiqueta: "Estoy al corriente con el Ayuntamiento de Torrent" },
+          { valor: "reintegros", etiqueta: "No tengo pendiente devolver ninguna subvención anterior de Torrent" },
+          { valor: "art13", etiqueta: "No estoy en las prohibiciones del artículo 13 de la Ley General de Subvenciones" },
+        ],
+      },
+    ],
+
+    evaluar: function (r) {
+      var bloqueos = [];
+      var revisar = [];
+      var favorables = [];
+
+      if (r.obra === "interior") {
+        bloqueos.push(
+          "Solo entran las obras de accesibilidad sobre elementos comunes de edificios residenciales plurifamiliares y la restauración de fachadas exteriores de edificios residenciales."
+        );
+      }
+      if (r.terminada === "antes") {
+        bloqueos.push(
+          "Las obras deben haber concluido a partir del 16 de noviembre de 2024. Las anteriores quedan fuera."
+        );
+      }
+      if (r.terminada === "enCurso") {
+        bloqueos.push(
+          "La solicitud se presenta con la obra ya terminada, y el plazo cierra en diciembre. Con la obra en marcha habrá que esperar a la convocatoria siguiente."
+        );
+      }
+      if ((r.obra === "fachada" || r.obra === "ambas") && r.antiguedad === "posterior") {
+        bloqueos.push(
+          "Para restaurar fachada el edificio debe ser anterior a 1998, según el año de construcción que conste en catastro."
+        );
+      }
+      if (r.licencia === "no") {
+        bloqueos.push(
+          "Hacía falta licencia de obras o declaración responsable presentada antes de publicarse la convocatoria, salvo orden de ejecución."
+        );
+      }
+      if (r.ayudaPrevia === "si") {
+        bloqueos.push(
+          "Estas ayudas no son compatibles con otras concedidas por el propio Ayuntamiento de Torrent en años anteriores."
+        );
+      }
+
+      if (r.licencia === "nose") {
+        revisar.push("Hay que comprobar qué consta en el Ayuntamiento sobre la licencia o la declaración responsable. Lo miramos nosotros.");
+      }
+
+      if (r.propiedad === "inquilino") {
+        bloqueos.push(
+          "La ayuda la pide quien es propietario del inmueble o de la vivienda, o la comunidad de propietarios cuando la obra afecta a elementos comunes. Un arrendatario no puede ser beneficiario, aunque haya pagado la obra."
+        );
+      }
+
+      var s = r.situacion || [];
+      if (s.indexOf("aeat") === -1) revisar.push("Hay que estar al corriente con la Agencia Tributaria.");
+      if (s.indexOf("tgss") === -1) revisar.push("Hay que estar al corriente con la Seguridad Social.");
+      if (s.indexOf("torrent") === -1) {
+        revisar.push("Hay que estar al corriente con el Ayuntamiento de Torrent. Es la que más se pasa por alto de las tres.");
+      }
+      if (s.indexOf("reintegros") === -1) {
+        revisar.push("Tener pendiente la devolución de una subvención anterior del Ayuntamiento impide ser beneficiario. Lo comprobamos antes de presentar.");
+      }
+      if (s.indexOf("art13") === -1) {
+        revisar.push("La solicitud exige declarar que no se está en las prohibiciones del artículo 13 de la Ley General de Subvenciones.");
+      }
+
+
+      var importe = 4000;
+      if (r.obra === "ascensor" || r.obra === "ambas") {
+        importe = 8000;
+        favorables.push("La primera instalación de ascensor sube el tope de 4.000 a 8.000 €.");
+      }
+      if (r.obra === "ascensor" || r.obra === "accesibilidad") {
+        favorables.push("En accesibilidad puntúa el número de viviendas del edificio: 1 punto por vivienda según catastro.");
+      }
+      if (r.obra === "fachada" || r.obra === "ambas") {
+        favorables.push("En fachadas puntúa la antigüedad (1 punto por año anterior a 1998) y 5 puntos más si la actuación abarca toda la fachada o la cubierta.");
+      }
+      if (r.ayudaPrevia === "otras") {
+        favorables.push("Las ayudas de otras administraciones no estorban: solo son incompatibles las del propio Ayuntamiento de Torrent.");
+      }
+
+      var estado = "apto";
+      if (bloqueos.length) estado = "no-apto";
+      else if (revisar.length) estado = "revisar";
+
+      return {
+        estado: estado,
+        importe: importe,
+        importeTexto: "hasta " + (importe === 8000 ? "8.000" : "4.000") + " €",
+        importeDetalle:
+          "El 50 % del coste total de la obra, con IVA, sin pasar de 4.000 € (8.000 € si incluye la primera instalación de ascensor). Es concurrencia competitiva: se ordena por puntos hasta agotar los 200.000 €.",
+        bloqueos: bloqueos,
+        revisar: revisar,
+        favorables: favorables,
+      };
+    },
+  },
+
+  // ============================================================
+  // Inmuebles con valor patrimonial 2026 — Ayuntamiento de Torrent
+  // Bases descargadas de la BDNS (940933). Extracto en el BOP de
+  // Valencia núm. 222, de 18/11/2026 (anuncio 2026/14095).
+  // ============================================================
+  "torrent-patrimonio-2026": {
+    id: "torrent-patrimonio-2026",
+    titulo: "Ayudas a la rehabilitación de inmuebles con valor patrimonial de Torrent",
+    nombreCorto: "Inmuebles patrimoniales Torrent 2026",
+    organismo: "Ayuntamiento de Torrent",
+    importeBase: 30000,
+    plazo: { inicio: "2026-11-19", fin: "2026-12-10" },
+
+    preguntas: [
+      {
+        id: "zona",
+        tipo: "unica",
+        titulo: "¿Dónde está el inmueble?",
+        ayuda:
+          "Esta ayuda solo alcanza al Entorno Patrimonial Zona Centro, subzonas de ordenanza 1A " +
+          "y 1B del PGOU de Torrent: el Núcleo Histórico Tradicional, declarado Bien de " +
+          "Relevancia Local. Si no sabe si su calle entra, lo miramos nosotros.",
+        opciones: [
+          { valor: "centro", etiqueta: "En el casco histórico de Torrent (subzonas 1A o 1B)" },
+          { valor: "nose", etiqueta: "En Torrent, pero no sé si está en esa zona" },
+          { valor: "fuera", etiqueta: "En Torrent, fuera del casco histórico" },
+          { valor: "otroMunicipio", etiqueta: "En otro municipio" },
+        ],
+      },
+      {
+        id: "tipo",
+        tipo: "unica",
+        titulo: "¿Qué actuación se ha hecho?",
+        ayuda:
+          "La base octava puntúa distinto cada tipo: rehabilitación integral 8 puntos, " +
+          "sustitución parcial 6, sustitución total 5 y obra nueva en solar vacante 4.",
+        opciones: [
+          { valor: "integral", etiqueta: "Rehabilitación integral del inmueble" },
+          { valor: "parcial", etiqueta: "Sustitución parcial" },
+          { valor: "total", etiqueta: "Sustitución total" },
+          { valor: "nuevaPlanta", etiqueta: "Obra nueva sobre un solar vacante" },
+        ],
+      },
+      {
+        id: "catalogado",
+        tipo: "unica",
+        titulo: "¿El inmueble está catalogado o tiene tipología tradicional?",
+        ayuda:
+          "Entran tanto los inmuebles catalogados por el PGOU o de tipomorfología tradicional " +
+          "como los que carecen de valores patrimoniales y los solares, siempre que estén en la " +
+          "zona.",
+        opciones: [
+          { valor: "catalogado", etiqueta: "Catalogado por el PGOU o de tipología tradicional" },
+          { valor: "sinValor", etiqueta: "Sin valores patrimoniales, o es un solar" },
+          { valor: "nose", etiqueta: "No lo sé" },
+        ],
+      },
+
+      {
+        id: "propiedad",
+        tipo: "unica",
+        titulo: "¿A nombre de quién se pediría la ayuda?",
+        ayuda:
+          "La base cuarta admite a las personas físicas o jurídicas propietarias del edificio o " +
+          "de las viviendas, y a la comunidad de propietarios cuando la obra afecta a elementos " +
+          "comunes.",
+        opciones: [
+          { valor: "propietario", etiqueta: "El propietario del inmueble o de la vivienda" },
+          { valor: "comunidad", etiqueta: "La comunidad de propietarios" },
+          { valor: "inquilino", etiqueta: "El inquilino, que es quien pagó la obra" },
+        ],
+      },
+      {
+        id: "situacion",
+        tipo: "multiple",
+        titulo: "Marque lo que pueda confirmar hoy",
+        ayuda:
+          "Son requisitos de la base cuarta. Aquí se miran tres administraciones, no dos: " +
+          "Hacienda, Seguridad Social y el propio Ayuntamiento de Torrent.",
+        opciones: [
+          { valor: "aeat", etiqueta: "Estoy al corriente con la Agencia Tributaria" },
+          { valor: "tgss", etiqueta: "Estoy al corriente con la Seguridad Social" },
+          { valor: "torrent", etiqueta: "Estoy al corriente con el Ayuntamiento de Torrent" },
+          { valor: "reintegros", etiqueta: "No tengo pendiente devolver ninguna subvención anterior de Torrent" },
+          { valor: "art13", etiqueta: "No estoy en las prohibiciones del artículo 13 de la Ley General de Subvenciones" },
+        ],
+      },
+    ],
+
+    evaluar: function (r) {
+      var bloqueos = [];
+      var revisar = [];
+      var favorables = [];
+
+      if (r.zona === "otroMunicipio") {
+        bloqueos.push("El inmueble debe estar en el término municipal de Torrent.");
+      }
+      if (r.zona === "fuera") {
+        bloqueos.push(
+          "La ayuda solo alcanza al Entorno Patrimonial Zona Centro, subzonas 1A y 1B del PGOU. Fuera de esa delimitación no hay ayuda, aunque el edificio sea antiguo."
+        );
+      }
+      if (r.zona === "nose") {
+        revisar.push(
+          "Lo primero es comprobar en el PGOU si la finca está en las subzonas 1A o 1B. Es una consulta de cinco minutos y decide todo lo demás."
+        );
+      }
+      if (r.catalogado === "nose") {
+        revisar.push("Hay que ver la ficha del catálogo del PGOU. No es excluyente: también entran los inmuebles sin valores patrimoniales y los solares de la zona.");
+      }
+
+      if (r.propiedad === "inquilino") {
+        bloqueos.push(
+          "La ayuda la pide quien es propietario del inmueble o de la vivienda, o la comunidad de propietarios cuando la obra afecta a elementos comunes. Un arrendatario no puede ser beneficiario, aunque haya pagado la obra."
+        );
+      }
+
+      var s = r.situacion || [];
+      if (s.indexOf("aeat") === -1) revisar.push("Hay que estar al corriente con la Agencia Tributaria.");
+      if (s.indexOf("tgss") === -1) revisar.push("Hay que estar al corriente con la Seguridad Social.");
+      if (s.indexOf("torrent") === -1) {
+        revisar.push("Hay que estar al corriente con el Ayuntamiento de Torrent. Es la que más se pasa por alto de las tres.");
+      }
+      if (s.indexOf("reintegros") === -1) {
+        revisar.push("Tener pendiente la devolución de una subvención anterior del Ayuntamiento impide ser beneficiario. Lo comprobamos antes de presentar.");
+      }
+      if (s.indexOf("art13") === -1) {
+        revisar.push("La solicitud exige declarar que no se está en las prohibiciones del artículo 13 de la Ley General de Subvenciones.");
+      }
+
+
+      var puntos = { integral: 8, parcial: 6, total: 5, nuevaPlanta: 4 }[r.tipo] || 0;
+      if (r.tipo === "integral") {
+        favorables.push("La rehabilitación integral es la mejor puntuada: 8 puntos, frente a 4 de la obra nueva.");
+      } else if (puntos) {
+        favorables.push("Su tipo de actuación puntúa " + puntos + " sobre los 8 de la rehabilitación integral.");
+      }
+      if (r.catalogado === "catalogado") {
+        favorables.push("Un inmueble catalogado o de tipología tradicional es el perfil que esta línea busca.");
+      }
+      favorables.push("Es compatible con ayudas de otras administraciones y de entidades privadas.");
+
+      var estado = "apto";
+      if (bloqueos.length) estado = "no-apto";
+      else if (revisar.length) estado = "revisar";
+
+      return {
+        estado: estado,
+        importe: 30000,
+        importeTexto: "30 % de la obra, hasta 30.000 €",
+        importeDetalle:
+          "El 30 % del coste de las obras ejecutadas, con un máximo de 30.000 €. Es concurrencia competitiva: se ordena por puntos hasta agotar los 200.000 €.",
+        bloqueos: bloqueos,
+        revisar: revisar,
+        favorables: favorables,
+      };
+    },
+  },
 };
