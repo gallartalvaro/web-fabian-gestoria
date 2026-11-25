@@ -26,9 +26,11 @@ Están todos juntos al principio de [`buscar-ayudas.mjs`](buscar-ayudas.mjs):
 
 | Criterio | Qué hace | Valor actual |
 |---|---|---|
-| `REGIONES` | Territorio | Comunitat Valenciana y sus tres provincias, y Comunidad de Madrid |
-| `MUNICIPIOS` | Qué convocatorias locales se admiten | València y su área metropolitana, y Madrid capital |
+| `REGIONES` | Territorio | Comunitat Valenciana y sus tres provincias, Comunidad de Madrid y Principado de Asturias |
+| `MUNICIPIOS` | Qué convocatorias locales se admiten | València y su área metropolitana, Madrid capital y los principales concejos asturianos |
 | `DESTINATARIOS` | A quién debe dirigirse la ayuda | pymes, empresas y personas físicas con actividad económica |
+| `ASOCIACIONES` | Segundo público, en bloque aparte | personas jurídicas sin actividad económica |
+| `YA_ADJUDICADA` · `NO_ES_CLIENTE` | Lo que se descarta por no poder solicitarlo un cliente | ver abajo |
 | `PRESUPUESTO_MINIMO` | Descarta las de importe testimonial | 20.000 € |
 | `DIAS` | Periodo que se revisa en cada pasada | 10 (con margen sobre la semana) |
 
@@ -100,6 +102,37 @@ El reparto de papeles es ese, y está bien así:
   *quién cumple*.
 
 El aviso solo tiene que conseguir que entren al test.
+
+## El criterio: que un cliente pueda pedirla y haya trámite que cobrar
+
+Durante un tiempo el filtro era «¿va dirigida a empresas?». No bastaba. La BDNS publica, con esa
+misma etiqueta, muchísimos **convenios ya adjudicados a una entidad concreta**: el Ayuntamiento de
+Oviedo, por ejemplo, publicó en treinta días un millón de euros repartido en ocho convenios con
+fundaciones y asociaciones nombradas. Ahí no hay nada que solicitar ni nada que cobrar.
+
+Desde noviembre de 2026 el criterio es el del despacho: **¿puede presentarse un cliente nuestro, y
+hay un trámite por el que facturar?** Se descartan tres cosas:
+
+- **Lo ya adjudicado.** Títulos con «convenio», «nominativa», «subvención directa a…», «a favor
+  de…». El beneficiario va nombrado en el propio título.
+- **Lo que es para otra administración.** «A los ayuntamientos», «a la universidad».
+- **Cooperación internacional.** Las «convocatorias instrumentales» de la AECID.
+
+**No se descarta por ser concesión directa.** Es tentador, porque casi todas las adjudicadas lo
+son, pero hay concesiones directas abiertas a cualquiera: la línea **ICO Crecimiento**, de 57
+millones, es una de ellas. Lo que descarta es que el beneficiario ya esté puesto.
+
+El aviso dice cuántas se han descartado. Si ese número se dispara una semana, conviene mirarlo en
+vez de que la pérdida sea invisible.
+
+En una semana de noviembre de 2026 el efecto fue: 65 convocatorias en el ámbito del despacho → 48
+descartadas → **10 aprovechables**. Sin esto, el aviso traía 59 y no se leía.
+
+## Dos públicos, dos bloques
+
+El aviso separa **empresas y autónomos** de **asociaciones y entidades sin actividad económica**.
+Son clientes distintos y el segundo bloque es mucho más voluminoso; quien no trabaje con
+asociaciones puede saltárselo entero.
 
 ## Las que se anuncian antes de salir en el boletín
 
