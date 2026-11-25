@@ -28,9 +28,11 @@ import path from "node:path";
 const DIAS = Number(process.env.DIAS || 10);
 
 // Territorios que se vigilan, con los códigos de region de la BDNS.
-// Comunitat Valenciana y sus tres provincias, y Comunidad de Madrid,
-// que desde octubre de 2026 es también mercado objetivo del despacho.
-const REGIONES = [54, 55, 56, 57, 25, 26, 27];
+// Comunitat Valenciana y sus tres provincias; Comunidad de Madrid
+// desde octubre de 2026; y el Principado de Asturias desde noviembre.
+// Asturias es uniprovincial: 8 es la comunidad y 9 la provincia, y no
+// hay nivel intermedio como el de Madrid (ES3 / ES30 / ES300).
+const REGIONES = [54, 55, 56, 57, 25, 26, 27, 8, 9];
 
 // Convocatorias locales que se tienen en cuenta. Las de pueblos
 // alejados se descartan: son ayudas pequeñas para sus vecinos.
@@ -45,12 +47,33 @@ const MUNICIPIOS = [
   // Madrid capital. Los municipios del área metropolitana se irán
   // añadiendo según dónde acaben estando los clientes de allí.
   "MADRID",
+  // Asturias. Esta lista sale de mirar lo que publicaron de verdad en
+  // sesenta días, no de la intuición: Gijón es el que más publica con
+  // diferencia, pero en esa ventana nada suyo iba dirigido a empresas
+  // o autónomos; Oviedo publica mucho dinero y casi todo son convenios
+  // nominativos con asociaciones concretas. Los que sí dieron algo
+  // aprovechable fueron Siero, Nava, Soto del Barco, Avilés y Parres.
+  // Se vigilan los tres grandes igualmente, porque la ventana es corta
+  // para dar por hecho que Gijón nunca convoca nada para comercios.
+  "GIJON", "GIJÓN", "OVIEDO", "AVILES", "AVILÉS",
+  "SIERO", "LANGREO", "MIERES", "CASTRILLON", "CASTRILLÓN",
+  "VILLAVICIOSA", "NAVA", "SOTO DEL BARCO", "PARRES", "LLANES",
 ];
 
 // Solo interesan las que pueden pedir empresas o autónomos. Esto
 // descarta de un golpe las nominativas a fallas, clubes y
 // asociaciones, que son la mayor parte de lo que se publica.
 const DESTINATARIOS = ["PYME", "EMPRESA", "FISICAS QUE DESARROLLAN"];
+
+// Asociaciones, fundaciones, clubes, AMPAS y demás entidades sin
+// actividad económica. La BDNS las etiqueta como "PERSONAS JURÍDICAS
+// QUE NO DESARROLLAN ACTIVIDAD ECONÓMICA".
+//
+// Hasta noviembre de 2026 quedaban fuera a propósito, porque son la
+// mayor parte de lo que se publica y ahogaban el aviso. Ahora entran,
+// pero en un bloque aparte del informe: si se mezclan con las de
+// empresas, el aviso deja de leerse y volvemos al punto de partida.
+const ASOCIACIONES = ["JURIDICAS QUE NO DESARROLLAN"];
 
 // Por debajo de esta cifra rara vez compensa el trabajo de tramitar.
 // Ponga 0 para no descartar ninguna por importe.
@@ -143,9 +166,15 @@ function interesaPorTerritorio(c) {
   return MUNICIPIOS.some((m) => n2 === m || n2.startsWith(m + "/"));
 }
 
-const interesaPorDestinatario = (tipos) => {
+// Devuelve a quién va dirigida, o null si no interesa. Una
+// convocatoria abierta a los dos cuenta como de empresas: es el
+// público principal del despacho y así no se esconde en el bloque
+// secundario.
+const paraQuien = (tipos) => {
   const t = sinAcentos((tipos || []).map((x) => x.descripcion).join(" · "));
-  return DESTINATARIOS.some((d) => t.includes(d));
+  if (DESTINATARIOS.some((d) => t.includes(d))) return "empresas";
+  if (ASOCIACIONES.some((d) => t.includes(d))) return "asociaciones";
+  return null;
 };
 
 // ------------------------------------------------------------
@@ -237,6 +266,8 @@ async function main() {
   );
 
   const utiles = [];
+  const yaEnElAviso = new Set();
+  let descartadas = 0;
   for (const c of candidatas) {
     let d;
     try {
@@ -245,9 +276,19 @@ async function main() {
       console.error("No se pudo leer " + c.numeroConvocatoria + ": " + err.message);
       continue;
     }
-    if (!interesaPorDestinatario(d.tiposBeneficiarios)) continue;
+    const quien = paraQuien(d.tiposBeneficiarios);
+    if (!quien) continue;
     if (PRESUPUESTO_MINIMO && (d.presupuestoTotal || 0) < PRESUPUESTO_MINIMO) continue;
-    utiles.push({ ...c, ...d });
+    // Lo que no puede solicitar un cliente nuestro no entra. Se
+    // cuenta, para que el descarte no sea invisible.
+    if (!aprovechable(d)) {
+      descartadas++;
+      continue;
+    }
+    const clave = claveDeTitulo(d);
+    if (yaEnElAviso.has(clave)) continue;
+    yaEnElAviso.add(clave);
+    utiles.push({ ...c, ...d, quien });
     // Si todavía no tiene extracto, su plazo no es de fiar: se apunta
     // para volver a mirarla, en vez de darla por avisada y olvidarla.
     if (!tieneExtracto(d)) {
@@ -271,28 +312,42 @@ async function main() {
 
   fs.writeFileSync(
     path.join(AQUI, "informe.md"),
-    informe(utiles, todas.length, candidatas.length, DIAS, publicadas),
+    informe(utiles, todas.length, candidatas.length, DIAS, publicadas, descartadas),
     "utf8"
   );
 
   const cuantas = utiles.length + publicadas.length;
+  const deEmpresas = utiles.filter((u) => u.quien === "empresas").length;
+  const deAsociaciones = utiles.length - deEmpresas;
   console.log(
-    `${todas.length} publicadas en los territorios vigilados · ${candidatas.length} en el ámbito del despacho · ${utiles.length} para empresas y autónomos · ${publicadas.length} que ya han salido en el boletín · ${vistas.pendientes.length} esperando extracto`
+    `${todas.length} publicadas en los territorios vigilados · ${candidatas.length} en el ámbito del despacho · ${deEmpresas} para empresas y autónomos · ${deAsociaciones} para asociaciones · ${publicadas.length} que ya han salido en el boletín · ${descartadas} descartadas por no ser solicitables · ${vistas.pendientes.length} esperando extracto`
   );
   console.log("HAY=" + (cuantas ? "si" : "no"));
   console.log("CUANTAS=" + cuantas);
 }
 
-function informe(utiles, total, candidatas, dias, publicadas) {
+function informe(utiles, total, candidatas, dias, publicadas, descartadas) {
   publicadas = publicadas || [];
+  descartadas = descartadas || 0;
   const l = [];
   l.push(`Revisión de los últimos **${dias} días** en la BDNS.`);
   l.push("");
+  const empresas = utiles.filter((u) => u.quien !== "asociaciones");
+  const asociaciones = utiles.filter((u) => u.quien === "asociaciones");
   l.push(
-    `\`${total}\` convocatorias publicadas en la Comunitat Valenciana, Madrid y el Estado · ` +
+    `\`${total}\` convocatorias publicadas en los territorios vigilados · ` +
       `\`${candidatas}\` en el ámbito del despacho · ` +
-      `**\`${utiles.length}\` dirigidas a empresas o personas autónomas**.`
+      `**\`${empresas.length}\` para empresas o personas autónomas** y ` +
+      `**\`${asociaciones.length}\` para asociaciones**.`
   );
+  if (descartadas) {
+    l.push("");
+    l.push(
+      `Se han descartado \`${descartadas}\` por no poder solicitarlas un cliente del despacho: ` +
+        "convenios y subvenciones ya adjudicadas a una entidad nombrada, ayudas cuyo beneficiario " +
+        "es otra administración, y convocatorias de cooperación internacional."
+    );
+  }
   l.push("");
 
   if (publicadas.length) {
@@ -320,8 +375,93 @@ function informe(utiles, total, candidatas, dias, publicadas) {
     return l.join("\n");
   }
 
+  if (empresas.length) {
+    l.push("---");
+    l.push("");
+    l.push("## Para empresas y personas autónomas");
+    l.push(...fichas(empresas));
+  }
+
+  if (asociaciones.length) {
+    // La mayor parte de lo que se publica para asociaciones son
+    // convenios nominativos ya adjudicados a una entidad concreta: no
+    // se pueden solicitar. No se ocultan, porque alguna concesión
+    // directa sí es una línea abierta, pero van comprimidas a una
+    // línea para que no tapen las que de verdad se pueden pedir.
+    l.push("---");
+    l.push("");
+    l.push("## Para asociaciones y entidades sin actividad económica");
+    l.push("");
+    l.push(
+      "Otro cliente, por eso van aparte. Si no trabaja con asociaciones, este bloque entero se " +
+        "puede saltar."
+    );
+    l.push(...fichas(asociaciones));
+  }
+
   l.push("---");
-  for (const c of utiles) {
+  l.push("");
+  l.push("**Para publicar alguna en la web**, dígaselo a Claude indicando el código BDNS:");
+  l.push("redactará la ficha y el test en la rama `pruebas` para que los revise antes de publicarlos.");
+  return l.join("\n");
+}
+
+// El criterio del despacho: ¿puede presentarse un cliente nuestro, y
+// hay un trámite que cobrar? Si no, no vale la pena que aparezca en el
+// aviso por mucho dinero que mueva.
+//
+// OJO: no se descarta por ser concesión directa. El ICO Crecimiento lo
+// es y puede acogerse cualquiera. Lo que descarta es que el
+// beneficiario YA ESTÉ NOMBRADO, o que no sea cliente de una asesoría.
+//
+// Se mira el título porque es lo único que distingue un convenio
+// adjudicado de una línea abierta: la BDNS les pone la misma etiqueta.
+const YA_ADJUDICADA = [
+  "CONVENIO",            // "CONVENIO DE COLABORACIÓN CON LA FUNDACIÓN X"
+  "NOMINATIV",           // subvención nominativa
+  "SUBV.NOM",            // abreviado, como lo escribe la Generalitat
+  "A FAVOR DE",
+  "SUBVENCION DIRECTA",  // siempre va seguida del nombre del beneficiario
+  "SUBVENCIONES DIRECTAS",
+  "CONCEDE UNA SUBVENCION",
+  "CONCESION DIRECTA DE UNA SUBVENCION A",
+  "CONTRIBUCION VOLUNTARIA",
+];
+
+// Beneficiario que no es cliente de una asesoría: otra administración,
+// una universidad pública, o cooperación internacional.
+const NO_ES_CLIENTE = [
+  "AL AYUNTAMIENTO",
+  "A LOS AYUNTAMIENTOS",
+  "AYUNTAMIENTOS PARA",
+  "A LA UNIVERSIDAD",
+  "AL ARZOBISPADO",
+  "CONVOCATORIA INSTRUMENTAL",
+  "CONVOCATORIAS INSTRUMENTALES",
+];
+
+// La BDNS publica a veces la misma ayuda dos veces, una como "Orden
+// ..." y otra como "Extracto de la Orden ...". Es el mismo dinero y el
+// mismo plazo: en el aviso solo tiene que salir una.
+const claveDeTitulo = (c) =>
+  sinAcentos(c.descripcion || "")
+    .replace(/^EXTRACTO DE (LA |EL |LOS |LAS )?/, "")
+    .replace(/[^A-Z0-9]+/g, " ")
+    .trim()
+    .slice(0, 90);
+
+const aprovechable = (c) => {
+  const d = sinAcentos(c.descripcion || "");
+  if (YA_ADJUDICADA.some((x) => d.includes(x))) return false;
+  if (NO_ES_CLIENTE.some((x) => d.includes(x))) return false;
+  return true;
+};
+
+// Las fichas de cada convocatoria, que son iguales para los dos
+// públicos.
+function fichas(lista) {
+  const l = [];
+  for (const c of lista) {
     const plazo = c.fechaFinSolicitud
       ? "hasta el " + c.fechaFinSolicitud.split("-").reverse().join("/")
       : (c.textInicio || "plazo sin fecha concreta").slice(0, 90);
@@ -343,12 +483,7 @@ function informe(utiles, total, candidatas, dias, publicadas) {
     l.push(`[Ficha en la BDNS](${FICHA}${c.codigoBDNS})` + (c.urlBasesReguladoras ? ` · [Bases reguladoras](${c.urlBasesReguladoras})` : ""));
     l.push("");
   }
-
-  l.push("---");
-  l.push("");
-  l.push("**Para publicar alguna en la web**, dígaselo a Claude indicando el código BDNS:");
-  l.push("redactará la ficha y el test en la rama `pruebas` para que los revise antes de publicarlos.");
-  return l.join("\n");
+  return l;
 }
 
 main().catch((err) => {
